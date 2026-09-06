@@ -134,6 +134,34 @@ const formatCellText = (cell: ExcelJS.Cell) => {
     return String(cell.value);
 };
 
+/** 公式单元格是否为公式（含共享公式的从属单元格） */
+const isFormulaCell = (cell: ExcelJS.Cell): boolean => {
+    if (cell.formula) return true;
+    const value = cell.value;
+    return Boolean(value && typeof value === 'object'
+        && ('formula' in value || 'sharedFormula' in value));
+};
+
+/** 提取文件中缓存的公式计算结果（<v>），用于显示；无缓存时返回 null */
+const formatFormulaValue = (cell: ExcelJS.Cell): string | null => {
+    if (!isFormulaCell(cell)) return null;
+    const result: unknown = cell.result;
+    if (result == null || result === '') return null;
+    if (result instanceof Date) return result.toISOString().slice(0, 10);
+    if (typeof result === 'object') {
+        const obj = result as Record<string, unknown>;
+        if (typeof obj.error === 'string') return obj.error;
+        if (Array.isArray(obj.richText)) {
+            const joined = obj.richText
+                .map(it => (typeof (it as { text?: unknown })?.text === 'string' ? (it as { text: string }).text : ''))
+                .join('');
+            return joined || null;
+        }
+        return null;
+    }
+    return String(result);
+};
+
 const readFreezeFromWorksheet = (worksheet: ExcelJS.Worksheet): string | undefined => {
     const views = worksheet.views;
     if (!views?.length) return undefined;
@@ -215,8 +243,10 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
             const hl = readCellHyperlink(cell, ri, ci);
             if (!text && !cellStyle && editable === undefined && !Object.keys(hl).length) return;
 
+            const formulaValue = formatFormulaValue(cell);
             const styleIndex = styleRegistry.add(cellStyle);
             const cellData: CellData = { text };
+            if (formulaValue != null) cellData.formulaValue = formulaValue;
             if (styleIndex != null) cellData.style = styleIndex;
             if (editable !== undefined) cellData.editable = editable;
             cells[ci] = cellData;
@@ -414,7 +444,7 @@ const loadWithSheetJs = (buffer: ArrayBuffer): ExcelData => {
 const loadCsv = (buffer: ArrayBuffer): ExcelData => {
     let maxCols = 26;
     const emptySheet = { maxCols, sheets: [{ name: 'Sheet1', rows: { len: 0 } }] };
-    let csvStr = decodeCsvBuffer(buffer);
+    const csvStr = decodeCsvBuffer(buffer);
     if (!csvStr) return emptySheet;
 
     try {

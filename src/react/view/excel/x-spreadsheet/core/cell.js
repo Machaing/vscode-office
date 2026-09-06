@@ -19,6 +19,8 @@ const infixExprToSuffixExpr = (src) => {
         subStrs.push(c.toUpperCase());
       } else if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || c === '.') {
         subStrs.push(c);
+      } else if (c === '$') {
+        // absolute reference marker ($A$1) — stripped so references tokenize normally
       } else if (c === '"') {
         i += 1;
         while (src.charAt(i) !== '"') {

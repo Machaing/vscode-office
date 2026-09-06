@@ -92,6 +92,8 @@ export interface CellData {
     merge?: CellMerge;
     /** false 表示不可编辑（对应 Excel 锁定单元格） */
     editable?: boolean;
+    /** 公式单元格的缓存计算结果（来自文件中的 <v>），渲染时优先于公式求值；text 仍保留公式以便保存 */
+    formulaValue?: string;
 }
 
 export interface RowData {

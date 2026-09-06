@@ -45,7 +45,12 @@ const baseFormats = [
     title: tf('format.percent'),
     type: 'number',
     label: '10.12%',
-    render: v => `${v}%`,
+    render: v => {
+      const num = Number(v);
+      // stored value is a ratio (0.1012), percent display multiplies by 100
+      if (v === '' || v == null || Number.isNaN(num)) return `${v}%`;
+      return `${(num * 100).toFixed(2)}%`;
+    },
   },
   {
     key: 'rmb',

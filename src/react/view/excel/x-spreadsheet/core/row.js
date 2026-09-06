@@ -119,7 +119,11 @@ class Rows {
 
   setCellText(ri, ci, text) {
     const cell = this.getCellOrNew(ri, ci);
-    if (cell.editable !== false) cell.text = text;
+    if (cell.editable !== false) {
+      cell.text = text;
+      // edited cell no longer matches the cached formula result from the file
+      if (cell.formulaValue !== undefined) delete cell.formulaValue;
+    }
   }
 
   // what: all | format | text
@@ -170,6 +174,8 @@ class Rows {
                       if (/^\d+$/.test(word)) return word;
                       return expr2expr(word, xn, yn);
                     });
+                    // re-pointed formula invalidates the copied cached result
+                    if (ncell.formulaValue !== undefined) delete ncell.formulaValue;
                   } else if ((rn <= 1 && cn > 1 && (dsri > eri || deri < sri))
                     || (cn <= 1 && rn > 1 && (dsci > eci || deci < sci))
                     || (rn <= 1 && cn <= 1)) {
@@ -218,6 +224,8 @@ class Rows {
         this.eachCells(ri, (ci, cell) => {
           if (cell.text && cell.text[0] === '=') {
             cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, n, (x, y) => y >= sri));
+            // shifted formula no longer matches the cached result
+            if (cell.formulaValue !== undefined) delete cell.formulaValue;
           }
         });
       }
@@ -239,6 +247,7 @@ class Rows {
         this.eachCells(ri, (ci, cell) => {
           if (cell.text && cell.text[0] === '=') {
             cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, 0, -n, (x, y) => y > eri));
+            if (cell.formulaValue !== undefined) delete cell.formulaValue;
           }
         });
       }
@@ -256,6 +265,7 @@ class Rows {
           nci += n;
           if (cell.text && cell.text[0] === '=') {
             cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, n, 0, x => x >= sci));
+            if (cell.formulaValue !== undefined) delete cell.formulaValue;
           }
         }
         rndata[nci] = cell;
@@ -276,6 +286,7 @@ class Rows {
           rndata[nci - n] = cell;
           if (cell.text && cell.text[0] === '=') {
             cell.text = cell.text.replace(/[a-zA-Z]{1,3}\d+/g, word => expr2expr(word, -n, 0, x => x > eci));
+            if (cell.formulaValue !== undefined) delete cell.formulaValue;
           }
         }
       });
@@ -301,6 +312,7 @@ class Rows {
         } else if (what === 'text') {
           if (cell.text) delete cell.text;
           if (cell.value) delete cell.value;
+          if (cell.formulaValue !== undefined) delete cell.formulaValue;
         } else if (what === 'format') {
           if (cell.style !== undefined) delete cell.style;
           if (cell.merge) delete cell.merge;

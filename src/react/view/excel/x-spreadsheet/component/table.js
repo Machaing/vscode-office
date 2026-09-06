@@ -94,7 +94,10 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
   draw.rect(dbox, () => {
     // render text
     let cellText = '';
-    if (!data.settings.evalPaused) {
+    if (typeof cell.formulaValue === 'string' && typeof cell.text === 'string' && cell.text.startsWith('=')) {
+      // cached formula result from file (<v>) takes precedence over re-evaluation
+      cellText = cell.formulaValue;
+    } else if (!data.settings.evalPaused) {
       cellText = _cell.render(cell.text || '', formulam, (y, x) => {
         const refCell = data.rows.getCell(x, y);
         return (refCell && refCell.text) ? refCell.text : '';
