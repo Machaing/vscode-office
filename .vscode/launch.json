@@ -10,7 +10,8 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"E:\\Project-mzy\\code\\vscode-office-test"
 			],
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
