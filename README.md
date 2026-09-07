@@ -118,6 +118,10 @@ npm run build    # production build
 npm run package  # create .vsix
 ```
 
+### Publishing
+
+See [docs/publish.md](docs/publish.md) for VS Code Marketplace and Open VSX publishing steps.
+
 ## Privacy
 
 This fork does **not** collect any usage data or telemetry. All preview and editing happens locally within VS Code.

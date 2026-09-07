@@ -118,6 +118,10 @@ npm run build    # 生產建置
 npm run package  # 產生 .vsix
 ```
 
+### 發佈
+
+參閱 [docs/publish-CN.md](docs/publish-CN.md) 了解發佈到 VS Code Marketplace 與 Open VSX 的步驟。
+
 ## 隱私
 
 本 Fork **不收集**任何使用資料或遙測資訊，所有預覽與編輯均在 VS Code 本機完成。
