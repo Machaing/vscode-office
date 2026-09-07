@@ -811,6 +811,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.62.1",
 		"@typescript-eslint/parser": "^8.62.1",
 		"@vitejs/plugin-react": "^6.0.2",
+		"@vscode/vsce": "^3.9.2",
 		"chokidar": "^5.0.0",
 		"esbuild": "^0.28.1",
 		"esbuild-plugin-copy": "2.1.1",
@@ -827,6 +828,7 @@
 		"vite-plugin-static-copy": "^4.1.1"
 	},
 	"dependencies": {
+		"7z-wasm": "^1.2.0",
 		"@ant-design/icons": "^5.3.5",
 		"@codemirror/autocomplete": "^6.20.3",
 		"@codemirror/commands": "^6.10.3",
@@ -841,7 +843,6 @@
 		"@mind-elixir/import-xmind": "^1.0.8",
 		"@vscode/codicons": "^0.0.45",
 		"@zip.js/zip.js": "^2.8.26",
-		"7z-wasm": "^1.2.0",
 		"ag-psd": "^30.1.1",
 		"antd": "^5.15.4",
 		"axios": "^1.18.1",
