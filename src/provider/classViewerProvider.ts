@@ -4,14 +4,14 @@ import { TelemetryService } from '@/service/telemetryService';
 import * as vscode from 'vscode';
 
 /**
- * Desktop-only Java decompiler custom editor (`cweijan.classViewer`).
+ * Desktop-only Java decompiler custom editor (`maizhuoying.classViewer`).
  */
 export class ClassViewerProvider implements vscode.CustomReadonlyEditorProvider {
 
 	constructor(private context: vscode.ExtensionContext) { }
 
 	bindCustomEditor(viewOption: { webviewOptions: vscode.WebviewPanelOptions }) {
-		return vscode.window.registerCustomEditorProvider('cweijan.classViewer', this, viewOption);
+		return vscode.window.registerCustomEditorProvider('maizhuoying.classViewer', this, viewOption);
 	}
 
 	openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {

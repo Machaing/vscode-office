@@ -1,6 +1,16 @@
-# Office Viewer
+# Office Viewer Enhance
 
 English | [简体中文](README-CN.md) | [繁體中文](README-TW.md)
+
+## About this fork
+
+**Office Viewer Enhance** is a fork of [cweijan/vscode-office (Office Viewer)](https://github.com/cweijan/vscode-office) — many thanks to [cweijan](https://github.com/cweijan) for creating and maintaining the original extension.
+
+Why this fork exists: bug fixes in the upstream repository can take a long time to be released. This fork is published independently so that fixes land faster, for example:
+
+- Excel formulas containing absolute references (e.g. `=E6/$E$9`) displayed `NaN%` — the cached result stored in the file is now shown, and `$` references are evaluated correctly.
+
+If this extension helps you, please also consider giving a ★ to [the original project](https://github.com/cweijan/vscode-office).
 
 ## Introduction
 
@@ -21,7 +31,7 @@ This extension lets you preview and edit common office and design files directly
 
 ## Git History
 
-Office Viewer includes a full Git History workspace for exploring repositories without leaving VS Code. Open it from the Source Control view, the editor title bar, the editor context menu, or the file explorer context menu.
+Office Viewer Enhance includes a full Git History workspace for exploring repositories without leaving VS Code. Open it from the Source Control view, the editor title bar, the editor context menu, or the file explorer context menu.
 
 ![1783342874748](image/README/1783342874748.png)
 
@@ -78,7 +88,7 @@ Database Client for Visual Studio Code, supporting the management of **MySQL/Mar
 ### Getting started
 
 ```bash
-git clone https://github.com/cweijan/vscode-office.git
+git clone https://github.com/Machaing/vscode-office.git
 cd vscode-office
 npm install
 ```
@@ -108,33 +118,13 @@ npm run build    # production build
 npm run package  # create .vsix
 ```
 
-## Usage data
+## Privacy
 
-Office Viewer collects **anonymous usage data** to understand which preview features are used, so we can improve the extension. Data is sent to [Azure Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview) via the official [`@vscode/extension-telemetry`](https://www.npmjs.com/package/@vscode/extension-telemetry) module.
-
-### What we collect
-
-| Event         | When                              | Properties                                                                                                 |
-| ------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `view.open` | A custom preview/editor is opened | `viewType` (e.g. `excel`, `markdown`, `pdf`), `fileType` (extension only, e.g. `xlsx`, `md`) |
-
-We **do not** collect file paths, file names, URLs, repository names, request contents, or other personally identifiable information.
-
-### How to opt out
-
-Telemetry is sent only when **both** of the following allow it:
-
-1. VS Code global telemetry is enabled (`telemetry.telemetryLevel` is not `off`, or `telemetry.enableTelemetry` is `true` on older versions).
-2. Extension telemetry is enabled: set `vscode-office.enableTelemetry` to `false` in Settings.
-
-You can also disable all VS Code telemetry in **Settings → Application → Telemetry**.
-
-### Maintainer setup
-
-If you build and publish this extension yourself, see [docs/telemetry.md](docs/telemetry.md) for Azure Application Insights setup and sample queries.
+This fork does **not** collect any usage data or telemetry. All preview and editing happens locally within VS Code.
 
 ## Credits
 
+- Upstream project: [cweijan/vscode-office](https://github.com/cweijan/vscode-office) (Office Viewer) — this fork is based on it
 - PDF rendering: [mozilla/pdf.js](https://github.com/mozilla/pdf.js/)
 - DOCX rendering: [VolodymyrBaydalka/docxjs](https://github.com/VolodymyrBaydalka/docxjs)
 - PPTX rendering: [pptxviewjs](https://www.npmjs.com/package/pptxviewjs)

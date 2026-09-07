@@ -1,9 +1,9 @@
 {
-	"name": "vscode-office",
-	"displayName": "Office Viewer",
-	"description": "View word, excel, powerpoint files and using WYSIWYG editor for markdown.",
+	"name": "vscode-office-enhance",
+	"displayName": "Office Viewer Enhance",
+	"description": "Fork of Office Viewer with faster bug fixes. View word, excel, powerpoint files and using WYSIWYG editor for markdown.",
 	"version": "4.2.0",
-	"publisher": "cweijan",
+	"publisher": "maizhuoying",
 	"icon": "image/logo.png",
 	"engines": {
 		"vscode": "^1.64.0"
@@ -38,13 +38,12 @@
 		"Other"
 	],
 	"bugs": {
-		"url": "https://github.com/cweijan/vscode-office/issues",
-		"email": "cweijan@163.com"
+		"url": "https://github.com/Machaing/vscode-office/issues"
 	},
-	"homepage": "https://github.com/cweijan/vscode-office/blob/master/README.md",
+	"homepage": "https://github.com/Machaing/vscode-office/blob/master/README.md",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cweijan/vscode-office.git"
+		"url": "https://github.com/Machaing/vscode-office.git"
 	},
 	"activationEvents": [
 		"onStartupFinished"
@@ -67,7 +66,7 @@
 		"iconThemes": [
 			{
 				"id": "office-material-icon-theme",
-				"label": "Material Icon Theme (Office Viewer)",
+				"label": "Material Icon Theme (Office Viewer Enhance)",
 				"path": "./theme/material-icons.json",
 				"_watch": true
 			}
@@ -360,8 +359,8 @@
 		},
 		"customEditors": [
 			{
-				"viewType": "cweijan.officeViewer",
-				"displayName": "Office Viewer",
+				"viewType": "maizhuoying.officeViewer",
+				"displayName": "Office Viewer Enhance",
 				"selector": [
 					{
 						"filenamePattern": "*.xls"
@@ -450,7 +449,7 @@
 				]
 			},
 			{
-				"viewType": "cweijan.archiveViewer",
+				"viewType": "maizhuoying.archiveViewer",
 				"displayName": "Archive Viewer",
 				"selector": [
 					{
@@ -486,7 +485,7 @@
 				]
 			},
 			{
-				"viewType": "cweijan.imageViewer",
+				"viewType": "maizhuoying.imageViewer",
 				"displayName": "Image Preview (Office Viewer)",
 				"priority": "option",
 				"selector": [
@@ -529,7 +528,7 @@
 				]
 			},
 			{
-				"viewType": "cweijan.markdownViewer",
+				"viewType": "maizhuoying.markdownViewer",
 				"displayName": "Markdown Editor",
 				"selector": [
 					{
@@ -553,7 +552,7 @@
 				]
 			},
 			{
-				"viewType": "cweijan.htmlViewer",
+				"viewType": "maizhuoying.htmlViewer",
 				"displayName": "Html Viewer",
 				"priority": "option",
 				"selector": [
@@ -569,7 +568,7 @@
 				]
 			},
 			{
-				"viewType": "cweijan.parquetViewer",
+				"viewType": "maizhuoying.parquetViewer",
 				"displayName": "Parquet Viewer",
 				"priority": "option",
 				"selector": [
@@ -579,7 +578,7 @@
 				]
 			},
 			{
-				"viewType": "cweijan.classViewer",
+				"viewType": "maizhuoying.classViewer",
 				"displayName": "Java Decompiler",
 				"selector": [
 					{
@@ -791,21 +790,6 @@
 						"description": "Enable custom variable references CodeLens in request file"
 					}
 				}
-			},
-			{
-				"title": "Telemetry",
-				"order": 99,
-				"properties": {
-					"vscode-office.enableTelemetry": {
-						"type": "boolean",
-						"default": true,
-						"tags": [
-							"telemetry",
-							"usesOnlineServices"
-						],
-						"markdownDescription": "Enable anonymous usage data collection to help improve Office Viewer. This respects VS Code global telemetry settings (`#telemetry.telemetryLevel#`)."
-					}
-				}
 			}
 		]
 	},
@@ -856,7 +840,6 @@
 		"@lezer/highlight": "^1.2.3",
 		"@mind-elixir/import-xmind": "^1.0.8",
 		"@vscode/codicons": "^0.0.45",
-		"@vscode/extension-telemetry": "^1.5.2",
 		"@zip.js/zip.js": "^2.8.26",
 		"7z-wasm": "^1.2.0",
 		"ag-psd": "^30.1.1",

@@ -41,8 +41,8 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('office.markdown.paste', () => { markdownService.loadClipboardImage() }),
 		vscode.commands.registerCommand('office.html.preview', uri => HtmlService.previewHtml(uri, context)),
 		vscode.workspace.registerTextDocumentContentProvider('decompile_java', new JavaDecompilerProvider(context)),
-		vscode.window.registerCustomEditorProvider("cweijan.markdownViewer", markdownEditorProvider, viewOption),
-		vscode.window.registerCustomEditorProvider("cweijan.markdownPreview", markdownEditorProvider, viewOption),
+		vscode.window.registerCustomEditorProvider("maizhuoying.markdownViewer", markdownEditorProvider, viewOption),
+		vscode.window.registerCustomEditorProvider("maizhuoying.markdownPreview", markdownEditorProvider, viewOption),
 		archiveViewerInstance.bindCustomEditor(viewOption),
 		classViewerInstance.bindCustomEditor(viewOption),
 		...viewerInstance.bindCustomEditors(viewOption)

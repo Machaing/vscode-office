@@ -1,6 +1,16 @@
-# Office Viewer
+# Office Viewer Enhance
 
 [English](README.md) | 简体中文 | [繁體中文](README-TW.md)
+
+## 关于本 Fork
+
+**Office Viewer Enhance** fork 自 [cweijan/vscode-office（Office Viewer）](https://github.com/cweijan/vscode-office)，感谢原作者 [cweijan](https://github.com/cweijan) 创建并维护了如此出色的扩展。
+
+Fork 原因：上游仓库的 bug 修复发布周期较长，因此独立发布本 fork，让修复能更快交付，例如：
+
+- Excel 中含绝对引用的公式（如 `=E6/$E$9`）显示为 `NaN%` 的问题——现在优先显示文件中缓存的计算结果，并正确支持 `$` 引用求值。
+
+如果本扩展对你有帮助，也欢迎给[原项目](https://github.com/cweijan/vscode-office)点一个 ★。
 
 ## 介绍
 
@@ -21,7 +31,7 @@
 
 ## Git 历史
 
-Office Viewer 内置完整的 Git 历史工作区，让你无需离开 VS Code 即可浏览仓库。可从源代码管理视图、编辑器标题栏、编辑器右键菜单或文件资源管理器右键菜单打开。
+Office Viewer Enhance 内置完整的 Git 历史工作区，让你无需离开 VS Code 即可浏览仓库。可从源代码管理视图、编辑器标题栏、编辑器右键菜单或文件资源管理器右键菜单打开。
 
 ![1783342874748](image/README/1783342874748.png)
 
@@ -78,7 +88,7 @@ Office Viewer 内置完整的 Git 历史工作区，让你无需离开 VS Code �
 ### 快速开始
 
 ```bash
-git clone https://github.com/cweijan/vscode-office.git
+git clone https://github.com/Machaing/vscode-office.git
 cd vscode-office
 npm install
 ```
@@ -108,33 +118,13 @@ npm run build    # 生产构建
 npm run package  # 生成 .vsix
 ```
 
-## 使用数据（Usage Data）
+## 隐私
 
-Office Viewer 会收集**匿名使用数据**，用于了解各预览功能的使用情况，以便改进扩展。数据通过官方模块 [`@vscode/extension-telemetry`](https://www.npmjs.com/package/@vscode/extension-telemetry) 发送至 [Azure Application Insights](https://learn.microsoft.com/zh-cn/azure/azure-monitor/app/app-insights-overview)。
-
-### 收集内容
-
-| 事件 | 触发时机 | 属性 |
-|------|---------|------|
-| `view.open` | 打开自定义预览/编辑器 | `viewType`（如 `excel`、`markdown`、`pdf`）、`fileType`（仅扩展名，如 `xlsx`、`md`） |
-
-**不会**收集文件路径、文件名、URL、仓库名、请求内容或其他可识别个人身份的信息。
-
-### 如何关闭
-
-仅在以下**两项均允许**时才会上报：
-
-1. VS Code 全局遥测已开启（`telemetry.telemetryLevel` 不为 `off`，或旧版中 `telemetry.enableTelemetry` 为 `true`）。
-2. 扩展遥测已开启：在设置中将 `vscode-office.enableTelemetry` 设为 `false` 可单独关闭本扩展的上报。
-
-也可在 **设置 → 应用程序 → 遥测** 中关闭 VS Code 的全部遥测。
-
-### 维护者配置
-
-若自行构建并发布本扩展，请参阅 [docs/telemetry.md](docs/telemetry.md) 配置 Azure Application Insights 及示例查询。
+本 Fork **不收集**任何使用数据或遥测信息，所有预览与编辑均在 VS Code 本地完成。
 
 ## Credits
 
+- 上游项目: [cweijan/vscode-office](https://github.com/cweijan/vscode-office)（Office Viewer）——本 fork 基于此项目
 - PDF rendering: [mozilla/pdf.js](https://github.com/mozilla/pdf.js/)
 - DOCX rendering: [VolodymyrBaydalka/docxjs](https://github.com/VolodymyrBaydalka/docxjs)
 - PPTX rendering: [pptxviewjs](https://www.npmjs.com/package/pptxviewjs)
