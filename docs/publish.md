@@ -14,6 +14,9 @@ How to package and publish **Office Viewer Enhance** (`maizhuoying.vscode-office
 
 You can skip this section if you publish via the web portal (see Option A below).
 
+> [!NOTE]
+> Since 2024/2025 Microsoft requires every **new** Azure DevOps organization to be linked to an Azure subscription (which involves a credit-card identity check), even for personal Microsoft accounts. If you don't want to set that up, just use the web upload in Option A — it needs no Azure DevOps, no PAT and no card.
+
 1. Sign in to [Azure DevOps](https://dev.azure.com) → user icon (top right) → **Personal Access Tokens**
 2. **New Token**:
    - Organization: **All accessible organizations**

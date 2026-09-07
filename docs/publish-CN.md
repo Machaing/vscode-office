@@ -14,6 +14,9 @@
 
 若通过网页上传发布（见下方方式 A），可跳过本节。
 
+> [!NOTE]
+> 自 2024/2025 年起，微软要求**新建**的 Azure DevOps 组织必须关联 Azure 订阅（创建订阅需绑卡验证），个人 Microsoft 账号也不例外。若不想配置这些，直接使用方式 A 的网页上传即可 —— 无需 Azure DevOps、无需 PAT、无需绑卡。
+
 1. 登录 [Azure DevOps](https://dev.azure.com) → 右上角用户图标 → **Personal Access Tokens**
 2. **New Token**：
    - Organization：**All accessible organizations**
