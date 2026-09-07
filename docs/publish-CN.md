@@ -10,7 +10,9 @@
 2. 创建 ID 为 **`maizhuoying`** 的 publisher —— 必须与 `package.json` 中的 `"publisher"` 完全一致。
 3. 扩展 ID 随即为 `maizhuoying.vscode-office-enhance`。
 
-## 2. 创建个人访问令牌（PAT）
+## 2. 创建个人访问令牌（PAT）—— 仅命令行发布需要
+
+若通过网页上传发布（见下方方式 A），可跳过本节。
 
 1. 登录 [Azure DevOps](https://dev.azure.com) → 右上角用户图标 → **Personal Access Tokens**
 2. **New Token**：
@@ -30,7 +32,19 @@ npm run package      # 生成 vscode-office-enhance-<版本号>.vsix
 
 > npm scripts 中已带 `--no-dependencies`：跳过 vsce 的 node_modules 完整性检查，该检查与 pnpm 安装的依赖结构不兼容。
 
-## 4. 登录并发布
+## 4. 发布
+
+两种等效方式 —— 最终上传的都是同一个 `.vsix`：
+
+### 方式 A —— 网页手动上传（无需 PAT）
+
+1. 执行 `npm run package` 生成 `.vsix`
+2. 打开 [Marketplace 管理页](https://marketplace.visualstudio.com/manage/publishers/maizhuoying) → **New extension** → **Visual Studio Code** → 上传该 `.vsix`
+3. 若扩展列表中显示为 **Private**，点其 `···` 菜单选择 **Make Public**
+
+适合偶尔发版。每次上传仍要求更高的 `version`。
+
+### 方式 B —— 命令行发布（`vsce publish`，需要第 2 节的 PAT）
 
 ```bash
 npx vsce login maizhuoying     # 按提示粘贴 PAT

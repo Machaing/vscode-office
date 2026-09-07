@@ -10,7 +10,9 @@ How to package and publish **Office Viewer Enhance** (`maizhuoying.vscode-office
 2. Create a publisher with the ID **`maizhuoying`** — it must match `"publisher"` in `package.json` exactly.
 3. The extension ID then becomes `maizhuoying.vscode-office-enhance`.
 
-## 2. Create a Personal Access Token (PAT)
+## 2. Create a Personal Access Token (PAT) — only needed for command-line publishing
+
+You can skip this section if you publish via the web portal (see Option A below).
 
 1. Sign in to [Azure DevOps](https://dev.azure.com) → user icon (top right) → **Personal Access Tokens**
 2. **New Token**:
@@ -30,7 +32,19 @@ Before publishing, install the `.vsix` locally (Extensions view → `···` →
 
 > `--no-dependencies` is already part of the npm scripts: it skips vsce's node_modules integrity check, which does not work with pnpm installs.
 
-## 4. Login and publish
+## 4. Publish
+
+Two equivalent ways — both end up uploading the same `.vsix`:
+
+### Option A — Upload via the web portal (no PAT needed)
+
+1. Run `npm run package` to produce the `.vsix`
+2. Open [Marketplace manage](https://marketplace.visualstudio.com/manage/publishers/maizhuoying) → **New extension** → **Visual Studio Code** → upload the `.vsix`
+3. If the extension is listed as **Private**, open its `···` menu and choose **Make Public**
+
+Good for occasional releases. Every upload still needs a higher `version`.
+
+### Option B — Command line (`vsce publish`, requires the PAT from step 2)
 
 ```bash
 npx vsce login maizhuoying     # paste the PAT when prompted
