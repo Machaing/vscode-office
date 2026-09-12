@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@eigenpal/docx-editor-core': patches/@eigenpal__docx-editor-core.patch

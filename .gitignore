@@ -9,7 +9,6 @@ package-lock.json
 bun.lock
 yarn.lock
 pnpm-lock.yaml
-pnpm-workspace.yaml
 test/output
 test-workspace/
 CLAUDE.md
