@@ -168,10 +168,7 @@ body:has(.xmind-viewer.xmind-dark) {
     flex-shrink: 0;
 }
 
-.xmind-viewer:not(.xmind-dark) .office-sponsor-bar {
-    --sponsor-bar-muted: #656d76;
-    --sponsor-bar-accent: #0969da;
-}
+
 
 .xmind-map-footer {
     flex-shrink: 0;
@@ -185,12 +182,7 @@ body:has(.xmind-viewer.xmind-dark) {
     background: var(--viewer-toolbar-bg);
 }
 
-.xmind-map-footer .office-sponsor-bar {
-    position: static;
-    margin: 0;
-    padding: 0;
-    max-width: calc(50% - 80px);
-}
+
 
 .xmind-zoom-controls {
     position: absolute;

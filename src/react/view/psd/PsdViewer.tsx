@@ -2,8 +2,6 @@ import { Alert, Layout, Spin } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { handler } from '../../util/vscode';
 import { loadOfficeBuffer } from '../../util/loadOfficeContent';
-import { useVscodeSponsorDark } from '../../util/vscodeTheme';
-import Sponsor from '../components/Sponsor';
 import {
     getCompositeId,
     getDefaultSelection,
@@ -56,7 +54,6 @@ export default function PsdViewer() {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const sponsorDark = useVscodeSponsorDark();
 
     const loadPsd = useCallback(async (payload: { path?: string; buffer?: number[]; error?: string }) => {
         setLoading(true);
@@ -114,7 +111,6 @@ export default function PsdViewer() {
                             ))}
                         </div>
                         <div className="psd-sider-bottom">
-                            <Sponsor variant="sidebar" dark={sponsorDark} />
                         </div>
                     </div>
                 </Sider>
