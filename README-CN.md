@@ -2,19 +2,20 @@
 
 [English](README.md) | 简体中文 | [繁體中文](README-TW.md)
 
-## 关于本 Fork
+## 概述
 
-**Office Viewer Enhance** fork 自 [cweijan/vscode-office（Office Viewer）](https://github.com/cweijan/vscode-office)，感谢原作者 [cweijan](https://github.com/cweijan) 创建并维护了如此出色的扩展。
-
-Fork 原因：上游仓库的 bug 修复发布周期较长，因此独立发布本 fork，让修复能更快交付，例如：
+**Office Viewer Enhance** 致力于提供比原仓库 **issue 响应更迅速、功能更强大** 的 VS Code 文件预览插件。本项目 fork 自 [cweijan/vscode-office（Office Viewer）](https://github.com/cweijan/vscode-office)，感谢原作者 [cweijan](https://github.com/cweijan) 建立并维护了如此出色的扩展；fork 后独立发布，让修复能更快交付，例如：
 
 - Excel 中含绝对引用的公式（如 `=E6/$E$9`）显示为 `NaN%` 的问题——现在优先显示文件中缓存的计算结果，并正确支持 `$` 引用求值。
+- Word 自动目录条目文本丢失、仅显示页码的问题（[上游 #597](https://github.com/cweijan/vscode-office/issues/597)）——本项目已修复。
 
-如果本扩展对你有帮助，也欢迎给[原项目](https://github.com/cweijan/vscode-office)点一个 ★。
+上游 issue 在本项目的处理情况见 [docs/issues/cweijan-issues/ISSUES.md](docs/issues/cweijan-issues/ISSUES.md)。
+
+如果本扩展对你有帮助，也欢迎给[原始项目](https://github.com/cweijan/vscode-office)点一个 ★。
 
 ## 介绍
 
-本扩展支持在 VS Code 中预览以下常见的办公文件格式：
+本扩展支持在 VS Code 中直接预览与编辑以下常见办公与设计文件：
 
 - Excel: `.xls`、`.xlsx`、`.xlsm`、`.csv`、`.ods`
 - Word: `.docx`、`.dotx`
@@ -29,92 +30,24 @@ Fork 原因：上游仓库的 bug 修复发布周期较长，因此独立发布�
 - Java: `.class`（反编译）
 - 压缩文件: `.zip`、`.jar`、`.vsix`、`.rar`、`.7z`、`.tar`、`.tar.gz`、`.tgz`、`.apk`
 
-## Git 历史
+## 常见使用问题
 
-Office Viewer Enhance 内置完整的 Git 历史工作区，让你无需离开 VS Code 即可浏览仓库。可从源代码管理视图、编辑器标题栏、编辑器右键菜单或文件资源管理器右键菜单打开。
-
-![1783342874748](image/README/1783342874748.png)
-
-## Markdown
-
-集成 Markdown 所见即所得编辑器。
-
-如需使用 VS Code 原生 Markdown 编辑器，请在 `settings.json` 中添加以下配置：
-
-```json
-{
-    "workbench.editorAssociations": {
-        "*.md": "default",
-        "*.markdown": "default"
-    }
-}
-```
-
-在编辑器中右键，可将 Markdown 导出为 PDF、DOCX 或 HTML。PDF 导出依赖 Chromium，可通过 `vscode-office.chromiumPath` 配置浏览器路径。
-
-![导出 Markdown](image/README-CN/1685418034035.png)
-
-快捷键：基于 [shortcut.md](shortcut.md)，以及：
-
-- 新行: `Ctrl+Enter` / `⌘ Enter`
-- 硬换行: `Shift+Enter` / `⇧ Enter`
-- 编辑超链接: `Alt+Enter` / `^ Enter`
-- 设置 CodeMirror 语言: `Alt+Enter` / `^ Enter`
-- 在 VS Code 中编辑: `Ctrl Alt E` / `⌘ ^ E`
-- 粘贴为纯文本: `Ctrl+Shift+V` / `⌘ ⇧ V`
+- [Markdown：默认使用 VS Code 原生编辑器](docs/faq/markdown-default-editor-CN.md)
+- [Markdown：导出操作](docs/faq/markdown-export-CN.md)
+- [Markdown 编辑器快捷键](docs/faq/markdown-shortcuts.md)
 
 ## 其他功能
 
 - HTML: 编辑时按下 `Ctrl+Shift+V` 可实时预览
 - YAML: 支持文档大纲与锚点导航（别名引用可跳转到定义）
 - 图标主题: 内置 [Material Icon Theme](https://github.com/PKief/vscode-material-icon-theme) 部分图标，并提供 **Office Material Icon Theme** 与 **One Dark Modern** 配色主题
-- Excel: 支持预览和保存 `.xlsx`、`.xls`、`.xlsm`、`.csv`、`.ods` 等文件
-- HTTP: 在 `.http`、`.rest` 文件中发送请求（集成自 [REST Client](https://github.com/Huachao/vscode-restclient)，并修复了本地请求的已知问题）；按 `Ctrl+Enter` / `⌘ Enter` 发送
+- Excel: 支持预览与保存 `.xlsx`、`.xls`、`.xlsm`、`.csv`、`.ods` 等文件
+- HTTP: 在 `.http`、`.rest` 文件中发送请求（整合自 [REST Client](https://github.com/Huachao/vscode-restclient)，并修复了本地请求的已知问题）；按 `Ctrl+Enter` / `⌘ Enter` 发送
 - Java: 打开 `.class` 文件可反编译并查看源码
 
 ## 开发指南
 
-### 环境要求
-
-- [Node.js](https://nodejs.org/) 18+
-- [VS Code](https://code.visualstudio.com/) 1.64+
-
-### 快速开始
-
-```bash
-git clone https://github.com/Machaing/vscode-office.git
-cd vscode-office
-npm install
-```
-
-### 开发调试
-
-**桌面端扩展**（完整功能）：
-
-```bash
-npm run dev
-```
-
-在 VS Code 中按 `F5`，或在「运行和调试」中选择 **Extension**。
-
-**Web 端扩展**（浏览器中的 Markdown、HTML、YAML）：
-
-```bash
-npm run dev:web
-```
-
-在「运行和调试」中选择 **Extension (Web)**。
-
-### 构建与打包
-
-```bash
-npm run build    # 生产构建
-npm run package  # 生成 .vsix
-```
-
-### 发布
-
-参阅 [docs/publish-CN.md](docs/publish-CN.md) 了解发布到 VS Code Marketplace 与 Open VSX 的步骤。
+参阅 [docs/dev/development-CN.md](docs/dev/development-CN.md) 了解环境要求、调试、构建与发布。
 
 ## 隐私
 

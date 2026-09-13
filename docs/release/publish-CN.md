@@ -2,7 +2,7 @@
 
 如何打包 **Office Viewer Enhance**（`maizhuoying.vscode-office-enhance`）并发布到 VS Code Marketplace，以及可选发布到 Open VSX。
 
-> 若日后恢复遥测，另请参阅 [telemetry-CN.md](telemetry-CN.md)（已弃用/存档）。
+> 若日后恢复遥测，另请参阅 [telemetry-CN.md](../archive/telemetry-CN.md)（已弃用/存档）。
 
 ## 1. 创建 publisher
 
@@ -92,4 +92,4 @@ npx ovsx publish vscode-office-enhance-<版本号>.vsix -p <令牌>
 
 ## 相关文档
 
-- [telemetry-CN.md](telemetry-CN.md) — 遥测配置（已弃用，存档）
+- [telemetry-CN.md](../archive/telemetry-CN.md) — 遥测配置（已弃用，存档）

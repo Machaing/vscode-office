@@ -2,7 +2,7 @@
 
 How to package and publish **Office Viewer Enhance** (`maizhuoying.vscode-office-enhance`) to the VS Code Marketplace, and optionally to Open VSX.
 
-> If telemetry is ever re-enabled, also read [telemetry.md](telemetry.md) (deprecated/archived).
+> If telemetry is ever re-enabled, also read [telemetry.md](../archive/telemetry.md) (deprecated/archived).
 
 ## 1. Create the publisher
 
@@ -92,4 +92,4 @@ npx ovsx publish vscode-office-enhance-<version>.vsix -p <token>
 
 ## Related docs
 
-- [telemetry.md](telemetry.md) — deprecated telemetry setup (archived)
+- [telemetry.md](../archive/telemetry.md) — deprecated telemetry setup (archived)

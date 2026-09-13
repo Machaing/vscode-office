@@ -2,13 +2,14 @@
 
 English | [简体中文](README-CN.md) | [繁體中文](README-TW.md)
 
-## About this fork
+## Overview
 
-**Office Viewer Enhance** is a fork of [cweijan/vscode-office (Office Viewer)](https://github.com/cweijan/vscode-office) — many thanks to [cweijan](https://github.com/cweijan) for creating and maintaining the original extension.
-
-Why this fork exists: bug fixes in the upstream repository can take a long time to be released. This fork is published independently so that fixes land faster, for example:
+**Office Viewer Enhance** aims to provide a VS Code file-preview extension with **faster issue response and more powerful features** than the original repository. It is a fork of [cweijan/vscode-office (Office Viewer)](https://github.com/cweijan/vscode-office) — many thanks to [cweijan](https://github.com/cweijan) for creating and maintaining the original extension — and is published independently so fixes land faster. For example:
 
 - Excel formulas containing absolute references (e.g. `=E6/$E$9`) displayed `NaN%` — the cached result stored in the file is now shown, and `$` references are evaluated correctly.
+- Word documents with an auto-generated table of contents lost the entry text and showed page numbers only ([upstream #597](https://github.com/cweijan/vscode-office/issues/597)) — fixed in this fork.
+
+How upstream issues are handled in this fork is tracked in [docs/issues/cweijan-issues/ISSUES.md](docs/issues/cweijan-issues/ISSUES.md).
 
 If this extension helps you, please also consider giving a ★ to [the original project](https://github.com/cweijan/vscode-office).
 
@@ -29,39 +30,11 @@ This extension lets you preview and edit common office and design files directly
 - Java: `.class` (decompiler)
 - Compressed files: `.zip`, `.jar`, `.vsix`, `.rar`, `.7z`, `.tar`, `.tar.gz`, `.tgz`, `.apk`
 
-## Git History
+## FAQ
 
-Office Viewer Enhance includes a full Git History workspace for exploring repositories without leaving VS Code. Open it from the Source Control view, the editor title bar, the editor context menu, or the file explorer context menu.
-
-![1783342874748](image/README/1783342874748.png)
-
-## Markdown
-
-This extension replaces the default Markdown editor with a WYSIWYG editor.
-
-To use the built-in VS Code Markdown editor instead, add this to your `settings.json`:
-
-```json
-{
-    "workbench.editorAssociations": {
-        "*.md": "default",
-        "*.markdown": "default"
-    }
-}
-```
-
-Right-click in the editor to export Markdown to PDF, DOCX, or HTML. PDF export requires Chromium; set the browser path with `vscode-office.chromiumPath`.
-
-![Export Markdown](image/README-CN/1685418034035.png)
-
-Shortcuts: Based on [shortcut.md](shortcut.md), plus:
-
-- New line: `Ctrl+Enter` / `⌘ Enter`
-- Hard line break: `Shift+Enter` / `⇧ Enter`
-- Edit hyperlink: `Alt+Enter` / `^ Enter`
-- Set CodeMirror language: `Alt+Enter` / `^ Enter`
-- Edit in VS Code: `Ctrl Alt E` / `⌘ ^ E`
-- Paste as plain text: `Ctrl+Shift+V` / `⌘ ⇧ V`
+- [Markdown: use the built-in VS Code editor](docs/faq/markdown-default-editor.md)
+- [Markdown: export to PDF / DOCX / HTML](docs/faq/markdown-export.md)
+- [Markdown editor shortcuts](docs/faq/markdown-shortcuts.md)
 
 ## Other features
 
@@ -72,49 +45,9 @@ Shortcuts: Based on [shortcut.md](shortcut.md), plus:
 - HTTP: send requests from `.http` and `.rest` files (integrated from [REST Client](https://github.com/Huachao/vscode-restclient) with fixes for local request issues); press `Ctrl+Enter` / `⌘ Enter` to send
 - Java: decompile and view `.class` files
 
-## Development Guide
+## Development
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) 18+
-- [VS Code](https://code.visualstudio.com/) 1.64+
-
-### Getting started
-
-```bash
-git clone https://github.com/Machaing/vscode-office.git
-cd vscode-office
-npm install
-```
-
-### Development
-
-**Desktop extension** (full feature set):
-
-```bash
-npm run dev
-```
-
-Press `F5` in VS Code, or choose **Extension** from Run and Debug.
-
-**Web extension** (Markdown, HTML, YAML in the browser):
-
-```bash
-npm run dev:web
-```
-
-Choose **Extension (Web)** from Run and Debug.
-
-### Build & package
-
-```bash
-npm run build    # production build
-npm run package  # create .vsix
-```
-
-### Publishing
-
-See [docs/publish.md](docs/publish.md) for VS Code Marketplace and Open VSX publishing steps.
+See [docs/dev/development.md](docs/dev/development.md) for prerequisites, debugging, build, and publishing.
 
 ## Privacy
 

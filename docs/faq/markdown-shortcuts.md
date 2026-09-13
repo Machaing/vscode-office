@@ -1,3 +1,29 @@
+# Markdown 编辑器快捷键
+
+## English
+
+Shortcuts added by Office Viewer Enhance on top of the tables below:
+
+- New line: `Ctrl+Enter` / `⌘ Enter`
+- Hard line break: `Shift+Enter` / `⇧ Enter`
+- Edit hyperlink: `Alt+Enter` / `^ Enter`
+- Set CodeMirror language: `Alt+Enter` / `^ Enter`
+- Edit in VS Code: `Ctrl Alt E` / `⌘ ^ E`
+- Paste as plain text: `Ctrl+Shift+V` / `⌘ ⇧ V`
+
+## 中文
+
+Office Viewer Enhance 在下表基础上额外增加的快捷键：
+
+- 新行: `Ctrl+Enter` / `⌘ Enter`
+- 硬换行: `Shift+Enter` / `⇧ Enter`
+- 编辑超链接: `Alt+Enter` / `^ Enter`
+- 设置 CodeMirror 语言: `Alt+Enter` / `^ Enter`
+- 在 VS Code 中编辑: `Ctrl Alt E` / `⌘ ^ E`
+- 粘贴为纯文本: `Ctrl+Shift+V` / `⌘ ⇧ V`
+
+---
+
 ## 中文
 
 ### 通用

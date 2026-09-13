@@ -81,7 +81,7 @@
 ## 三、issue-597 本地补丁与上游升级的联动
 
 `@eigenpal/docx-editor-core@1.9.0` 通过 `pnpm patch` 携带本地修复(嵌套域/TOC 文本丢失,
-详见 [../fix-issue/cweijan/issue-597.md](../fix-issue/cweijan/issue-597.md)):
+详见 [plan-cweijan-issues-597-word-toc.md](plan-cweijan-issues-597-word-toc.md)):
 
 - 补丁文件: [patches/@eigenpal__docx-editor-core.patch](../../patches/@eigenpal__docx-editor-core.patch)
 - 配置: [pnpm-workspace.yaml](../../pnpm-workspace.yaml) 的 `patchedDependencies`

@@ -3,13 +3,13 @@
 > [!WARNING]
 > **已弃用 —— 本 Fork 已禁用遥测。**
 >
-> **Office Viewer Enhance** 不收集、不发送任何使用数据。`src/service/telemetryService.ts` 当前为 no-op 空实现,`@vscode/extension-telemetry` 依赖也已移除(见 [README-CN.md](../README-CN.md) 的「隐私」章节)。
+> **Office Viewer Enhance** 不收集、不发送任何使用数据。`src/service/telemetryService.ts` 当前为 no-op 空实现,`@vscode/extension-telemetry` 依赖也已移除(见 [README-CN.md](../../README-CN.md) 的「隐私」章节)。
 >
 > 本文档仅作**存档**,供维护者日后需要恢复遥测时参考 —— 且必须使用**自己的** Azure Application Insights 资源。请**勿**复用上游的连接字符串,请自行创建。
 
 ---
 
-本指南面向**自行构建并发布本扩展的维护者**。终端用户请阅读 [README-CN.md](../README-CN.md) 中的「隐私」章节。
+本指南面向**自行构建并发布本扩展的维护者**。终端用户请阅读 [README-CN.md](../../README-CN.md) 中的「隐私」章节。
 
 ## 概览
 

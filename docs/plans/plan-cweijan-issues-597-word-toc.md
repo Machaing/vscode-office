@@ -88,8 +88,8 @@ issue 上传者的文件应为 plain 变体(或所有条目共段的单段 TOC),
 
 ## 修复记录(已实施本地补丁)
 
-已于 2026-09-12 通过 `pnpm patch` 实施本地修复([patches/@eigenpal__docx-editor-core.patch](../../../patches/@eigenpal__docx-editor-core.patch),
-配置见 [pnpm-workspace.yaml](../../../pnpm-workspace.yaml), 应用脚本见 `test-workspace/_generate/apply_597_patch.py`),
+已于 2026-09-12 通过 `pnpm patch` 实施本地修复([patches/@eigenpal__docx-editor-core.patch](../../patches/@eigenpal__docx-editor-core.patch),
+配置见 [pnpm-workspace.yaml](../../pnpm-workspace.yaml), 应用脚本见 `test-workspace/_generate/apply_597_patch.py`),
 对 `dist/chunk-TNQDZQ6K.mjs` 与 `dist/chunk-OPJSWATH.js` 中 `q()` 状态机做三处修改:
 
 1. 增加域栈 `fldStack`: 嵌套域 `begin` 时压栈保存外层 `{d,C,p,w,y,h,B}`, 不再直接清空;
@@ -101,7 +101,7 @@ issue 上传者的文件应为 plain 变体(或所有条目共段的单段 TOC),
 - `issue-597-toc.docx`(hyperlink 版): 修复前后均正常, 无回归;
 - `npm run build` 通过。
 
-上游发布修复版本后, 应移除本补丁并升级依赖(见 [docs/plans/plan.md](../plans/plan.md) 的依赖升级跟踪)。
+上游发布修复版本后, 应移除本补丁并升级依赖(见 [plan-dependency-upgrade.md](plan-dependency-upgrade.md) 的依赖升级跟踪)。
 
 ## 验证方式
 

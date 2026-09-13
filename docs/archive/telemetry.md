@@ -3,13 +3,13 @@
 > [!WARNING]
 > **DEPRECATED — telemetry is disabled in this fork.**
 >
-> **Office Viewer Enhance** does not collect or send any usage data. `src/service/telemetryService.ts` is currently a no-op stub and the `@vscode/extension-telemetry` dependency has been removed (see the *Privacy* section in [README.md](../README.md)).
+> **Office Viewer Enhance** does not collect or send any usage data. `src/service/telemetryService.ts` is currently a no-op stub and the `@vscode/extension-telemetry` dependency has been removed (see the *Privacy* section in [README.md](../../README.md)).
 >
 > This document is kept **for reference only**, in case a maintainer wants to re-enable telemetry later — using their **own** Azure Application Insights resource. Do **not** reuse the upstream connection string; create your own.
 
 ---
 
-This guide is for **maintainers** who build and publish this extension. End users should read the **Privacy** section in [README.md](../README.md) or [README-CN.md](../README-CN.md).
+This guide is for **maintainers** who build and publish this extension. End users should read the **Privacy** section in [README.md](../../README.md) or [README-CN.md](../../README-CN.md).
 
 ## Overview
 
