@@ -46,3 +46,7 @@ docs/
 ## 复现数据 / 根因定位 / 修复方案 / 验证方式 / 修复记录
 {分析结论}
 ```
+
+「复现数据」应链接 `test-workspace/` 下的复现文件(命名 `test-{格式}-cweijan-{编号}-{slug}.{ext}`,
+登记表见 [test-workspace/README.md](../test-workspace/README.md));plan 与复现文件的批量生成流程
+见 [.claude/skills/issue-plan/SKILL.md](../../.claude/skills/issue-plan/SKILL.md)。

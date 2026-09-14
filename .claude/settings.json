@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(/.claude/skills/issue-plan/**)",
+      "WebFetch(domain:github.com)",
+      "Bash(echo \"---exit $?\")"
+    ]
+  }
+}
