@@ -5,6 +5,7 @@ import "@eigenpal/docx-editor-react/styles.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { handler, vscodeApi } from "../../util/vscode";
 import { loadOfficeBuffer } from "../../util/loadOfficeContent";
+import { convertDocxTiffMedia } from "./tiffMedia";
 import "./Word.css";
 
 type WordColorMode = "light" | "adaptive";
@@ -99,7 +100,8 @@ export default function Word() {
             skipCommentsAutoOpenRef.current = true;
             setCommentsSidebarOpen(false);
             const buffer = await loadOfficeBuffer(payload);
-            setDocumentBuffer(buffer);
+            // 浏览器无法解码 TIFF,进入 docx-editor 前把 tiff 媒体转成 PNG(issue-311)
+            setDocumentBuffer(await convertDocxTiffMedia(buffer));
         } catch (e) {
             setError(e instanceof Error ? e.message : "Failed to load document");
         } finally {
