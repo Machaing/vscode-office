@@ -157,6 +157,8 @@ export default {
     exportOdsDesc: '兼容 LibreOffice / WPS',
     switchToLightMode: '切换到浅色模式',
     switchToDarkMode: '切换到自适应模式（跟随 VS Code 主题）',
+    truncatedBanner: '文件较大：只读预览前 {} 行（共约 {} 行）',
+    truncatedBannerNoTotal: '文件较大：只读预览前 {} 行（超出预览上限）',
   },
   findReplace: {
     title: '查找',

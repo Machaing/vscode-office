@@ -159,6 +159,8 @@ export default {
     autoFitDone: 'Columns auto-fitted',
     switchToLightMode: 'Switch to light mode',
     switchToDarkMode: 'Switch to adaptive mode (follow VS Code theme)',
+    truncatedBanner: 'Large file — read-only preview of the first {} of ~{} rows',
+    truncatedBannerNoTotal: 'Large file — read-only preview of the first {} rows (preview limit reached)',
   },
   findReplace: {
     title: 'Find',

@@ -99,6 +99,8 @@ export default {
     exportOdsDesc: 'Compatibel met LibreOffice / WPS',
     switchToLightMode: 'Schakel naar lichte modus',
     switchToDarkMode: 'Schakel naar adaptieve modus (volg VS Code-thema)',
+    truncatedBanner: 'Groot bestand — alleen-lezen voorbeeld van de eerste {} van ca. {} regels',
+    truncatedBannerNoTotal: 'Groot bestand — alleen-lezen voorbeeld van de eerste {} regels (voorbeeldlimiet bereikt)',
   },
   findReplace: {
     title: 'Zoeken',

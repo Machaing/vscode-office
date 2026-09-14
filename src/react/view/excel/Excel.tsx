@@ -109,6 +109,7 @@ function ExcelViewer() {
     const findPanelRef = useRef<'find' | 'replace' | null>(null)
     const findReplacePanelRef = useRef<FindReplacePanelHandle>(null)
     const [loadError, setLoadError] = useState<string | null>(null)
+    const [truncation, setTruncation] = useState<{ loaded: number; total?: number } | null>(null)
     const [saveAsVisible, setSaveAsVisible] = useState(false)
     const [saveAsFormat, setSaveAsFormat] = useState('xlsx')
     const [activeSpreadsheet, setActiveSpreadsheet] = useState<Spreadsheet | null>(null)
@@ -321,15 +322,20 @@ function ExcelViewer() {
             if (payload.ext?.match(/csv/i)) {
                 csvEncodingRef.current = detectCsvEncoding(buffer);
             }
-            const { sheets, maxLength, maxCols, csvDelimiter } = await loadSheets(buffer, payload.ext);
+            const { sheets, maxLength, maxCols, csvDelimiter, truncated, totalRows } = await loadSheets(buffer, payload.ext);
             if (csvDelimiter) {
                 csvDelimiterRef.current = csvDelimiter;
             }
+            // issue-239: 行数超限被截断时强制只读, 避免保存时用前 N 行覆盖掉整份文件
+            const viewReadOnly = fileReadOnly || truncated === true;
+            readOnlyRef.current = viewReadOnly;
+            setReadOnly(viewReadOnly);
+            setTruncation(truncated ? { loaded: maxLength ?? 0, total: totalRows } : null);
             const viewRowLen = Math.max(maxLength ?? 0, MIN_VIEW_ROWS);
             const viewColLen = Math.max(maxCols ?? 0, MIN_VIEW_COLS);
             container.innerHTML = '';
             const spreadSheet = new Spreadsheet(container, {
-                mode: fileReadOnly ? 'read' : 'edit',
+                mode: viewReadOnly ? 'read' : 'edit',
                 showToolbar: true,
                 extendToolbar: {
                     right: [
@@ -356,7 +362,7 @@ function ExcelViewer() {
             setActiveSpreadsheet(spreadSheet);
             setLoading(false);
             spreadSheet.loadData(sheets);
-            if (!fileReadOnly) {
+            if (!viewReadOnly) {
                 spreadSheet.on('save', () => void handleSave());
             }
             spreadSheet.on('save-as', () => { void handleSaveAs(); });
@@ -391,7 +397,7 @@ function ExcelViewer() {
                 message.warning({ duration: 2, content: errMessage, className: 'excel-validation-error-message' });
             });
             spreadSheet.on('change', () => {
-                if (!fileReadOnly) {
+                if (!viewReadOnly) {
                     spreadSheet.setSaveEnabled(true);
                     handler.emit('change');
                 }
@@ -440,6 +446,7 @@ function ExcelViewer() {
             spreadSheetRef.current = null;
             setActiveSpreadsheet(null);
             setBottombarEl(null);
+            setTruncation(null);
             themeObserver.disconnect();
             clearTimeout(themeTimer);
         };
@@ -461,9 +468,16 @@ function ExcelViewer() {
                     </div>
                 </div>
             )}
-            {readOnly && !loading && !loadError && (
+            {readOnly && !truncation && !loading && !loadError && (
                 <div className="excel-readonly-banner">
                     {t('viewer.readonlyBanner')}
+                </div>
+            )}
+            {truncation && !loading && !loadError && (
+                <div className="excel-readonly-banner">
+                    {truncation.total != null
+                        ? t('viewer.truncatedBanner', truncation.loaded, truncation.total)
+                        : t('viewer.truncatedBannerNoTotal', truncation.loaded)}
                 </div>
             )}
             {findPanel && !loading && !loadError && (

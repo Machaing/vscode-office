@@ -32,6 +32,10 @@ export interface ExcelData {
     maxLength?: number;
     /** Detected column delimiter when loading CSV/TSV */
     csvDelimiter?: string;
+    /** 文件实际总行数(所有 sheet 的最大值), 仅在超过上限被截断且可得知总行数时给出; CSV 按行分隔符计数, 为近似值 */
+    totalRows?: number;
+    /** 行数超过 MAX_LOAD_ROWS, 只加载了前若干行(issue-239) */
+    truncated?: boolean;
 }
 
 const MIN_COL_WIDTH = 70;
@@ -39,6 +43,19 @@ const MAX_COL_WIDTH = 300;
 const DEFAULT_COL_WIDTH = 100;
 const CHAR_WIDTH = 8;
 const MAX_ROWS_TO_CHECK = 10;
+
+/**
+ * 单个 sheet 的最大加载行数(issue-239): 100 万行量级的 CSV/XLSX 会把 webview
+ * 堆内存撑到 GB 级并冻结整个窗口, 查看器定位是预览, 超限只加载前 MAX_LOAD_ROWS 行。
+ * 后续如有需要可提升为用户配置项。
+ */
+const MAX_LOAD_ROWS = 100_000;
+
+/**
+ * issue-239: sheet XML 解压总量超过该体量时放弃 ExcelJS 全量建模(实测 34MB XML 即
+ * 耗时约 2.2s、堆 350MB), 改走 SheetJS 的 sheetRows 截断解析(丢失样式保真, 换取可打开)。
+ */
+const MAX_EXCELJS_XML_SIZE = 64 * 1024 * 1024;
 
 const clampColWidth = (width: number) => Math.min(Math.max(width, MIN_COL_WIDTH), MAX_COL_WIDTH);
 
@@ -220,7 +237,7 @@ const readWorkbookSortStateXml = async (buffer: ArrayBuffer) => {
     return entries;
 };
 
-const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS.Workbook): Pick<SheetData, 'rows' | 'cols' | 'styles' | 'merges' | 'freeze' | 'autofilter' | 'hyperlinks' | 'validations' | 'sheetProtection' | 'images' | 'backgroundImage'> => {
+const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS.Workbook): Pick<SheetData, 'rows' | 'cols' | 'styles' | 'merges' | 'freeze' | 'autofilter' | 'hyperlinks' | 'validations' | 'sheetProtection' | 'images' | 'backgroundImage'> & Pick<ExcelData, 'totalRows' | 'truncated'> => {
     const rows: RowMap = {};
     const styleRegistry = new StyleRegistry();
     const hyperlinkParts: Record<string, { link: string; tooltip?: string }>[] = [];
@@ -231,6 +248,8 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
 
     worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
         if (!row || row.cellCount === 0) return;
+        // issue-239: 超过上限的行不再逐单元格转换(eachRow 无法中断, 直接跳过)
+        if (rowNumber - 1 >= MAX_LOAD_ROWS) return;
         const ri = rowNumber - 1;
         const cells: Record<number, CellData> = {};
         row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
@@ -260,7 +279,7 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
         applyRowHeight(rows, ri, row);
     });
 
-    const rowCount = Math.max(maxRow, worksheet.rowCount || 0);
+    const rowCount = Math.min(Math.max(maxRow, worksheet.rowCount || 0), MAX_LOAD_ROWS);
     for (let rowNumber = 1; rowNumber <= rowCount; rowNumber += 1) {
         if (rows[rowNumber - 1]) continue;
         const excelRow = worksheet.getRow(rowNumber);
@@ -283,6 +302,8 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
     const validations = readWorksheetValidations(worksheet);
     const images = readWorksheetImages(worksheet, workbook);
     const backgroundImage = readWorksheetBackgroundImage(worksheet, workbook);
+    const totalRows = worksheet.rowCount || 0;
+    const truncated = totalRows > MAX_LOAD_ROWS;
 
     return {
         rows: { len: maxRow, ...rows },
@@ -295,6 +316,7 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
         ...(images.length ? { images } : {}),
         ...(backgroundImage ? { backgroundImage } : {}),
         ...sheetExtras,
+        ...(truncated ? { totalRows, truncated } : {}),
     };
 };
 
@@ -305,6 +327,8 @@ const convertExcelJsWorkbook = (
     const sheets: SheetData[] = [];
     let maxLength = 0;
     let maxCols = 26;
+    let totalRows: number | undefined;
+    let truncated = false;
 
     workbook.worksheets.forEach((worksheet, index) => {
         const converted = convertExcelJsWorksheet(worksheet, workbook);
@@ -314,6 +338,10 @@ const convertExcelJsWorkbook = (
         }
         const rowCount = converted.rows?.len ?? 0;
         if (maxLength < rowCount) maxLength = rowCount;
+        if (converted.truncated) {
+            truncated = true;
+            if (converted.totalRows != null) totalRows = Math.max(totalRows ?? 0, converted.totalRows);
+        }
 
         const colLen = converted.cols?.len ?? 0;
         if (colLen > maxCols) maxCols = colLen;
@@ -334,11 +362,32 @@ const convertExcelJsWorkbook = (
         });
     });
 
-    return { sheets, maxLength, maxCols };
+    return {
+        sheets,
+        maxLength,
+        maxCols,
+        ...(truncated ? { truncated, ...(totalRows != null ? { totalRows } : {}) } : {}),
+    };
+};
+
+/** 读取 xlsx 中所有 sheet XML 的解压后体量(只解析 zip 中央目录, 不解压内容) */
+const readSheetXmlSize = async (buffer: ArrayBuffer): Promise<number> => {
+    const zip = await JSZip.loadAsync(buffer);
+    let total = 0;
+    for (const name of Object.keys(zip.files)) {
+        if (!/^xl\/worksheets\/sheet\d+\.xml$/i.test(name)) continue;
+        const entry = zip.files[name] as { _data?: { uncompressedSize?: number } };
+        total += entry._data?.uncompressedSize ?? 0;
+    }
+    return total;
 };
 
 const loadWithExcelJs = async (buffer: ArrayBuffer): Promise<ExcelData> => {
     try {
+        // issue-239: 体量超限时 ExcelJS 全量建模会冻结窗口, 改走 SheetJS 截断解析
+        if (await readSheetXmlSize(buffer) > MAX_EXCELJS_XML_SIZE) {
+            return loadWithSheetJs(buffer);
+        }
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.load(buffer);
         const sortStateXmlMap = await readWorkbookSortStateXml(buffer);
@@ -376,7 +425,7 @@ const formatSheetJsCell = (cell: XLSX.CellObject) => {
     return String(cell.v);
 };
 
-const convertSheetJsWorksheet = (worksheet: XLSX.WorkSheet): Pick<SheetData, 'rows' | 'cols' | 'merges'> => {
+const convertSheetJsWorksheet = (worksheet: XLSX.WorkSheet): Pick<SheetData, 'rows' | 'cols' | 'merges'> & Pick<ExcelData, 'totalRows' | 'truncated'> => {
     const rows: RowMap = {};
     let maxCols = 0;
     let maxRow = 0;
@@ -386,7 +435,10 @@ const convertSheetJsWorksheet = (worksheet: XLSX.WorkSheet): Pick<SheetData, 'ro
     }
 
     const range = XLSX.utils.decode_range(ref);
-    for (let ri = range.s.r; ri <= range.e.r; ri += 1) {
+    // issue-239: sheetRows 截断后 !ref 为截断范围, 带 dimension 信息的文件会在 !fullref 保留原始总范围
+    const fullRef = worksheet['!fullref'];
+    const fullRange = XLSX.utils.decode_range(fullRef ?? ref);
+    for (let ri = range.s.r; ri <= Math.min(range.e.r, range.s.r + MAX_LOAD_ROWS - 1); ri += 1) {
         const cells: Record<number, CellData> = {};
         let hasContent = false;
         for (let ci = range.s.c; ci <= range.e.c; ci += 1) {
@@ -412,10 +464,16 @@ const convertSheetJsWorksheet = (worksheet: XLSX.WorkSheet): Pick<SheetData, 'ro
 
     const colCount = Math.max(maxCols, range.e.c - range.s.c + 1);
     const merges = readSheetJsMerges(worksheet);
+    // !fullref 缺失(如生成器未写 dimension)时以「解到上限+1 行」判定截断, 总行数未知
+    const truncated = fullRef != null
+        ? fullRange.e.r + 1 > MAX_LOAD_ROWS
+        : range.e.r + 1 > MAX_LOAD_ROWS;
+    const totalRows = fullRef != null ? fullRange.e.r + 1 : undefined;
     return {
         rows: { len: maxRow, ...rows },
         cols: { len: colCount, ...buildColsFromSheetJsWorksheet(worksheet, colCount) },
         merges: merges.length > 0 ? merges : undefined,
+        ...(truncated ? { totalRows, truncated } : {}),
     };
 };
 
@@ -423,11 +481,17 @@ const convertSheetJsWorkbook = (workbook: XLSX.WorkBook): ExcelData => {
     const sheets: SheetData[] = [];
     let maxLength = 0;
     let maxCols = 26;
+    let totalRows: number | undefined;
+    let truncated = false;
 
     for (const sheetName of workbook.SheetNames) {
         const converted = convertSheetJsWorksheet(workbook.Sheets[sheetName]);
         const rowCount = converted.rows?.len ?? 0;
         if (maxLength < rowCount) maxLength = rowCount;
+        if (converted.truncated) {
+            truncated = true;
+            if (converted.totalRows != null) totalRows = Math.max(totalRows ?? 0, converted.totalRows);
+        }
 
         const colLen = converted.cols?.len ?? 0;
         if (colLen > maxCols) maxCols = colLen;
@@ -440,12 +504,30 @@ const convertSheetJsWorkbook = (workbook: XLSX.WorkBook): ExcelData => {
         });
     }
 
-    return { sheets, maxLength, maxCols };
+    return {
+        sheets,
+        maxLength,
+        maxCols,
+        ...(truncated ? { truncated, ...(totalRows != null ? { totalRows } : {}) } : {}),
+    };
 };
 
 const loadWithSheetJs = (buffer: ArrayBuffer): ExcelData => {
-    const workbook = XLSX.read(buffer, { type: 'array', cellDates: true });
+    // issue-239: sheetRows 让解析层只物化前 MAX_LOAD_ROWS 行(多解 1 行用于判定是否截断), 大文件不再全量建模
+    const workbook = XLSX.read(buffer, { type: 'array', cellDates: true, sheetRows: MAX_LOAD_ROWS + 1 });
     return convertSheetJsWorkbook(workbook);
+};
+
+/** 近似统计 CSV 总行数(按行分隔符计数, 引号内嵌换行会多计), 仅用于截断提示 */
+const countCsvRows = (csvStr: string, rowDelim: string): number => {
+    const delimLen = rowDelim.length;
+    let count = 0;
+    let idx = csvStr.indexOf(rowDelim);
+    while (idx !== -1) {
+        count += 1;
+        idx = csvStr.indexOf(rowDelim, idx + delimLen);
+    }
+    return count + (csvStr.endsWith(rowDelim) ? 0 : 1);
 };
 
 const loadCsv = (buffer: ArrayBuffer): ExcelData => {
@@ -470,7 +552,17 @@ const loadCsv = (buffer: ArrayBuffer): ExcelData => {
         let parseInput = csvToParse;
         if (!parseInput.includes('\n')) parseInput += '\n';
         const schema = inferSchema(parseInput, { header: () => [] });
-        const rows = initParser(schema).stringArrs(parseInput);
+        // issue-239: 大文件解到上限即停(多解析 1 行用于判断是否截断), 不再把全量行物化进内存
+        const rows: string[][] = [];
+        initParser(schema).stringArrs<string[]>(parseInput, (row) => {
+            rows.push(row);
+            return rows.length <= MAX_LOAD_ROWS;
+        });
+        const truncated = rows.length > MAX_LOAD_ROWS;
+        if (truncated) rows.length = MAX_LOAD_ROWS;
+        const totalRows = truncated
+            ? leadingEmptyRows + countCsvRows(csvToParse, schema.row)
+            : leadingEmptyRows + rows.length;
         const colCount = rows.reduce((max, row) => Math.max(max, row.length), 0);
 
         const processedRows: RowMap = {};
@@ -494,6 +586,7 @@ const loadCsv = (buffer: ArrayBuffer): ExcelData => {
         return {
             maxCols,
             maxLength: csvRows.length,
+            ...(truncated ? { totalRows, truncated } : {}),
             csvDelimiter: schema.col,
             sheets: [{
                 name: 'Sheet1',

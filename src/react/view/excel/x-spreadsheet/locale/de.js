@@ -99,6 +99,8 @@ export default {
     exportOdsDesc: 'Kompatibel mit LibreOffice / WPS',
     switchToLightMode: 'Zum hellen Modus wechseln',
     switchToDarkMode: 'Zum adaptiven Modus wechseln (VS Code-Theme folgen)',
+    truncatedBanner: 'Große Datei — schreibgeschützte Vorschau der ersten {} von ca. {} Zeilen',
+    truncatedBannerNoTotal: 'Große Datei — schreibgeschützte Vorschau der ersten {} Zeilen (Vorschau-Limit erreicht)',
   },
   findReplace: {
     title: 'Suchen',
