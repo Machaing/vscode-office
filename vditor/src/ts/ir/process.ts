@@ -6,6 +6,7 @@ import {saveCacheFocus} from "../util/cacheFocus";
 import {clearHistoryInputBuffer} from "../util/historyInputBufferState";
 import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {getHistoryMaxWaitFactor, getHistoryRecordWait} from "../util/historySchedule";
 import {scheduleRenderToc} from "../util/toc";
@@ -80,6 +81,11 @@ export const processHeading = (vditor: IVditor, value: string) => {
         const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
         if (headingMarkerElement) {
             headingMarkerElement.innerHTML = value;
+        } else if (headingElement.tagName === "UL" || headingElement.tagName === "OL") {
+            // 列表行转标题:标记文本需插到光标所在 li 之前,由 Lute 重组为 `##### 2. xxx` 保留序号;
+            // 插到列表开头会把别的列表项转成标题(issue#590)
+            const liElement = hasClosestByTag(range.startContainer, "LI");
+            (liElement || headingElement).insertAdjacentText(liElement ? "beforebegin" : "afterbegin", value);
         } else {
             headingElement.insertAdjacentText("afterbegin", value);
             range.selectNodeContents(headingElement);
