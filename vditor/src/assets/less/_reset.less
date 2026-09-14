@@ -234,9 +234,9 @@
         padding: 6px 13px;
         border: 1px solid var(--table-border);
         min-width: 80px;
-        max-width: 300px;
-        overflow-wrap: anywhere;
-        word-break: break-word;
+        // 不限制单元格宽度、不允许 anywhere 折行：
+        // 否则表格被压进 100% 宽度内并逐字符折行(issue-575)，
+        // 宽表格应压缩列宽至最小内容宽度，放不下时由 table 的 overflow:auto 横向滚动
         white-space: normal;
 
         &:first-child::after {
