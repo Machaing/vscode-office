@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: 'Error al abrir el archivo',
+        failedParseFile: 'Error al analizar el archivo',
         failedLoadDocument: 'Error al cargar el documento',
         failedLoadPresentation: 'Error al cargar la presentación',
         readOnly: 'Solo lectura — los cambios no se guardan en disco',

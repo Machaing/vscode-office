@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: 'Не удалось открыть файл',
+        failedParseFile: 'Не удалось обработать файл',
         failedLoadDocument: 'Не удалось загрузить документ',
         failedLoadPresentation: 'Не удалось загрузить презентацию',
         readOnly: 'Только чтение — изменения не сохраняются на диск',

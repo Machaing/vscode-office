@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: 'Failed to open file',
+        failedParseFile: 'Failed to parse the file',
         failedLoadDocument: 'Failed to load document',
         failedLoadPresentation: 'Failed to load presentation',
         readOnly: 'Read-only — changes are not saved to disk',

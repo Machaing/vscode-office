@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: '打开文件失败',
+        failedParseFile: '文件解析失败',
         failedLoadDocument: '加载文档失败',
         failedLoadPresentation: '加载演示文稿失败',
         readOnly: '只读 — 更改不会保存到磁盘',

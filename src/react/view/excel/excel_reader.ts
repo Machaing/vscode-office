@@ -338,10 +338,17 @@ const convertExcelJsWorkbook = (
 };
 
 const loadWithExcelJs = async (buffer: ArrayBuffer): Promise<ExcelData> => {
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(buffer);
-    const sortStateXmlMap = await readWorkbookSortStateXml(buffer);
-    return convertExcelJsWorkbook(workbook, sortStateXmlMap);
+    try {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(buffer);
+        const sortStateXmlMap = await readWorkbookSortStateXml(buffer);
+        return convertExcelJsWorkbook(workbook, sortStateXmlMap);
+    } catch (error) {
+        // issue-576: 损坏/非标准 xlsx(如空 workbook.xml)会让 ExcelJS 在解析阶段直接抛
+        // TypeError(依赖内部访问 undefined 的 sheets),降级改用 SheetJS 兜底解析
+        console.warn('ExcelJS failed to parse workbook, falling back to SheetJS:', error);
+        return loadWithSheetJs(buffer);
+    }
 };
 
 const sheetJsColWidthToPx = (col?: XLSX.ColInfo) => {

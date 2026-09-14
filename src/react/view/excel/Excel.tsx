@@ -3,6 +3,7 @@ import { App, Button, Modal, Radio, Spin } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { handler, vscodeApi } from "../../util/vscode.ts";
 import { isVscodeEditorDark, observeVscodeThemeChange } from "../../util/vscodeTheme.ts";
+import { $t } from "../../i18n/i18nConfig.ts";
 import { loadOfficeBuffer } from "../../util/loadOfficeContent.ts";
 import './Excel.less';
 import { MIN_VIEW_COLS, MIN_VIEW_ROWS } from "./excel_meta.ts";
@@ -416,13 +417,13 @@ function ExcelViewer() {
                 } catch (e) {
                     const msg = (e as Error).message || String(e);
                     console.error(`Failed to load Excel file: ${msg}`, e);
-                    setLoadError(msg);
+                    setLoadError(`${$t('viewer.failedParseFile')}: ${msg}`);
                     setLoading(false);
                 }
             }).catch(error => {
                 const msg = (error as Error).message || String(error);
                 console.error(`Failed to load Excel file: ${msg}`, error);
-                setLoadError(msg);
+                setLoadError(`${$t('viewer.failedParseFile')}: ${msg}`);
                 setLoading(false);
             });
         }).on("saveDone", () => {
@@ -455,7 +456,7 @@ function ExcelViewer() {
                             <path d="M22 13v12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
                             <circle cx="22" cy="31" r="1.8" fill="currentColor" />
                         </svg>
-                        <h2 className="excel-load-error-title">Failed to open file</h2>
+                        <h2 className="excel-load-error-title">{$t('viewer.failedOpenFile')}</h2>
                         <span className="excel-load-error-message">{loadError}</span>
                     </div>
                 </div>

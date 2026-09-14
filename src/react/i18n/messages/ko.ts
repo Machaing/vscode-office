@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: '파일을 열지 못했습니다',
+        failedParseFile: '파일을 구문 분석하지 못했습니다',
         failedLoadDocument: '문서를 불러오지 못했습니다',
         failedLoadPresentation: '프레젠테이션을 불러오지 못했습니다',
         readOnly: '읽기 전용 — 변경 사항은 디스크에 저장되지 않습니다',

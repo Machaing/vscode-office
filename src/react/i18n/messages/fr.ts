@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: 'Échec de l\'ouverture du fichier',
+        failedParseFile: 'Échec de l\'analyse du fichier',
         failedLoadDocument: 'Échec du chargement du document',
         failedLoadPresentation: 'Échec du chargement de la présentation',
         readOnly: 'Lecture seule — les modifications ne sont pas enregistrées sur le disque',

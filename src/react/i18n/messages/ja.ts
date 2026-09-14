@@ -51,6 +51,7 @@ export default {
     },
     viewer: {
         failedOpenFile: 'ファイルを開けませんでした',
+        failedParseFile: 'ファイルの解析に失敗しました',
         failedLoadDocument: 'ドキュメントの読み込みに失敗しました',
         failedLoadPresentation: 'プレゼンテーションの読み込みに失敗しました',
         readOnly: '読み取り専用 — 変更はディスクに保存されません',
