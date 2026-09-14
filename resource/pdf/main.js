@@ -442,6 +442,31 @@
     return null;
   }
 
+  function setupExternalLinkBridge() {
+    // webview 中顶层导航被 VS Code 拦截, 外部链接需交给宿主 vscode.env.openExternal 打开。
+    // 内部跳转链接的 href 为 "#..."(getDestinationHash 生成), 由 pdf.js 自身 onclick 处理, 不在此拦截。
+    const inWebview = typeof acquireVsCodeApi !== 'undefined' && !!window.vscodeEvent;
+    document.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+      const anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+      if (!anchor) {
+        return;
+      }
+      const href = anchor.getAttribute('href') || '';
+      if (!/^https?:\/\//i.test(href)) {
+        return;
+      }
+      event.preventDefault();
+      if (inWebview) {
+        window.vscodeEvent.emit('openExternal', href);
+      } else {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    });
+  }
+
   function openPdfDocument(payload) {
     if (!payload) {
       return;
@@ -464,6 +489,7 @@
     setupThemeAdapt();
     setupDarkMode();
     setupCustomScaleSelect();
+    setupExternalLinkBridge();
     PDFViewerApplication.initializedPromise.then(() => {
       initSidebarResize();
       setupSidebarOpenStatePersistence();
