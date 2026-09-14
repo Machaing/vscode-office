@@ -45,11 +45,13 @@ const baseFormats = [
     title: tf('format.percent'),
     type: 'number',
     label: '10.12%',
-    render: v => {
+    render: (v, style) => {
       const num = Number(v);
       // stored value is a ratio (0.1012), percent display multiplies by 100
       if (v === '' || v == null || Number.isNaN(num)) return `${v}%`;
-      return `${(num * 100).toFixed(2)}%`;
+      // excel numFmt carries its own decimals (0.0% → 1), default 2
+      const decimals = typeof style?.formatDecimals === 'number' ? style.formatDecimals : 2;
+      return `${(num * 100).toFixed(decimals)}%`;
     },
   },
   {

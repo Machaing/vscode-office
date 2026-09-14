@@ -78,8 +78,18 @@ function numFmtToSpreadsheetFormat(numFmt?: string): string | undefined {
     return undefined;
 }
 
-function spreadsheetFormatToNumFmt(format?: string): string | undefined {
+/** 提取百分比 numFmt 的小数位数(0.0% → 1、0.00% → 2、0% → 0) */
+function percentDecimalsFromNumFmt(numFmt: string): number | undefined {
+    const match = /0\.(0*)%/.exec(numFmt);
+    if (match) return match[1].length;
+    return /%/.test(numFmt) && /\d/.test(numFmt) ? 0 : undefined;
+}
+
+function spreadsheetFormatToNumFmt(format?: string, decimals?: number): string | undefined {
     if (!format || format === 'normal') return undefined;
+    if (format === 'percent' && typeof decimals === 'number') {
+        return decimals > 0 ? `0.${'0'.repeat(decimals)}%` : '0%';
+    }
     return FORMAT_TO_NUMFMT[format];
 }
 
@@ -225,6 +235,10 @@ export function excelJsCellToStyle(cell: ExcelJS.Cell): CellStyle | null {
     const format = numFmtToSpreadsheetFormat(numFmt);
     if (format) {
         style.format = format;
+        if (format === 'percent' && numFmt) {
+            const decimals = percentDecimalsFromNumFmt(numFmt);
+            if (decimals !== undefined) style.formatDecimals = decimals;
+        }
         hasStyle = true;
     }
 
@@ -270,7 +284,7 @@ export function applySpreadsheetStyle(cell: ExcelJS.Cell, style: CellStyle) {
     const border = bordersToExcelJs(style.border);
     if (border) cell.border = border;
 
-    const numFmt = spreadsheetFormatToNumFmt(style.format);
+    const numFmt = spreadsheetFormatToNumFmt(style.format, style.formatDecimals);
     if (numFmt) cell.numFmt = numFmt;
 }
 

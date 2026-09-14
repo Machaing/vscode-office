@@ -107,7 +107,7 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
     const formatter = style.format ? formatm[style.format] : undefined;
     if (formatter) {
-      cellText = formatter.render(cellText);
+      cellText = formatter.render(cellText, style);
     }
     const font = Object.assign({}, style.font);
     if (!font.name) {

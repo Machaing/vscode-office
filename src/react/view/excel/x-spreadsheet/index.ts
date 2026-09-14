@@ -197,6 +197,8 @@ export interface CellStyle {
         left?: string[];
     };
     format?: string;
+    /** 数字格式自带的小数位数(如 0.0% → 1、0.00% → 2),percent 渲染按此保留位数 */
+    formatDecimals?: number;
 }
 
 export interface Editor { }
