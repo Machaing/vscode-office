@@ -3,7 +3,7 @@
 > 本文件由 [sync_issues.py](sync_issues.py) 自动生成,请勿手编。
 > 人工维护请编辑 [issues.xlsx](issues.xlsx) 的 `处理状态` / `关联plan文件路径` / `备注` 列。
 
-处理进度: 待处理 63 · 参考cweijan方式完成处理 0 · 本项目处理 5 · 忽略 0
+处理进度: 待处理 58 · 参考cweijan方式完成处理 0 · 本项目处理 10 · 忽略 0
 
 | 编号 | 标题 | 标签 | 上游状态 | 处理状态 | 关联 plan |
 | --- | --- | --- | --- | --- | --- |
@@ -21,7 +21,7 @@
 | [#227](https://github.com/cweijan/vscode-office/issues/227) | 【需求】在Excel表格中期望增加一个针对文件跳转的超链接功能 | enhancement | open | 待处理 |  |
 | [#234](https://github.com/cweijan/vscode-office/issues/234) | 导出html时增加对侧边栏大纲的支持 | enhancement | open | 待处理 |  |
 | [#237](https://github.com/cweijan/vscode-office/issues/237) | 希望能增加一个时间变量 | enhancement | open | 待处理 |  |
-| [#239](https://github.com/cweijan/vscode-office/issues/239) | [BUG] Large CSV/XLS files hang the window | bug | open | 待处理 | docs/plans/plan-cweijan-issues-239-large-csv-hang.md |
+| [#239](https://github.com/cweijan/vscode-office/issues/239) | [BUG] Large CSV/XLS files hang the window | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-239-large-csv-hang.md |
 | [#246](https://github.com/cweijan/vscode-office/issues/246) | 图片的路径能更加个性化些吗 | enhancement | open | 待处理 |  |
 | [#256](https://github.com/cweijan/vscode-office/issues/256) | 插件很好用，能否加个功能下载远程图片？ | enhancement | open | 待处理 |  |
 | [#260](https://github.com/cweijan/vscode-office/issues/260) | 导出pdf时能否增加分页功能，比如以每个一级标题为新的一页 | enhancement | open | 待处理 |  |
@@ -32,7 +32,7 @@
 | [#298](https://github.com/cweijan/vscode-office/issues/298) | Feature Request - Integrating VSCode Error/Problem Reporting and Copilot Suggestions inline | enhancement | open | 待处理 |  |
 | [#308](https://github.com/cweijan/vscode-office/issues/308) | 给图片重命名 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-308-image-rename-variable.md |
 | [#309](https://github.com/cweijan/vscode-office/issues/309) | Support pasting images when using VS Code with WSL | enhancement | open | 待处理 |  |
-| [#311](https://github.com/cweijan/vscode-office/issues/311) | [BUG] Word 中的 .tif 格式图片无法预览 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-311-tif-image.md |
+| [#311](https://github.com/cweijan/vscode-office/issues/311) | [BUG] Word 中的 .tif 格式图片无法预览 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-311-tif-image.md |
 | [#323](https://github.com/cweijan/vscode-office/issues/323) | [BUG] Shortcut for switching markdown editor doesn't work | bug | open | 待处理 | docs/plans/plan-cweijan-issues-323-switch-editor-shortcut.md |
 | [#341](https://github.com/cweijan/vscode-office/issues/341) | Change paper size of exported PDF file | enhancement | open | 待处理 |  |
 | [#346](https://github.com/cweijan/vscode-office/issues/346) | Format markdown on save using prettier | enhancement | open | 待处理 |  |
@@ -50,8 +50,8 @@
 | [#529](https://github.com/cweijan/vscode-office/issues/529) | [BUG] word中的目录无法显示 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-529-toc-blank.md |
 | [#544](https://github.com/cweijan/vscode-office/issues/544) | md文件是否可以每一段时间自动刷新/自动刷新内容？ | enhancement | open | 待处理 |  |
 | [#570](https://github.com/cweijan/vscode-office/issues/570) | [BUG] markdown编辑器会突然跳到最顶端 (没按home键) | bug | open | 待处理 | docs/plans/plan-cweijan-issues-570-scroll-jump-to-top.md |
-| [#571](https://github.com/cweijan/vscode-office/issues/571) | [BUG]代码块内各行文字挤在一起 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-571-codeblock-line-spacing.md |
-| [#575](https://github.com/cweijan/vscode-office/issues/575) | [BUG] md 表格显示没有按页面宽度自适应 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-575-table-width-adapt.md |
+| [#571](https://github.com/cweijan/vscode-office/issues/571) | [BUG]代码块内各行文字挤在一起 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-571-codeblock-line-spacing.md |
+| [#575](https://github.com/cweijan/vscode-office/issues/575) | [BUG] md 表格显示没有按页面宽度自适应 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-575-table-width-adapt.md |
 | [#576](https://github.com/cweijan/vscode-office/issues/576) | [BUG]Cannot read properties of undefined (reading 'sheets') | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-576-sheets-undefined.md |
 | [#578](https://github.com/cweijan/vscode-office/issues/578) | Option to set indentation of lists in markdown | enhancement | open | 待处理 |  |
 | [#580](https://github.com/cweijan/vscode-office/issues/580) | Add an option to disable Cmd/Ctrl + mouse wheel zoom in the Markdown editor | enhancement | open | 待处理 |  |
@@ -59,7 +59,7 @@
 | [#586](https://github.com/cweijan/vscode-office/issues/586) | markdown WYSIWYG 能支持 vim 模式吗 | enhancement | open | 待处理 |  |
 | [#587](https://github.com/cweijan/vscode-office/issues/587) | [BUG]markdown 的照片突然不显示了，原来的版本可以正常显示 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-587-local-image-regression.md |
 | [#589](https://github.com/cweijan/vscode-office/issues/589) | The rendered Markdown document takes a long time to load. |  | open | 待处理 |  |
-| [#590](https://github.com/cweijan/vscode-office/issues/590) | [BUG] Heading conversion drops ordered list numbers in Markdown/Markdown 标题操作丢失有序列表序号 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-590-heading-list-number.md |
+| [#590](https://github.com/cweijan/vscode-office/issues/590) | [BUG] Heading conversion drops ordered list numbers in Markdown/Markdown 标题操作丢失有序列表序号 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-590-heading-list-number.md |
 | [#591](https://github.com/cweijan/vscode-office/issues/591) | 希望支持自定义压缩文件后缀 | enhancement | open | 待处理 |  |
 | [#592](https://github.com/cweijan/vscode-office/issues/592) | [BUG] xlsx 查看器打开含绝对引用的公式（如 =E6/$E$9）显示 NaN%，未使用文件中已有的缓存计算结果 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-592-formula-percent-nan.md |
 | [#593](https://github.com/cweijan/vscode-office/issues/593) | [BUG] 浏览pdf时链接跳转失效 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-593-link-navigation.md |
