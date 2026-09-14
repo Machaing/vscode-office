@@ -3,7 +3,7 @@
 > 本文件由 [sync_issues.py](sync_issues.py) 自动生成,请勿手编。
 > 人工维护请编辑 [issues.xlsx](issues.xlsx) 的 `处理状态` / `关联plan文件路径` / `备注` 列。
 
-处理进度: 待处理 67 · 参考cweijan方式完成处理 0 · 本项目处理 1 · 忽略 0
+处理进度: 待处理 63 · 参考cweijan方式完成处理 0 · 本项目处理 5 · 忽略 0
 
 | 编号 | 标题 | 标签 | 上游状态 | 处理状态 | 关联 plan |
 | --- | --- | --- | --- | --- | --- |
@@ -47,12 +47,12 @@
 | [#497](https://github.com/cweijan/vscode-office/issues/497) | [BUG]跨页面的表格会显示不完整 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-497-cross-page-table.md |
 | [#500](https://github.com/cweijan/vscode-office/issues/500) | wavedrom (Timing Diagram or Waveform from simple textual description)支持 | enhancement | open | 待处理 |  |
 | [#503](https://github.com/cweijan/vscode-office/issues/503) | [BUG]WLS2 windows linux 子系统 转换md 到pdf 出现错误 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-503-wsl-export-chromium.md |
-| [#529](https://github.com/cweijan/vscode-office/issues/529) | [BUG] word中的目录无法显示 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-529-toc-blank.md |
+| [#529](https://github.com/cweijan/vscode-office/issues/529) | [BUG] word中的目录无法显示 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-529-toc-blank.md |
 | [#544](https://github.com/cweijan/vscode-office/issues/544) | md文件是否可以每一段时间自动刷新/自动刷新内容？ | enhancement | open | 待处理 |  |
 | [#570](https://github.com/cweijan/vscode-office/issues/570) | [BUG] markdown编辑器会突然跳到最顶端 (没按home键) | bug | open | 待处理 | docs/plans/plan-cweijan-issues-570-scroll-jump-to-top.md |
 | [#571](https://github.com/cweijan/vscode-office/issues/571) | [BUG]代码块内各行文字挤在一起 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-571-codeblock-line-spacing.md |
 | [#575](https://github.com/cweijan/vscode-office/issues/575) | [BUG] md 表格显示没有按页面宽度自适应 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-575-table-width-adapt.md |
-| [#576](https://github.com/cweijan/vscode-office/issues/576) | [BUG]Cannot read properties of undefined (reading 'sheets') | bug | open | 待处理 | docs/plans/plan-cweijan-issues-576-sheets-undefined.md |
+| [#576](https://github.com/cweijan/vscode-office/issues/576) | [BUG]Cannot read properties of undefined (reading 'sheets') | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-576-sheets-undefined.md |
 | [#578](https://github.com/cweijan/vscode-office/issues/578) | Option to set indentation of lists in markdown | enhancement | open | 待处理 |  |
 | [#580](https://github.com/cweijan/vscode-office/issues/580) | Add an option to disable Cmd/Ctrl + mouse wheel zoom in the Markdown editor | enhancement | open | 待处理 |  |
 | [#584](https://github.com/cweijan/vscode-office/issues/584) | 请问Markdown的自定义快捷键可以帮忙开发一下吗？ | enhancement | open | 待处理 |  |
@@ -61,8 +61,8 @@
 | [#589](https://github.com/cweijan/vscode-office/issues/589) | The rendered Markdown document takes a long time to load. |  | open | 待处理 |  |
 | [#590](https://github.com/cweijan/vscode-office/issues/590) | [BUG] Heading conversion drops ordered list numbers in Markdown/Markdown 标题操作丢失有序列表序号 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-590-heading-list-number.md |
 | [#591](https://github.com/cweijan/vscode-office/issues/591) | 希望支持自定义压缩文件后缀 | enhancement | open | 待处理 |  |
-| [#592](https://github.com/cweijan/vscode-office/issues/592) | [BUG] xlsx 查看器打开含绝对引用的公式（如 =E6/$E$9）显示 NaN%，未使用文件中已有的缓存计算结果 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-592-formula-percent-nan.md |
-| [#593](https://github.com/cweijan/vscode-office/issues/593) | [BUG] 浏览pdf时链接跳转失效 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-593-link-navigation.md |
+| [#592](https://github.com/cweijan/vscode-office/issues/592) | [BUG] xlsx 查看器打开含绝对引用的公式（如 =E6/$E$9）显示 NaN%，未使用文件中已有的缓存计算结果 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-592-formula-percent-nan.md |
+| [#593](https://github.com/cweijan/vscode-office/issues/593) | [BUG] 浏览pdf时链接跳转失效 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-593-link-navigation.md |
 | [#594](https://github.com/cweijan/vscode-office/issues/594) | Support configure custom global export output directory for markdown export(PDF/DOCX) | enhancement | open | 待处理 |  |
 | [#595](https://github.com/cweijan/vscode-office/issues/595) | Feature Request: Add Text-to-Speech (Read Aloud) support for common document types (docx, pdf, pptx, md, html, epub) | enhancement | open | 待处理 |  |
 | [#596](https://github.com/cweijan/vscode-office/issues/596) | [BUG] Markdown files get silently rewritten (dirty on open; separators / bold / underscores mangled) — the rewrites do NOT come from the Lute engine | bug | open | 待处理 | docs/plans/plan-cweijan-issues-596-md-silent-rewrite.md |
