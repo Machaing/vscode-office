@@ -1,5 +1,37 @@
 # Change log
 
+# 4.2.1 2026-9-15
+
+Word:
+
+- Fix table rows being split across pages; move the whole row to the next page.
+- Fix blank TIFF images by decoding to PNG before rendering.
+- Fix TOC entry text loss.
+
+Markdown Editor:
+
+- Add `office.markdown.find` command to make find jump to matches.
+- Fix files showing as dirty on open and silent rewrites on save.
+- Fix trailing blank lines being removed after switching windows.
+- Fix ordered-list numbers lost on heading conversion.
+- Fix cramped code block lines caused by line-height and font-size mismatch.
+- Restore GFM table sizing; remove cell width and wrapping limits.
+
+Excel:
+
+- Truncate oversized CSV/XLSX files to a read-only preview to prevent frozen windows and OOM.
+- Fix `$` formulas not being calculated.
+- Fix percent format decimals; align formula display and save round-trip with Excel.
+- Fix webview crash on corrupted XLSX; fall back to SheetJS with an error message.
+
+PDF:
+
+- Fix internal link navigation and external link detection.
+
+Export:
+
+- Fix exports silently producing blank PDF/DOCX/HTML on failure; errors now surface.
+
 # 4.2.0 2026-8-16
 
 Markdown Editor:
