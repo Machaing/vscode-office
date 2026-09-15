@@ -237,3 +237,20 @@ body.is-web .vditor-context-menu__item--desktop-only:focus-visible {
 .vditor-help-sponsor-text a:hover {
     text-decoration: underline;
 }
+
+/* issue-599: webview 内查找定位时的短暂高亮 */
+.vditor-search-flash {
+    outline: 2px solid var(--vscode-editor-findMatchHighlightBorder, rgba(255, 213, 0, 0.7));
+    border-radius: 2px;
+    animation: vditor-search-flash-fade 1.6s ease-out;
+}
+
+@keyframes vditor-search-flash-fade {
+    0%,
+    40% {
+        background-color: var(--vscode-editor-findMatchHighlightBackground, rgba(255, 213, 0, 0.45));
+    }
+    100% {
+        background-color: transparent;
+    }
+}

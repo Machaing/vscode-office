@@ -23,5 +23,8 @@
 	"ext.markdown.customAiUrlRequired": "Custom AI: API URL is required.",
 	"ext.markdown.customAiPolishFailed": "Custom AI Polish failed: $1",
 	"ext.markdown.selectImage": "Select Image",
-	"ext.markdown.statusBar": "Line $1 Count $2"
+	"ext.markdown.statusBar": "Line $1 Count $2",
+	"ext.markdown.findPrompt": "Enter text to find in the markdown editor",
+	"ext.markdown.findNotFound": "No match found in the markdown editor: $1",
+	"ext.markdown.findNoActiveEditor": "No active markdown editor."
 }

@@ -227,6 +227,10 @@
 				"enablement": "!office.extensionHost.web"
 			},
 			{
+				"command": "office.markdown.find",
+				"title": "Find text in markdown editor"
+			},
+			{
 				"command": "office.html.preview",
 				"title": "Preview HTML"
 			},

@@ -14,8 +14,11 @@ import { streamCustomAI } from '@/service/ai/customAIClient';
 import { buildAIOutputLanguageInstruction } from '@/service/ai/aiOutputLanguage';
 import {
     broadcastToMarkdownWebviews,
+    clearActiveMarkdownWebview,
     consumePendingBlockScroll,
+    getActiveMarkdownWebview,
     registerMarkdownWebview,
+    setActiveMarkdownWebview,
     unregisterMarkdownWebview,
 } from '@/service/markdown/blockScroll';
 import { ViewerSettingsService } from '@/service/viewerSettingsService';
@@ -163,6 +166,7 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
         handler.panel.onDidChangeViewState(e => {
             Holder.activeDocument = e.webviewPanel.visible ? document : Holder.activeDocument
             if (e.webviewPanel.visible) {
+                setActiveMarkdownWebview(handler);
                 this.updateCount(content)
                 this.countStatus.show()
             } else {
@@ -202,6 +206,7 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
         handler.panel.onDidDispose(() => {
             void flushDocumentSync();
             unregisterMarkdownWebview(uri);
+            clearActiveMarkdownWebview(handler);
         });
         handler.on("init", async () => {
             const viewerSettings = await ViewerSettingsService.loadForWebview();
@@ -290,6 +295,10 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
         }).on("editInVSCode", (full: boolean) => {
             const side = full ? vscode.ViewColumn.Active : vscode.ViewColumn.Beside;
             vscode.commands.executeCommand('vscode.openWith', uri, "default", side);
+        }).on("revealSearchTermResult", (result: { keyword?: string; found?: boolean }) => {
+            if (result && result.found === false) {
+                vscode.window.showWarningMessage(i18n('ext.markdown.findNotFound', String(result.keyword ?? '')));
+            }
         }).on("showInFolder", () => {
             if (vscode.env.uiKind !== vscode.UIKind.Web) {
                 vscode.commands.executeCommand('revealFileInOS', uri);
@@ -364,6 +373,30 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
     private cancelAIPolish() {
         this.aiCancellationSource?.cancel();
         this.aiAbortController?.abort();
+    }
+
+    /**
+     * issue-599: VS Code 全局搜索点击结果打开 webview 自定义编辑器时不传递匹配位置
+     * (core API 缺口,见 plan-cweijan-issues-599),提供"输入关键词→定位"链路作为缓解:
+     * 命令 office.markdown.find → 输入框 → revealSearchTerm → webview 打开 FindBar(预填)并跳到首个匹配。
+     */
+    private async promptFindText(handler: Handler): Promise<void> {
+        const keyword = await vscode.window.showInputBox({
+            prompt: i18n('ext.markdown.findPrompt'),
+        });
+        if (!keyword || !keyword.trim()) {
+            return;
+        }
+        handler.emit('revealSearchTerm', keyword.trim());
+    }
+
+    async findInActiveEditor(): Promise<void> {
+        const handler = getActiveMarkdownWebview();
+        if (!handler) {
+            vscode.window.showWarningMessage(i18n('ext.markdown.findNoActiveEditor'));
+            return;
+        }
+        await this.promptFindText(handler);
     }
 
     private async notifyAIAvailable(handler: Handler) {

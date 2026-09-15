@@ -23,5 +23,8 @@
 	"ext.markdown.customAiUrlRequired": "Пользовательский ИИ: требуется URL API.",
 	"ext.markdown.customAiPolishFailed": "Ошибка пользовательского ИИ-редактирования: $1",
 	"ext.markdown.selectImage": "Выбрать изображение",
-	"ext.markdown.statusBar": "Строка $1 Символов $2"
+	"ext.markdown.statusBar": "Строка $1 Символов $2",
+	"ext.markdown.findPrompt": "Введите текст для поиска в редакторе Markdown",
+	"ext.markdown.findNotFound": "Совпадений в редакторе Markdown не найдено: $1",
+	"ext.markdown.findNoActiveEditor": "Нет активного редактора Markdown."
 }

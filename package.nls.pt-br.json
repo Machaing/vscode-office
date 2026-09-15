@@ -23,5 +23,8 @@
 	"ext.markdown.customAiUrlRequired": "IA personalizada: a URL da API é obrigatória.",
 	"ext.markdown.customAiPolishFailed": "Falha no polimento com IA personalizada: $1",
 	"ext.markdown.selectImage": "Selecionar imagem",
-	"ext.markdown.statusBar": "Linha $1 Caracteres $2"
+	"ext.markdown.statusBar": "Linha $1 Caracteres $2",
+	"ext.markdown.findPrompt": "Digite o texto para localizar no editor de Markdown",
+	"ext.markdown.findNotFound": "Nenhuma correspondência encontrada no editor de Markdown: $1",
+	"ext.markdown.findNoActiveEditor": "Nenhum editor de Markdown ativo."
 }

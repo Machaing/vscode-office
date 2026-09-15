@@ -23,5 +23,8 @@
 	"ext.markdown.customAiUrlRequired": "自定义 AI：API URL 为必填项。",
 	"ext.markdown.customAiPolishFailed": "自定义 AI 润色失败：$1",
 	"ext.markdown.selectImage": "选择图片",
-	"ext.markdown.statusBar": "行 $1 字数 $2"
+	"ext.markdown.statusBar": "行 $1 字数 $2",
+	"ext.markdown.findPrompt": "输入要在 Markdown 编辑器中定位的文本",
+	"ext.markdown.findNotFound": "Markdown 编辑器中未找到匹配: $1",
+	"ext.markdown.findNoActiveEditor": "当前没有打开的 Markdown 编辑器。"
 }

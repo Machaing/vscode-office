@@ -23,5 +23,8 @@
 	"ext.markdown.customAiUrlRequired": "自訂 AI：API URL 為必填項。",
 	"ext.markdown.customAiPolishFailed": "自訂 AI 潤色失敗：$1",
 	"ext.markdown.selectImage": "選擇圖片",
-	"ext.markdown.statusBar": "行 $1 字數 $2"
+	"ext.markdown.statusBar": "行 $1 字數 $2",
+	"ext.markdown.findPrompt": "輸入要在 Markdown 編輯器中定位的文字",
+	"ext.markdown.findNotFound": "Markdown 編輯器中未找到符合: $1",
+	"ext.markdown.findNoActiveEditor": "目前沒有開啟的 Markdown 編輯器。"
 }
