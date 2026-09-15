@@ -5,7 +5,7 @@ description: 为本项目（Office Viewer Enhance）发布新版本：给定 x.x
 
 # 发布新版本（release）
 
-输入一个版本号（如 `4.2.1`），完成：版本校验 → 收集变更 → CHANGELOG 起草 → 版本写入 → 编译打包。最终产物是仓库根目录的 `vscode-office-enhance-<版本号>.vsix`。
+输入一个版本号（如 `4.2.1`），完成：版本校验 → 收集变更 → CHANGELOG 起草 → 版本写入 → 编译打包。最终产物是 `release/vscode-office-enhance-<版本号>.vsix`。
 
 **本 skill 不执行发布上传**（vsce publish / 网页上传 / git commit / git tag），只在结尾提醒后续步骤。完整发布文档：[docs/release/publish-CN.md](../../../docs/release/publish-CN.md)。
 
@@ -55,7 +55,7 @@ npm run package
 
 - `build` 是多单元生产构建（React webview + 桌面/Web 扩展宿主 + vditor 子项目），耗时较长，Bash 调用给足 timeout（≥600000ms）。
 - `vsce package` 会经 `vscode:prepublish` 钩子再跑一次 build，属预期行为（与 [docs/release/publish-CN.md](../../../docs/release/publish-CN.md) 第 3 节流程一致）。
-- 打包完成后确认产物 `vscode-office-enhance-<版本号>.vsix` 存在于仓库根目录。
+- 打包完成后确认产物 `release/vscode-office-enhance-<版本号>.vsix` 存在。
 
 ## 第 6 步：收尾报告
 

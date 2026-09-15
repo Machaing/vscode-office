@@ -28,7 +28,7 @@ You can skip this section if you publish via the web portal (see Option A below)
 ```bash
 npm run lint:fix     # keep the codebase clean
 npm run build        # production build (desktop + web extension + webview + vditor)
-npm run package      # produces vscode-office-enhance-<version>.vsix
+npm run package      # produces release/vscode-office-enhance-<version>.vsix
 ```
 
 Before publishing, install the `.vsix` locally (Extensions view → `···` → **Install from VSIX...**) and smoke-test the main viewers (`.xlsx` with formulas, `.pdf`, `.md`, `.zip`).
@@ -76,7 +76,7 @@ Open VSX is the registry used by VSCodium and other VS Code forks.
 3. Publish the `.vsix` produced above:
 
 ```bash
-npx ovsx publish vscode-office-enhance-<version>.vsix -p <token>
+npx ovsx publish release/vscode-office-enhance-<version>.vsix -p <token>
 ```
 
 ## Troubleshooting

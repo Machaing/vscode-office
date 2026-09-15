@@ -28,7 +28,7 @@
 ```bash
 npm run lint:fix     # 保持代码整洁
 npm run build        # 生产构建（桌面版 + Web 版扩展 + webview + vditor）
-npm run package      # 生成 vscode-office-enhance-<版本号>.vsix
+npm run package      # 生成 release/vscode-office-enhance-<版本号>.vsix
 ```
 
 发布前，建议本地安装 `.vsix`（扩展面板 → `···` → **从 VSIX 安装**），完整冒烟测试主要查看器（含公式的 `.xlsx`、`.pdf`、`.md`、`.zip`）。
@@ -76,7 +76,7 @@ Open VSX 是 VSCodium 等 VS Code 衍生版使用的扩展注册表。
 3. 发布上面生成的 `.vsix`：
 
 ```bash
-npx ovsx publish vscode-office-enhance-<版本号>.vsix -p <令牌>
+npx ovsx publish release/vscode-office-enhance-<版本号>.vsix -p <令牌>
 ```
 
 ## 故障排查

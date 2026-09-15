@@ -24,4 +24,5 @@ bun.lock
 yarn.lock
 pnpm-lock.yaml
 pnpm-workspace.yaml
+release/**
 !package.nls*.json
