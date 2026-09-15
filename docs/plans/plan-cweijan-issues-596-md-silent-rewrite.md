@@ -76,12 +76,39 @@ bug
 
 ## 根因定位
 
-{待分析}
+在 fork 当前源码(vditor fork + resource/markdown/index.js)复现验证,本仓库实际存在两层根因(与报告者对上游 4.2.0 的 LLM/AI Polish 推断并行成立——AI Polish 全文替换链的审计另见 issue 请求,本修复先消除确定性问题):
+
+1. **Lute 序列化规范化(有损排版、无损语义)**:`Md2VditorDOM -> VditorDOM2Md` 往返会把
+   `***`/`---` 分隔线统一、表格按字符宽度重排、紧凑列表边界合并/松散化、任务列表 `[x]`→`[X]` 等
+   (node 直连 lute 实测;报告者环境中部分文件是往返不动点,但含上述结构的文件第一次往返即产生 diff);
+2. **保存链无风格还原**:任何 input(包括编辑器内部重组触发的回调)→ `emit("save")` →
+   宿主 400ms 去抖 → `updateTextDocument` 全文替换,规范化输出直接写盘——文件"未经用户编辑"却落盘新内容,即 dirty on open 的静默改写来源。
 
 ## 修复方案
 
-{待分析}
+保存链路上做「原文风格还原」([resource/markdown/styleRestore.js](../../../resource/markdown/styleRestore.js),diff3 思想):
+
+- 打开时记 `baselineMarkdown` = 文件原文([resource/markdown/index.js](../../../resource/markdown/index.js) `withOriginalStyle` 接线);
+- 保存 payload 先与「baseline 的 Lute 规范化输出」比较:完全相同 ⇒ 无用户编辑 ⇒ 直接返回原文(字节级不变);
+- 有编辑时以两侧行级公共锚点划分区域:未被用户编辑的区域还原为原文写法,仅保留用户真实编辑区域的规范化输出;
+- 对不齐/超限(>50000 行)一律退化为直接使用 payload(回到现状,不还原但不丢内容)。
+
+配套:composition 快照(vditor/src/ts/wysiwyg/index.ts)避免输入法组稿期触发 save。
+
+## 修复记录(已实施,2026-09-15)
+
+- 新增 [resource/markdown/styleRestore.js](../../../resource/markdown/styleRestore.js)(风格还原核心);
+- [resource/markdown/index.js](../../../resource/markdown/index.js):引入 restorer,`baselineMarkdown` 随 open/externalUpdate 更新,save 链统一走 `withOriginalStyle`;
+- [vditor/src/ts/wysiwyg/index.ts](../../../vditor/src/ts/wysiwyg/index.ts) 与 [ir/index.ts](../../../vditor/src/ts/ir/index.ts):composition 快照,伪 compositionend(无实际文本变化)不进入 input→save 链;
+- AI Polish 链的显式 diff 确认(报告者请求 1/2)不在本次范围,留待后续按需实现。
 
 ## 验证方式
 
-{待分析}
+无头 Chrome + 真实管线 harness(`test-workspace/markdown/harness-596/`,`node server.js` 后浏览器开 `page.html`/`full.html`,mock 宿主驱动完整 open/save 链),2026-09-15 实测:
+
+1. **打开零 save**:真实 index.js 管线加载复现文件,`__emits` 中 save 事件数为 0——打开不再 dirty;
+2. **实例 getValue 六类保真**:直挂 Vditor 实例取 getValue,与原文逐行对比,`---`/`**《...》**`/`user_profile`/紧凑列表/粗体分段全部原样(仅表格列宽空格被 Lute 归一);
+3. **编辑后 save 仅含用户改动**:full.html 模拟在首段插入 `EDITED` 触发 save,payload 与原文逐行对比——除插入行外其余行(含表格空格行)字节级一致,风格还原生效。
+
+VS Code 内手验:F5 打开复现文件 → 无 dirty 圆点;编辑一处保存 → git diff 仅含编辑处。
+

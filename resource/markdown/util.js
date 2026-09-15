@@ -246,7 +246,7 @@ const isInsideCodeMirrorTarget = (target) => {
     return !!node?.closest?.(".vditor-code-block--cm .cm-editor");
 };
 
-export const bindShortcut = (handler, editor, workspaceBaseUrl = '') => {
+export const bindShortcut = (handler, editor, workspaceBaseUrl = '', transformValue = null) => {
     const getMarkdownValue = createMarkdownValueReader(() => editor, workspaceBaseUrl);
     let _exec = document.execCommand.bind(document)
     document.execCommand = (cmd, ...args) => {
@@ -269,7 +269,8 @@ export const bindShortcut = (handler, editor, workspaceBaseUrl = '') => {
         if (isCompose(e)) {
             switch (e.code) {
                 case 'KeyS':
-                    vscodeEvent.emit("doSave", getMarkdownValue());
+                    // issue-596: 保存前做原文风格还原,仅保留用户真实编辑差异
+                    vscodeEvent.emit("doSave", transformValue ? transformValue(getMarkdownValue()) : getMarkdownValue());
                     editor.markSaved();
                     e.stopPropagation();
                     e.preventDefault();

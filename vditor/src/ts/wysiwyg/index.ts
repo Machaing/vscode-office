@@ -70,6 +70,9 @@ class WYSIWYG {
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
     public composingLock = false;
+    // composition 开始时的内容指纹:用于识别“无实际文本变化”的伪 compositionend
+    // (如 macOS 输入法在 webview 获得焦点时触发),避免其进入 input→save 链
+    private compositionSnapshot = -1;
     private scrollListener: () => void;
     private impreciseLineClickHandled = false;
 
@@ -253,6 +256,7 @@ class WYSIWYG {
         // 中文处理
         this.element.addEventListener("compositionstart", () => {
             this.composingLock = true;
+            this.compositionSnapshot = this.element.textContent.length;
         });
 
         this.element.addEventListener("compositionend", (event: InputEvent) => {
@@ -265,7 +269,11 @@ class WYSIWYG {
                 scheduleRenderToc(vditor);
                 return;
             }
-            if (!isFirefox()) {
+            // 伪 compositionend(无输入法提交文本、DOM 未变化)不进入 input→save 链,
+            // 否则打开文件即被标记 dirty(cweijan/vscode-office#596)
+            const compositionChanged = !!event.data ||
+                this.element.textContent.length !== this.compositionSnapshot;
+            if (!isFirefox() && compositionChanged) {
                 input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
             }
             this.composingLock = false;

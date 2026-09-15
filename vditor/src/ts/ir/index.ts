@@ -55,6 +55,8 @@ class IR {
     public hlToolbarTimeoutId: number;
     public composingLock: boolean = false;
     public preventInput: boolean;
+    // composition 开始时的内容指纹:用于识别“无实际文本变化”的伪 compositionend
+    private compositionSnapshot = -1;
     private impreciseLineClickHandled = false;
 
     constructor(vditor: IVditor) {
@@ -132,13 +134,18 @@ class IR {
 
         this.element.addEventListener("compositionstart", (event: InputEvent) => {
             this.composingLock = true;
+            this.compositionSnapshot = this.element.textContent.length;
         });
 
         this.element.addEventListener("compositionend", (event: InputEvent) => {
             if (isInsideCodeMirror(event.target) || isInsideCodeBlockChrome(event.target)) {
                 return;
             }
-            if (!isFirefox()) {
+            // 伪 compositionend(无输入法提交文本、DOM 未变化)不进入 input→save 链,
+            // 否则打开文件即被标记 dirty(cweijan/vscode-office#596)
+            const compositionChanged = !!event.data ||
+                this.element.textContent.length !== this.compositionSnapshot;
+            if (!isFirefox() && compositionChanged) {
                 input(vditor, getSelection().getRangeAt(0).cloneRange());
             }
             this.composingLock = false;
