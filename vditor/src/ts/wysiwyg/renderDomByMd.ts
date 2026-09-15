@@ -1,10 +1,11 @@
 import {isSpecialBlock, renderCodeBlocks, setupLazyCodeMirrorObserver, syncMathBlocksDisplayMode} from "../codeBlock/codeMirrorManager";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
+import {appendTrailingBlankParagraphs, BOUNDARY_SENTINEL_CLASS} from "../util/trailingBlankLines";
 import {renderTocNow} from "../util/toc";
 import {afterRenderEvent} from "./afterRenderEvent";
 
-export const BOUNDARY_SENTINEL_CLASS = "vditor-editor-boundary";
+export {BOUNDARY_SENTINEL_CLASS};
 
 const BOUNDARY_SENTINEL = `<span class="${BOUNDARY_SENTINEL_CLASS}" data-block="0" contenteditable="true" aria-hidden="true">​</span>`;
 
@@ -54,6 +55,7 @@ export const renderDomByMd = (vditor: IVditor, md: string, options = {
     );
     renderCodeBlocks(vditor);
     setupLazyCodeMirrorObserver(vditor);
+    appendTrailingBlankParagraphs(editorElement, md);
     ensureEditorBoundaryParagraphs(editorElement);
 
     renderTocNow(vditor);

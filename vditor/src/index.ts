@@ -39,6 +39,7 @@ import { clearDocumentScroll, restoreDocumentScroll } from "./ts/util/documentSt
 import { getSelectText } from "./ts/util/getSelectText";
 import { Options } from "./ts/util/Options";
 import { processCodeRender } from "./ts/util/processCode";
+import { appendTrailingBlankParagraphs } from "./ts/util/trailingBlankLines";
 import { hasClosestBlock } from "./ts/util/hasClosest";
 import { getCursorPosition, getEditorRange, insertHTML, insertMdForAIReplace, setSelectionFocus } from "./ts/util/selection";
 import { markOutlineEditing } from "./ts/outline/updateOutlineActive";
@@ -380,6 +381,7 @@ class Vditor {
             });
         } else {
             this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
+            appendTrailingBlankParagraphs(this.vditor.ir.element, markdown);
             this.vditor.ir.element
                 .querySelectorAll(".vditor-ir__preview[data-render='2']")
                 .forEach((item: HTMLElement) => {

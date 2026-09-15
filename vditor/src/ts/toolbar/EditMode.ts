@@ -12,6 +12,7 @@ import {getEventName} from "../util/compatibility";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
+import {appendTrailingBlankParagraphs} from "../util/trailingBlankLines";
 import {renderTocNow} from "../util/toc";
 import {ensureEditorBoundaryParagraphs, renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {renderCodeBlocks} from "../codeBlock/codeMirrorManager";
@@ -76,6 +77,7 @@ export const setEditMode = (
         const irHTML = vditor.lute.Md2VditorIRDOM(markdownText);
         log("Md2VditorIRDOM", irHTML, "result", vditor.options.debugger);
         vditor.ir.element.innerHTML = irHTML;
+        appendTrailingBlankParagraphs(vditor.ir.element, markdownText);
         processAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,

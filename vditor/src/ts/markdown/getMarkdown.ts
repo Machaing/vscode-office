@@ -1,5 +1,6 @@
 import {buildEditorHtmlForMarkdown} from "../codeBlock/codeMirrorManager";
 import {formatMs, logPerf} from "../util/log";
+import {withTrailingNewlinesFromDom} from "../util/trailingBlankLines";
 
 export const getMarkdown = (vditor: IVditor) => {
     const debug = vditor.options.debugger;
@@ -15,6 +16,12 @@ export const getMarkdown = (vditor: IVditor) => {
         markdown = vditor.lute.VditorDOM2Md(html);
     } else if (vditor.currentMode === "ir") {
         markdown = vditor.lute.VditorIRDOM2Md(html);
+    }
+    const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element
+        : vditor.currentMode === "ir" ? vditor.ir.element : undefined;
+    if (editorElement) {
+        // 结尾空段落无法被 Lute 序列化，这里按 DOM 补齐结尾 `\n`
+        markdown = withTrailingNewlinesFromDom(markdown, editorElement);
     }
     const toMarkdownMs = debug ? performance.now() - stepStart : 0;
 
