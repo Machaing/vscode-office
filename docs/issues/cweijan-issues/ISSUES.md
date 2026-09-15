@@ -3,7 +3,7 @@
 > 本文件由 [sync_issues.py](sync_issues.py) 自动生成,请勿手编。
 > 人工维护请编辑 [issues.xlsx](issues.xlsx) 的 `处理状态` / `关联plan文件路径` / `备注` 列。
 
-处理进度: 待处理 58 · 参考cweijan方式完成处理 0 · 本项目处理 10 · 忽略 0
+处理进度: 待处理 53 · 参考cweijan方式完成处理 0 · 本项目处理 15 · 忽略 0
 
 | 编号 | 标题 | 标签 | 上游状态 | 处理状态 | 关联 plan |
 | --- | --- | --- | --- | --- | --- |
@@ -44,7 +44,7 @@
 | [#415](https://github.com/cweijan/vscode-office/issues/415) | [BUG] Error When Saving to S3 Using AWS Toolkit for VSCode | bug | open | 待处理 | docs/plans/plan-cweijan-issues-415-s3-save-error.md |
 | [#451](https://github.com/cweijan/vscode-office/issues/451) | markdown 编辑器 希望和AI联动 | enhancement | open | 待处理 |  |
 | [#486](https://github.com/cweijan/vscode-office/issues/486) | Add support RTL languages for Markdown | enhancement | open | 待处理 |  |
-| [#497](https://github.com/cweijan/vscode-office/issues/497) | [BUG]跨页面的表格会显示不完整 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-497-cross-page-table.md |
+| [#497](https://github.com/cweijan/vscode-office/issues/497) | [BUG]跨页面的表格会显示不完整 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-497-cross-page-table.md |
 | [#500](https://github.com/cweijan/vscode-office/issues/500) | wavedrom (Timing Diagram or Waveform from simple textual description)支持 | enhancement | open | 待处理 |  |
 | [#503](https://github.com/cweijan/vscode-office/issues/503) | [BUG]WLS2 windows linux 子系统 转换md 到pdf 出现错误 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-503-wsl-export-chromium.md |
 | [#529](https://github.com/cweijan/vscode-office/issues/529) | [BUG] word中的目录无法显示 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-529-toc-blank.md |
@@ -65,13 +65,13 @@
 | [#593](https://github.com/cweijan/vscode-office/issues/593) | [BUG] 浏览pdf时链接跳转失效 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-593-link-navigation.md |
 | [#594](https://github.com/cweijan/vscode-office/issues/594) | Support configure custom global export output directory for markdown export(PDF/DOCX) | enhancement | open | 待处理 |  |
 | [#595](https://github.com/cweijan/vscode-office/issues/595) | Feature Request: Add Text-to-Speech (Read Aloud) support for common document types (docx, pdf, pptx, md, html, epub) | enhancement | open | 待处理 |  |
-| [#596](https://github.com/cweijan/vscode-office/issues/596) | [BUG] Markdown files get silently rewritten (dirty on open; separators / bold / underscores mangled) — the rewrites do NOT come from the Lute engine | bug | open | 待处理 | docs/plans/plan-cweijan-issues-596-md-silent-rewrite.md |
+| [#596](https://github.com/cweijan/vscode-office/issues/596) | [BUG] Markdown files get silently rewritten (dirty on open; separators / bold / underscores mangled) — the rewrites do NOT come from the Lute engine | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-596-md-silent-rewrite.md |
 | [#597](https://github.com/cweijan/vscode-office/issues/597) | Word 文档目录页渲染异常：目录标题与条目文本丢失，仅显示页码 |  | open | 本项目处理 | docs/plans/plan-cweijan-issues-597-word-toc.md |
 | [#598](https://github.com/cweijan/vscode-office/issues/598) | [BUG] 表格和数学公式结合导致渲染错误 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-598-table-math-formula.md |
-| [#599](https://github.com/cweijan/vscode-office/issues/599) | [BUG] Search in VS code action bar does not jump to text in markdown file | bug | open | 待处理 | docs/plans/plan-cweijan-issues-599-search-result-jump.md |
-| [#601](https://github.com/cweijan/vscode-office/issues/601) | [BUG] 切换窗口后再切回来，页面结尾的多个空行被删除 | bug | open | 待处理 | docs/plans/plan-cweijan-issues-601-trailing-blank-lines.md |
+| [#599](https://github.com/cweijan/vscode-office/issues/599) | [BUG] Search in VS code action bar does not jump to text in markdown file | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-599-search-result-jump.md |
+| [#601](https://github.com/cweijan/vscode-office/issues/601) | [BUG] 切换窗口后再切回来，页面结尾的多个空行被删除 | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-601-trailing-blank-lines.md |
 | [#602](https://github.com/cweijan/vscode-office/issues/602) | 建议修改波浪线被渲染成删除线的问题 | enhancement | open | 待处理 |  |
-| [#603](https://github.com/cweijan/vscode-office/issues/603) | [BUG]Only outputting blank PDFs and DOCs now! | bug | open | 待处理 | docs/plans/plan-cweijan-issues-603-blank-pdf-docx-export.md |
+| [#603](https://github.com/cweijan/vscode-office/issues/603) | [BUG]Only outputting blank PDFs and DOCs now! | bug | open | 本项目处理 | docs/plans/plan-cweijan-issues-603-blank-pdf-docx-export.md |
 | [#604](https://github.com/cweijan/vscode-office/issues/604) | [BUG] xlsx viewer crashes ("Cannot read properties of undefined (reading '0')") on IF nested 3+ levels deep |  | open | 待处理 |  |
 | [#606](https://github.com/cweijan/vscode-office/issues/606) | To avoid problems elsewhere, add a setting to use underscore for italic (Ctrl+I), instead of asterisk | enhancement | open | 待处理 |  |
 | [#607](https://github.com/cweijan/vscode-office/issues/607) | [BUG] XLSX without <dimension> renders as blank Sheet1 with no error on Windows |  | open | 待处理 |  |
