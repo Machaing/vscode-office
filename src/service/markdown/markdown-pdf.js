@@ -142,6 +142,8 @@ function convertMarkdownToHtml(filename, type, text, config) {
 
   } catch (error) {
     showErrorMessage("convertMarkdownToHtml()", error)
+    // issue-603: never fall through to a blank export, propagate so the caller aborts
+    throw error
   }
 }
 
@@ -158,6 +160,8 @@ function mergeHtml(content, uri, type) {
     return mustache.render(readFile(templatePath), { title, style, content })
   } catch (error) {
     showErrorMessage("makeHtml()", error)
+    // issue-603: never fall through to a blank export, propagate so the caller aborts
+    throw error
   }
 }
 

@@ -108,8 +108,19 @@ function math_block(state, start, end, silent) {
     return true;
 }
 
+function loadKatex() {
+    try {
+        return require('katex');
+    } catch (error) {
+        // issue-603: a broken/missing katex bundle must not abort the whole export,
+        // fall back to rendering the raw latex text instead
+        console.warn("[markdown-export] katex unavailable, rendering raw latex:", error && error.message ? error.message : error)
+        return null;
+    }
+}
+
 module.exports = function math_plugin(md, options) {
-    var katex = require('katex');
+    var katex = loadKatex();
     // Default options
 
     options = { throwOnError: false, strict: false };
@@ -117,6 +128,7 @@ module.exports = function math_plugin(md, options) {
     // set KaTeX as the renderer for markdown-it-simplemath
     var katexInline = function (latex) {
         options.displayMode = false;
+        if (!katex) { return latex; }
         try {
             return katex.renderToString(latex, options);
         }
@@ -132,6 +144,7 @@ module.exports = function math_plugin(md, options) {
 
     var katexBlock = function (latex) {
         options.displayMode = true;
+        if (!katex) { return "<p>" + latex + "</p>"; }
         try {
             return "<p>" + katex.renderToString(latex, options) + "</p>";
         }
