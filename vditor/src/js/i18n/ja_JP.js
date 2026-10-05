@@ -166,4 +166,5 @@ window.VditorI18n = {
   'selectAllCodeBlock': 'コードブロックを全選択',
   'wrapBlockquote': '引用ブロックに変換',
   'hotkeysCustomTip': '注: macOS では「見出し」にデフォルトのショートカットはありません(システムの非表示と競合するため)。VS Code 設定 vscode-office.markdown.hotkeys または office.markdown.* コマンドでカスタマイズできます。',
+  'settings': '設定',
 }

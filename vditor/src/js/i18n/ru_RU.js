@@ -166,4 +166,5 @@ window.VditorI18n = {
   'selectAllCodeBlock': 'Выделить блок кода',
   'wrapBlockquote': 'Обернуть в цитату',
   'hotkeysCustomTip': 'Примечание: у заголовков нет горячей клавиши по умолчанию в macOS (конфликт с системным скрытием). Клавиши настраиваются через vscode-office.markdown.hotkeys или команды office.markdown.*.',
+  'settings': 'Настройки',
 }

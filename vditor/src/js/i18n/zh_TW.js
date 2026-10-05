@@ -168,4 +168,5 @@ window.VditorI18n = {
   'selectAllCodeBlock': '全選程式碼區塊內容',
   'wrapBlockquote': '轉換為引用區塊',
   'hotkeysCustomTip': '註: macOS 下「標題」無默認快捷鍵(避免與系統「隱藏應用」衝突);快捷鍵可透過 VS Code 設定 vscode-office.markdown.hotkeys 或命令 office.markdown.* 自訂',
+  'settings': '設定',
 }

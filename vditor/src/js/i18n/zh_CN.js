@@ -200,4 +200,5 @@ window.VditorI18n = {
   'selectAllCodeBlock': '全选代码块内容',
   'wrapBlockquote': '转换为引用块',
   'hotkeysCustomTip': '注: macOS 下「标题」无默认快捷键(避免与系统「隐藏应用」冲突);快捷键可通过 VS Code 设置 vscode-office.markdown.hotkeys 或命令 office.markdown.* 自定义',
+  'settings': '设置',
 }

@@ -166,4 +166,5 @@ window.VditorI18n = {
   'selectAllCodeBlock': '코드 블록 전체 선택',
   'wrapBlockquote': '인용 블록으로 변환',
   'hotkeysCustomTip': '참고: macOS에서는 시스템 숨기기와 충돌하지 않도록 제목에 기본 단축키가 없습니다. VS Code 설정 vscode-office.markdown.hotkeys 또는 office.markdown.* 명령으로 사용자 지정할 수 있습니다.',
+  'settings': '설정',
 }

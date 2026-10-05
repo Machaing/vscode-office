@@ -107,8 +107,12 @@ handler.on("open", async (md) => {
   window.__officeMarkdownFileName = fileName || 'Note';
   const {
     language, isWeb, isDev, markdown,
-    editMode, editorTheme, codeMirrorTheme, mermaidTheme, hotkeys
+    editMode, editorTheme, codeMirrorTheme, mermaidTheme, hotkeys, languageOverride
   } = config;
+  // 编辑器 UI 语言: 配置覆盖优先, auto 跟随 VS Code 界面语言
+  const vditorLang = (languageOverride && languageOverride !== 'auto')
+    ? languageOverride
+    : mapVscodeLanguageToVditorLang(language);
   if (isWeb) {
     document.body.classList.add('is-web')
   }
@@ -140,7 +144,7 @@ handler.on("open", async (md) => {
     mermaidTheme,
     // issue-204/218: 动作快捷键覆盖(VS Code 风格, 空串=禁用)
     hotkeys,
-    lang: mapVscodeLanguageToVditorLang(language),
+    lang: vditorLang,
     tab: '\t',
     toolbar: await getToolbar(rootPath, () => {
       handler.emit('doSave', withOriginalStyle(getMarkdownValue()));
@@ -255,6 +259,12 @@ handler.on("open", async (md) => {
         }
         if (update.hotkeys !== undefined) {
           editor.setHotkeyOverrides(update.hotkeys);
+        }
+        // 语言切换: 先保存未落盘内容, 再整页重载(重载后重新 init/open 应用新语言)
+        if (update.language !== undefined && update.language !== vditorLang) {
+          handler.emit('save', withOriginalStyle(getMarkdownValue()));
+          editor?.markSaved?.();
+          setTimeout(() => window.location.reload(), 600);
         }
       });
       // issue-204/218: 宿主命令通道(office.markdown.* 命令经 VS Code 键位触发)

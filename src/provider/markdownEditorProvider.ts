@@ -42,6 +42,7 @@ const MARKDOWN_SYNC_CONFIG_KEYS = [
     'codeMirrorTheme',
     'mermaidTheme',
     'markdown.hotkeys',
+    'markdown.language',
 ] as const;
 
 type MarkdownSyncConfigKey = typeof MARKDOWN_SYNC_CONFIG_KEYS[number];
@@ -523,6 +524,7 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
             codeMirrorTheme: configuration.get<string>("codeMirrorTheme", "Auto"),
             mermaidTheme: configuration.get<string>("mermaidTheme", "Auto"),
             hotkeys: configuration.get<Record<string, string>>("markdown.hotkeys", {}),
+            languageOverride: configuration.get<string>("markdown.language", "auto"),
             markdown: {
                 math: {
                     macros: markdownConfiguration.get<Record<string, string>>("math.macros", {}),

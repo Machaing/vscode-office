@@ -200,4 +200,5 @@ window.VditorI18n = {
   'selectAllCodeBlock': 'Select Code Block Content',
   'wrapBlockquote': 'Wrap as Blockquote',
   'hotkeysCustomTip': 'Note: Headings has no default hotkey on macOS (system Hide conflict). Hotkeys can be customized via the VS Code setting vscode-office.markdown.hotkeys or office.markdown.* commands.',
+  'settings': 'Settings',
 }
