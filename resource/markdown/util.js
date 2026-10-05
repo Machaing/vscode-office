@@ -54,6 +54,7 @@ export async function getToolbar(resPath, onSave = null) {
         "redo",
         "|",
         "find",
+        "hotkeys",
         "ai-settings",
         "settings"
     ]

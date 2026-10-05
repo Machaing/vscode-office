@@ -9,6 +9,7 @@ import {EditorTheme} from "./EditorTheme";
 import {EditorThemeLabel} from "./EditorThemeLabel";
 import {EditorThemeToggle} from "./EditorThemeToggle";
 import {Headings} from "./Headings";
+import {Hotkeys} from "./Hotkeys";
 import {Indent} from "./Indent";
 import {Find} from "./Find";
 import {Info} from "./Info";
@@ -108,6 +109,9 @@ export class Toolbar {
                 break;
             case "find":
                 menuItemObj = new Find(vditor, menuItem);
+                break;
+            case "hotkeys":
+                menuItemObj = new Hotkeys(vditor, menuItem);
                 break;
             case "edit-mode":
                 menuItemObj = new EditMode(vditor, menuItem);

@@ -244,12 +244,14 @@ export class Options {
             icon: getToolbarCodicon("find"),
             name: "find",
         }, {
+            icon: getToolbarCodicon("hotkeys"),
+            name: "hotkeys",
+        }, {
             icon: getToolbarCodicon("edit-mode"),
             name: "edit-mode",
         }, {
             icon: getToolbarCodicon("settings"),
             name: "settings",
-            tip: "Settings",
         }, {
             icon: getToolbarCodicon("outline"),
             name: "outline",
