@@ -3,7 +3,7 @@
 > 本文件由 [sync_issues.py](sync_issues.py) 自动生成,请勿手编。
 > 人工维护请编辑 [issues.xlsx](issues.xlsx) 的 `处理状态` / `关联plan文件路径` / `备注` 列。
 
-处理进度: 待处理 51 · 参考cweijan方式完成处理 1 · 本项目处理 16 · 忽略 0
+处理进度: 待处理 49 · 参考cweijan方式完成处理 1 · 本项目处理 18 · 忽略 0
 
 | 编号 | 标题 | 标签 | 上游状态 | 处理状态 | 关联 plan |
 | --- | --- | --- | --- | --- | --- |
@@ -14,8 +14,8 @@
 | [#157](https://github.com/cweijan/vscode-office/issues/157) | [BUG] markdown 在列表里嵌入表格的时候，修改表格的内容会删掉表格和列表内容之间的换行 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-157-list-nested-table.md |
 | [#163](https://github.com/cweijan/vscode-office/issues/163) | markdown写公式时自动下移滚动条以包含公式预览 | enhancement | open | 待处理 |  |
 | [#196](https://github.com/cweijan/vscode-office/issues/196) | 请问后续会添加图床功能吗？ | enhancement,no plan | open | 待处理 |  |
-| [#204](https://github.com/cweijan/vscode-office/issues/204) | [BUG] wrong redo shortcurt on WYSIWYG markdown view | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md |
-| [#218](https://github.com/cweijan/vscode-office/issues/218) | [BUG] Command + H 与macOS“隐藏应用”的快捷键冲突 | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-218-cmd-h-heading-conflict.md |
+| [#204](https://github.com/cweijan/vscode-office/issues/204) | [BUG] wrong redo shortcurt on WYSIWYG markdown view | bug | open | 本项目处理 | docs/plans/todo/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md |
+| [#218](https://github.com/cweijan/vscode-office/issues/218) | [BUG] Command + H 与macOS“隐藏应用”的快捷键冲突 | bug | open | 本项目处理 | docs/plans/todo/plan-cweijan-issues-218-cmd-h-heading-conflict.md |
 | [#221](https://github.com/cweijan/vscode-office/issues/221) | [BUG] Copy paste not working | bug | open | 参考cweijan方式完成处理 | docs/plans/done/plan-cweijan-issues-221-csv-copy-paste.md |
 | [#226](https://github.com/cweijan/vscode-office/issues/226) | [BUG] <kbd>标签会被自动加上``符号变成代码块 | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-226-kbd-tag-backtick.md |
 | [#227](https://github.com/cweijan/vscode-office/issues/227) | 【需求】在Excel表格中期望增加一个针对文件跳转的超链接功能 | enhancement | open | 待处理 |  |
