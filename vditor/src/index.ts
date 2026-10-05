@@ -35,6 +35,7 @@ import { Upload } from "./ts/upload/index";
 import { addScript } from "./ts/util/addScript";
 import { clearCacheFocus, restoreCacheFocus } from "./ts/util/cacheFocus";
 import { accessLocalStorage } from "./ts/util/compatibility";
+import { executeEditorAction } from "./ts/util/editorActions";
 import { clearDocumentScroll, restoreDocumentScroll } from "./ts/util/documentState";
 import { getSelectText } from "./ts/util/getSelectText";
 import { Options } from "./ts/util/Options";
@@ -177,6 +178,20 @@ class Vditor {
     /** 获取 Markdown 内容 */
     public getValue() {
         return getMarkdown(this.vditor);
+    }
+
+    /**
+     * 执行动作注册表中的编辑动作(cweijan-204/218), 供宿主命令通道调用。
+     * @param actionId 动作 id, 见 editorActions 的 EDITOR_ACTION_IDS
+     * @returns 是否为已知动作
+     */
+    public executeAction(actionId: string): boolean {
+        return executeEditorAction(this.vditor, actionId);
+    }
+
+    /** 覆盖动作快捷键(VS Code 风格, 空串=禁用), 立即生效 */
+    public setHotkeyOverrides(hotkeys?: { [actionId: string]: string }) {
+        this.vditor.options.hotkeys = { ...(hotkeys ?? {}) };
     }
 
     /** 标记当前内容已保存，并禁用工具栏保存按钮 */

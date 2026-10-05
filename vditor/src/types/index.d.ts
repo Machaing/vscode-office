@@ -515,6 +515,11 @@ interface IOptions {
     i18n?: ITips;
     /** @link https://ld246.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
+    /**
+     * 动作快捷键覆盖(cweijan-204): 动作 id -> VS Code 风格组合键(如 "ctrl+shift+z"),
+     * 空串=禁用该动作默认键位。可绑定动作见 editorActions 的 EDITOR_ACTION_IDS。
+     */
+    hotkeys?: { [actionId: string]: string };
     /** @link https://ld246.com/article/1549638745630#options-counter */
     counter?: {
         enable: boolean;

@@ -37,6 +37,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('office.markdown.switch', (uri) => { markdownService.switchEditor(uri); }),
 		vscode.commands.registerCommand('office.csv.switch', (uri) => { switchCsvEditor(uri); }),
+		vscode.commands.registerCommand('office.markdown.undo', () => { markdownEditorProvider.execActionInActiveEditor('undo') }),
+		vscode.commands.registerCommand('office.markdown.redo', () => { markdownEditorProvider.execActionInActiveEditor('redo') }),
+		vscode.commands.registerCommand('office.markdown.headings', () => { markdownEditorProvider.execActionInActiveEditor('headings') }),
 		vscode.commands.registerCommand('office.html.preview', (uri) => HtmlService.previewHtml(uri, context)),
 		vscode.window.registerCustomEditorProvider('maizhuoying.markdownViewer', markdownEditorProvider, viewOption),
 		vscode.window.registerCustomEditorProvider('maizhuoying.markdownPreview', markdownEditorProvider, viewOption),

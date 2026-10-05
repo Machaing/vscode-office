@@ -107,7 +107,7 @@ handler.on("open", async (md) => {
   window.__officeMarkdownFileName = fileName || 'Note';
   const {
     language, isWeb, isDev, markdown,
-    editMode, editorTheme, codeMirrorTheme, mermaidTheme
+    editMode, editorTheme, codeMirrorTheme, mermaidTheme, hotkeys
   } = config;
   if (isWeb) {
     document.body.classList.add('is-web')
@@ -138,6 +138,8 @@ handler.on("open", async (md) => {
     editorTheme,
     codeMirrorTheme,
     mermaidTheme,
+    // issue-204/218: 动作快捷键覆盖(VS Code 风格, 空串=禁用)
+    hotkeys,
     lang: mapVscodeLanguageToVditorLang(language),
     tab: '\t',
     toolbar: await getToolbar(rootPath, () => {
@@ -251,6 +253,13 @@ handler.on("open", async (md) => {
         if (update.editMode !== undefined) {
           editor.switchEditMode(update.editMode);
         }
+        if (update.hotkeys !== undefined) {
+          editor.setHotkeyOverrides(update.hotkeys);
+        }
+      });
+      // issue-204/218: 宿主命令通道(office.markdown.* 命令经 VS Code 键位触发)
+      handler.on('execAction', ({ id }) => {
+        editor?.executeAction?.(id);
       });
       handler.on("update", content => {
         if (document.querySelector("[data-type='yaml-front-matter'].vditor-code-block--cm .cm-editor.cm-focused")) {

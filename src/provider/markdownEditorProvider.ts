@@ -41,6 +41,7 @@ const MARKDOWN_SYNC_CONFIG_KEYS = [
     'editorTheme',
     'codeMirrorTheme',
     'mermaidTheme',
+    'markdown.hotkeys',
 ] as const;
 
 type MarkdownSyncConfigKey = typeof MARKDOWN_SYNC_CONFIG_KEYS[number];
@@ -399,6 +400,18 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
         await this.promptFindText(handler);
     }
 
+    /**
+     * issue-204/218: 宿主命令通道——office.markdown.undo/redo/headings 等命令
+     * 转发给活动 markdown webview, 由 vditor 动作注册表执行(与键盘通道去重)。
+     */
+    execActionInActiveEditor(actionId: string): void {
+        const handler = getActiveMarkdownWebview();
+        if (!handler) {
+            return;
+        }
+        handler.emit('execAction', { id: actionId });
+    }
+
     private async notifyAIAvailable(handler: Handler) {
         const lm = (vscode as any).lm;
         const available = typeof lm?.selectChatModels === 'function';
@@ -509,6 +522,7 @@ export class MarkdownEditorProvider implements vscode.CustomTextEditorProvider {
             editorTheme: configuration.get<string>("editorTheme", "Auto"),
             codeMirrorTheme: configuration.get<string>("codeMirrorTheme", "Auto"),
             mermaidTheme: configuration.get<string>("mermaidTheme", "Auto"),
+            hotkeys: configuration.get<Record<string, string>>("markdown.hotkeys", {}),
             markdown: {
                 math: {
                     macros: markdownConfiguration.get<Record<string, string>>("math.macros", {}),

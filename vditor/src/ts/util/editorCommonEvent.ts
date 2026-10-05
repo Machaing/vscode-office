@@ -22,6 +22,7 @@ import { getEditorRange } from "./selection";
 import { saveCacheFocus } from "./cacheFocus";
 import { clearActiveHeadingMarker } from "./updateActiveHeadingMarker";
 import { handleAutoSymbolPair } from "./autoSymbol";
+import { handleActionHotkey, isManagedToolbarAction } from "./editorActions";
 import { handleVscodeShortcut } from "./vscodeShortcut";
 import {
     EDITOR_FONT_SIZE_DEFAULT,
@@ -229,6 +230,11 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
+        // 动作注册表(cweijan-204/218): 用户覆盖键位优先于内置键位处理
+        if (handleActionHotkey(vditor, event)) {
+            return;
+        }
+
         if (handleVscodeShortcut(vditor, event)) {
             return;
         }
@@ -253,19 +259,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // undo
-        if (matchHotKey("⌘Z", event) && !vditor.toolbar.elements.undo) {
-            vditor.undo.undo(vditor);
-            event.preventDefault();
-            return;
-        }
-
-        // redo
-        if (matchHotKey("⌘Y", event) && !vditor.toolbar.elements.redo) {
-            vditor.undo.redo(vditor);
-            event.preventDefault();
-            return;
-        }
+        // undo/redo 已由动作注册表接管(editorActions, redo 默认键含 ⇧⌘Z/Ctrl+Shift+Z)
 
         // esc
         if (event.key === "Escape") {
@@ -324,6 +318,9 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         if (!subMenuItem.hotkey) {
                             return false;
                         }
+                        if (isManagedToolbarAction(subMenuItem.name)) {
+                            return false;
+                        }
                         if (matchHotKey(subMenuItem.hotkey, event)) {
                             vditor.toolbar.elements[subMenuItem.name].children[0]
                                 .dispatchEvent(new CustomEvent(getEventName()));
@@ -333,6 +330,9 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                     });
                     return sub ? true : false;
                 }
+                return false;
+            }
+            if (isManagedToolbarAction(menuItem.name)) {
                 return false;
             }
             if (matchHotKey(menuItem.hotkey, event)) {

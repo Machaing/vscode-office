@@ -231,6 +231,21 @@
 				"title": "Find text in markdown editor"
 			},
 			{
+				"command": "office.markdown.undo",
+				"title": "Markdown: Undo",
+				"enablement": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
+			},
+			{
+				"command": "office.markdown.redo",
+				"title": "Markdown: Redo",
+				"enablement": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
+			},
+			{
+				"command": "office.markdown.headings",
+				"title": "Markdown: Headings",
+				"enablement": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
+			},
+			{
 				"command": "office.html.preview",
 				"title": "Preview HTML"
 			},
@@ -259,6 +274,12 @@
 				"key": "ctrl+v",
 				"mac": "cmd+v",
 				"when": "editorTextFocus && resourceLangId == markdown && !office.extensionHost.web"
+			},
+			{
+				"command": "office.markdown.redo",
+				"key": "ctrl+shift+z",
+				"mac": "cmd+shift+z",
+				"when": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
 			},
 			{
 				"command": "office.html.preview",
@@ -607,6 +628,14 @@
 				"title": "Markdown",
 				"order": 1,
 				"properties": {
+					"vscode-office.markdown.hotkeys": {
+						"type": "object",
+						"default": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"markdownDescription": "Customize editor action hotkeys in the Markdown WYSIWYG/IR editor. Keys are action ids: `undo`, `redo`, `headings`, `bold`, `italic`, `strike`, `link`, `ordered-list`, `check`, `quote`, `line`, `code`, `inline-code`, `table`. Values are VS Code style combos like `ctrl+shift+z` / `cmd+b` / `ctrl+alt+1`; set `\"\"` to disable an action's default hotkey. On macOS the `headings` action has no default hotkey (to avoid the system Hide conflict)."
+					},
 					"vscode-office.editorTheme": {
 						"type": "string",
 						"enum": [

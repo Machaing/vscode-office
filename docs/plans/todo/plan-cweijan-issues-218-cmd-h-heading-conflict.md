@@ -58,14 +58,31 @@ macOS 上按 `Command+H` 触发的是 markdown 编辑器的标题层级调整,�
 
 ## 修复方案
 
-待实施:
+待实施,**依赖 cweijan-204 的动作注册表体系**(见 `todo/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md`),204 落地后本 issue 仅剩默认键位一处增量:
 
-- 方案 A(最小,推荐): 移除或替换 `Options.ts:134` headings 项的 `hotkey: "⌘H"`(可换为不冲突的组合)。toolbar hotkey 只影响 keydown 触发,移除后工具栏按钮仍可点击;tooltip 中的 `<⌘H>` 提示会同步消失,属预期。若担心 macOS 以外平台依赖 `Ctrl+H`,可按平台区分:仅 macOS 侧不注册。
-- 方案 B: 增加扩展设置项(如 `office.markdown.headingHotkey: "default" | "none" | 自定义组合`),经 configs 注入 webview,初始化 vditor 时覆盖 toolbar hotkey。
-- 注:webview 内 `⌘H` 能否被系统截获因 VS Code/Electron 版本而异,但扩展至少不应主动消费并 preventDefault 该键位。
+**204 体系顺带解决的部分**(无需单独改动):
+
+- headings 动作进入注册表后,通道 B(`office.markdown.hotkeys`)支持 `"headings": ""` 禁用该键、或改为任意组合;通道 A(`office.markdown.headings` 命令)可在 VS Code「键盘快捷方式」改键——issue 诉求的「增加相关设置,允许用户改键」即满足;
+- `Options.ts:134` 的 toolbar 通用 hotkey 匹配机制随注册表收编后不再消费 `⌘H`。
+
+**本 issue 的增量**(204 P2 一行默认值改动):
+
+- 注册表中 headings 动作默认键位按平台区分:**macOS 不绑定默认键**(默认即不抢占系统「隐藏应用」),Windows/Linux 保留 `Ctrl+H` 惯例;
+- 注:webview 内 `⌘H` 能否被系统截获因 VS Code/Electron 版本而异,但扩展至少不应主动消费并 preventDefault 该键位——移除 macOS 默认绑定即保证这一点。
+
+若 204 短期不实施,可先行独立最小修复:移除/替换 `Options.ts:134` 的 `hotkey: "⌘H"`(仅 macOS 侧不注册),toolbar 按钮与 tooltip 提示不受影响(tooltip 的 `<⌘H>` 提示同步消失属预期)。
+
+### 实施记录(2026-10-05, 已随 cweijan-204 实施)
+
+- 注册表 headings 动作 `noMacDefault: true`:macOS 下无默认键位,keydown 不再消费 `⌘H`;toolbar 通用匹配段跳过已管理项后,`Options.ts:134` 的 `⌘H` hotkey 也不再触发;
+- 通道 A:`office.markdown.headings` 命令(enablement 限 markdown webview 激活),用户可在键盘快捷方式自定义(如改绑 `Ctrl+H` 语义的键);
+- 通道 B:`vscode-office.markdown.hotkeys` 的 `"headings"` 键可改键/禁用,热更新生效;
+- 残留:工具栏 headings 按钮 tooltip 仍显示 `<⌘H>`(Options hotkey 字段仅剩提示用途,macOS 下有误导,P2 做 tooltip 动态化);macOS 系统级「隐藏应用」恢复需实机验证(Windows 仅能验证 `Ctrl+H` 仍弹 headings 面板)。
 
 ## 验证方式
 
+已实施待实测(2026-10-05):
+
 - 需 macOS 环境实测完整现象(Windows 只能验证 `Ctrl+H` 绑定是否仍触发 headings 面板);修复后 macOS 按 `⌘H` 应恢复系统「隐藏应用」行为;
-- 顺带检查 tooltip 不再显示 `<⌘H>`、标题层级升降键位(`⌘=`/`⌘-`、`Ctrl+Alt+1~6`)不受影响;
-- 现状核查结论:未修复(2026-10-05)。
+- 通道 B 生效性:`vscode-office.markdown.hotkeys` 配置 `"headings": ""` / 自定义组合后无需 reload 即热更新生效;
+- 顺带检查标题层级升降键位(`⌘=`/`⌘-`、`Ctrl+Alt+1~6`)不受影响(已知残留:headings 按钮 tooltip 仍显示 `<⌘H>`)。
