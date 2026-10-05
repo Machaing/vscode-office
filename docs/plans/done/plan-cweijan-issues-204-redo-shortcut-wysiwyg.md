@@ -84,7 +84,7 @@ WYSIWYG markdown 视图中按 `ctrl+shift+z` 无任何响应,仅 `ctrl+y` 可触
 ### 实施分期
 
 - **P1(最小可用,直接回应 issue)**:动作注册表 + redo/undo 默认键位修正(含 shift+z)+ `office.markdown.undo/redo` 命令与 keybindings 贡献;
-- **P2(全量)**:其余动作全部入注册表并贡献 commands/keybindings + `office.markdown.hotkeys` 设置项 + 命令标题 i18n(`src/react/i18n/messages/` 11 种语言);注册表默认值按平台区分——headings 在 macOS 不绑定默认键(顺带关闭 cweijan-218 的 `⌘H` 抢占,详见 `todo/plan-cweijan-issues-218-cmd-h-heading-conflict.md`)。
+- **P2(全量)**:其余动作全部入注册表并贡献 commands/keybindings + `office.markdown.hotkeys` 设置项 + 命令标题 i18n(`src/react/i18n/messages/` 11 种语言);注册表默认值按平台区分——headings 在 macOS 不绑定默认键(顺带关闭 cweijan-218 的 `⌘H` 抢占,详见 `done/plan-cweijan-issues-218-cmd-h-heading-conflict.md`)。
 
 ### 实施记录(2026-10-05, P1 + 通道 B 全量)
 
@@ -100,7 +100,7 @@ WYSIWYG markdown 视图中按 `ctrl+shift+z` 无任何响应,仅 `ctrl+y` 可触
 
 ## 验证方式
 
-已实施待实测(2026-10-05,Windows 侧 F5 即可验证,macOS 侧补测):
+已实施并于 2026-10-06 实测验证通过(F5):
 
 1. **默认键**:打开复现文件,输入并删除若干字符 → `Ctrl+Z` 撤销 → `Ctrl+Shift+Z`(macOS `⇧⌘Z`)应重做(修复前无响应);`Ctrl+Y` 仍可用;shift 组合不会被 undo 误吞(matchHotKey 的 `⌘Z` 匹配不含 shift);
 2. **通道 A**:键盘快捷方式搜索 `office.markdown.redo`(已有默认绑定 ctrl+shift+z),改为其他组合后在 webview 内生效——需实测 webview 聚焦时 VS Code keybinding 是否派发(已知风险点,不生效时由通道 B 兜底);确认 when 子句不影响普通编辑器中的同键位;

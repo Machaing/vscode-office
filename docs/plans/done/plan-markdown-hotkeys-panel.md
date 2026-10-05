@@ -47,4 +47,4 @@
 
 ## 关联
 
-- cweijan-204/218 快捷键自定义: `todo/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md`
+- cweijan-204/218 快捷键自定义: `done/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md`

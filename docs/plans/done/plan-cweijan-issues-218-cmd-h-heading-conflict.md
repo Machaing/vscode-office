@@ -58,7 +58,7 @@ macOS 上按 `Command+H` 触发的是 markdown 编辑器的标题层级调整,�
 
 ## 修复方案
 
-待实施,**依赖 cweijan-204 的动作注册表体系**(见 `todo/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md`),204 落地后本 issue 仅剩默认键位一处增量:
+**依赖 cweijan-204 的动作注册表体系**(见 `done/plan-cweijan-issues-204-redo-shortcut-wysiwyg.md`),204 落地后本 issue 仅剩默认键位一处增量:
 
 **204 体系顺带解决的部分**(无需单独改动):
 
@@ -81,7 +81,7 @@ macOS 上按 `Command+H` 触发的是 markdown 编辑器的标题层级调整,�
 
 ## 验证方式
 
-已实施待实测(2026-10-05):
+已实施并于 2026-10-06 实测验证通过:
 
 - 需 macOS 环境实测完整现象(Windows 只能验证 `Ctrl+H` 绑定是否仍触发 headings 面板);修复后 macOS 按 `⌘H` 应恢复系统「隐藏应用」行为;
 - 通道 B 生效性:`vscode-office.markdown.hotkeys` 配置 `"headings": ""` / 自定义组合后无需 reload 即热更新生效;
