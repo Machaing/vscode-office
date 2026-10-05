@@ -4,7 +4,7 @@
 用法:
     python sync_issues.py              # 同步上游 open issue, 增量更新 xlsx 并刷新 ISSIES.md
     python sync_issues.py --init 597 word-toc
-                                       # 在 docs/plans/ 生成 plan-cweijan-issues-597-word-toc.md 骨架
+                                       # 在 docs/plans/todo/ 生成 plan-cweijan-issues-597-word-toc.md 骨架
 
 依赖: openpyxl; gh CLI 未安装时自动回退 GitHub REST API(匿名限额 60 次/小时)。
 
@@ -250,8 +250,8 @@ def write_md_snapshot():
 
 
 def init_plan(number, slug):
-    """在 docs/plans/ 生成 plan-cweijan-issues-{number}-{slug}.md 骨架, 并回填 xlsx 关联列"""
-    plans_dir = os.path.join(REPO, "docs", "plans")
+    """在 docs/plans/todo/ 生成 plan-cweijan-issues-{number}-{slug}.md 骨架, 并回填 xlsx 关联列"""
+    plans_dir = os.path.join(REPO, "docs", "plans", "todo")
     name = f"plan-cweijan-issues-{number}-{slug}.md"
     path = os.path.join(plans_dir, name)
     if os.path.exists(path):
@@ -302,7 +302,7 @@ def init_plan(number, slug):
     ws = wb["issues"]
     for idx, r in enumerate(ws.iter_rows(min_row=2), start=2):
         if r[0].value == int(number):
-            ws.cell(idx, COLUMNS.index("关联plan文件路径") + 1, f"docs/plans/{name}")
+            ws.cell(idx, COLUMNS.index("关联plan文件路径") + 1, f"docs/plans/todo/{name}")
             break
     wb.save(XLSX)
     write_md_snapshot()

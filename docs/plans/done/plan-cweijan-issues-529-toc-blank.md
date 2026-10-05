@@ -58,7 +58,7 @@ bug
 
 ## 修复方案
 
-无需额外修复——已被 597 的本地补丁覆盖:[patches/@eigenpal__docx-editor-core.patch](../../patches/@eigenpal__docx-editor-core.patch)(pnpm patch,`q()` 增加域栈 `fldStack` 支持嵌套域 + 跨段未闭合域摊平,详见 597 plan「修复记录」)。上游发布修复版本后随 597 一并移除补丁升级依赖。
+无需额外修复——已被 597 的本地补丁覆盖:[patches/@eigenpal__docx-editor-core.patch](../../../patches/@eigenpal__docx-editor-core.patch)(pnpm patch,`q()` 增加域栈 `fldStack` 支持嵌套域 + 跨段未闭合域摊平,详见 597 plan「修复记录」)。上游发布修复版本后随 597 一并移除补丁升级依赖。
 
 ## 修复记录
 

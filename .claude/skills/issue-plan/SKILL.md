@@ -1,6 +1,6 @@
 ---
 name: issue-plan
-description: 为上游 cweijan/vscode-office 的 issue 生成处理 plan(docs/plans/plan-cweijan-issues-*.md)与 test-workspace 复现文件,并回填 issues.xlsx 关联列。用法 /issue-plan all(批量全部待处理 bug)或 /issue-plan 157 592(指定编号);用户提到「生成 issue plan」「给 issue 建复现文件」「issue 处理方案初始化」时也应触发。
+description: 为上游 cweijan/vscode-office 的 issue 生成处理 plan(docs/plans/todo/plan-cweijan-issues-*.md,完成后移入 done/)与 test-workspace 复现文件,并回填 issues.xlsx 关联列。用法 /issue-plan all(批量全部待处理 bug)或 /issue-plan 157 592(指定编号);用户提到「生成 issue plan」「给 issue 建复现文件」「issue 处理方案初始化」时也应触发。
 ---
 
 # issue plan 生成(issue-plan)
@@ -10,7 +10,7 @@ description: 为上游 cweijan/vscode-office 的 issue 生成处理 plan(docs/pl
 plan 中「根因定位/修复方案/验证方式」留 `{待分析}` 占位,留待后续逐个深入。
 
 命名与骨架规范见 [docs/plans/agent.md](../../../docs/plans/agent.md),完整参照样例
-[docs/plans/plan-cweijan-issues-597-word-toc.md](../../../docs/plans/plan-cweijan-issues-597-word-toc.md)。
+[docs/plans/done/plan-cweijan-issues-597-word-toc.md](../../../docs/plans/done/plan-cweijan-issues-597-word-toc.md)。
 
 ## 第 1 步:解析参数,确定目标编号
 
@@ -63,7 +63,7 @@ print(df[df['编号'].isin([157,592])][cols].to_string(index=False))
 
 ## 第 5 步:生成 plan(幂等,已存在则跳过)
 
-路径:`docs/plans/plan-cweijan-issues-{编号}-{slug}.md`,UTF-8、LF。模板:
+路径:`docs/plans/todo/plan-cweijan-issues-{编号}-{slug}.md`,UTF-8、LF(根因分析、修复实施并验证完成后,plan 移入 `docs/plans/done/` 并同步更新 xlsx 关联列与 README 链接)。模板:
 
 ```markdown
 # issue信息
@@ -142,7 +142,7 @@ from openpyxl import load_workbook
 wb = load_workbook('docs/issues/cweijan-issues/issues.xlsx')
 ws = wb['issues']
 COL = 8  # 关联plan文件路径
-targets = {157: 'docs/plans/plan-cweijan-issues-157-list-nested-table.md'}  # 按实际产物
+targets = {157: 'docs/plans/todo/plan-cweijan-issues-157-list-nested-table.md'}  # 按实际产物
 for idx, r in enumerate(ws.iter_rows(min_row=2), start=2):
     if r[0].value in targets:
         ws.cell(idx, COL, targets[r[0].value])
@@ -152,7 +152,7 @@ wb.save('docs/issues/cweijan-issues/issues.xlsx')
 
 2. 刷新只读快照:`cd docs/issues/cweijan-issues && python -c "import sync_issues; sync_issues.write_md_snapshot()"`;
 3. 在 [test-workspace/README.md](../../../test-workspace/README.md) 的「issue 复现文件」表格登记:
-   `| [#{编号}]({issue URL}) | {复现文件路径} | {生成脚本路径或 -} | [plan](../docs/plans/xxx.md) |`。
+   `| [#{编号}]({issue URL}) | {复现文件路径} | {生成脚本路径或 -} | [plan](../docs/plans/todo/xxx.md) |`。
 
 ## 第 8 步:汇报
 

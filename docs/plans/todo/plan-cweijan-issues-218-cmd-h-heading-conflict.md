@@ -49,12 +49,23 @@ macOS 上按 `Command+H` 触发的是 markdown 编辑器的标题层级调整,�
 
 ## 根因定位
 
-{待分析}
+2026-10-05 静态核查(基于 fork 当前源码),**未修复**:
+
+- `vditor/src/ts/util/Options.ts:134` headings 工具栏项仍带 `hotkey: "⌘H"`;
+- toolbar 所有菜单项的 hotkey 由 `vditor/src/ts/util/editorCommonEvent.ts:338` 的通用匹配在 keydown 时触发:matchHotKey 命中即 dispatch 工具栏动作并 `preventDefault()/stopPropagation()`,macOS 上 webview 内 `⌘H` 事件被该机制消费,系统「隐藏应用」失效;
+- 与 issue 时点的差异:当前版本 `⌘H` 触发的是 headings 下拉面板(选择 h1~h6),标题层级升降另有 `⌘=`/`⌘-`(`vditor/src/ts/wysiwyg/processKeydown.ts` L224/L235)与 `Ctrl+Alt+1~6`(`editorCommonEvent.ts:293`);但 `⌘H` 绑定本身仍存在;
+- 扩展侧无任何改键/禁用配置项(`package.json` 无相关 setting,vditor hotkey 也未暴露用户配置)。
 
 ## 修复方案
 
-{待分析}
+待实施:
+
+- 方案 A(最小,推荐): 移除或替换 `Options.ts:134` headings 项的 `hotkey: "⌘H"`(可换为不冲突的组合)。toolbar hotkey 只影响 keydown 触发,移除后工具栏按钮仍可点击;tooltip 中的 `<⌘H>` 提示会同步消失,属预期。若担心 macOS 以外平台依赖 `Ctrl+H`,可按平台区分:仅 macOS 侧不注册。
+- 方案 B: 增加扩展设置项(如 `office.markdown.headingHotkey: "default" | "none" | 自定义组合`),经 configs 注入 webview,初始化 vditor 时覆盖 toolbar hotkey。
+- 注:webview 内 `⌘H` 能否被系统截获因 VS Code/Electron 版本而异,但扩展至少不应主动消费并 preventDefault 该键位。
 
 ## 验证方式
 
-{待分析}
+- 需 macOS 环境实测完整现象(Windows 只能验证 `Ctrl+H` 绑定是否仍触发 headings 面板);修复后 macOS 按 `⌘H` 应恢复系统「隐藏应用」行为;
+- 顺带检查 tooltip 不再显示 `<⌘H>`、标题层级升降键位(`⌘=`/`⌘-`、`Ctrl+Alt+1~6`)不受影响;
+- 现状核查结论:未修复(2026-10-05)。

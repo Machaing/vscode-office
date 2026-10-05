@@ -12,12 +12,17 @@
 
 - `{编号}`: 对应仓库的 issue 号;`{主题}`: 小写英文短语,连字符分隔,能看懂涉及的功能模块
 - 一类主题多个文档时用更细的 slug 区分,不再建子目录
+- **按处理状态分放子目录**: 新建的 plan 落 `todo/`(含 `{待分析}` 占位或未实施的设计);根因分析、
+  修复实施并验证后移入 `done/`,同时同步三处引用——issues.xlsx「关联plan文件路径」、
+  `test-workspace/README.md` 登记表链接、plan 内相对链接(子目录下指向仓库根需 `../../../`)
 
 ## 与其他目录的关系
 
 ```
 docs/
 ├── plans/                        # 本目录: 处理方案与计划(产出"怎么做")
+│   ├── todo/                     # 未完成: 待分析骨架、未实施的设计
+│   └── done/                     # 已完成: 含修复记录与验证结论的归档
 ├── issues/
 │   ├── cweijan-issues/           # 上游仓库 issue 跟踪: 同步脚本 + issues.xlsx + ISSUES.md 快照
 │   └── my-issues/                # 本仓库自身 issue 的记录
@@ -26,8 +31,8 @@ docs/
 - 上游 issue 的**清单与状态**由 `docs/issues/cweijan-issues/sync_issues.py` 维护
   (只同步 open 状态的 issue, 历史 closed 不主动拉取; 已登记的 issue 被上游关闭时
   更新"上游状态"并保留该行; `issues.xlsx` 人工维护处理状态, `ISSUES.md` 为只读快照供 README 引用);
-- 涉及代码修复的 issue 在本目录落 `plan-cweijan-issues-{编号}-{主题}.md`(上游, 可由
-  `sync_issues.py --init` 生成骨架) 或 `plan-my-issues-{编号}-{主题}.md`(本仓库) 详细方案,
+- 涉及代码修复的 issue 落 `todo/plan-cweijan-issues-{编号}-{主题}.md`(上游, 可由
+  `sync_issues.py --init` 生成骨架) 或 `todo/plan-my-issues-{编号}-{主题}.md`(本仓库) 详细方案,
   上游 issue 需把路径回填到 xlsx 的"关联 plan 文件路径"列。
 
 ## plan-issue 文档骨架
@@ -48,5 +53,5 @@ docs/
 ```
 
 「复现数据」应链接 `test-workspace/` 下的复现文件(命名 `test-{格式}-cweijan-{编号}-{slug}.{ext}`,
-登记表见 [test-workspace/README.md](../test-workspace/README.md));plan 与复现文件的批量生成流程
+登记表见 [test-workspace/README.md](../../test-workspace/README.md));plan 与复现文件的批量生成流程
 见 [.claude/skills/issue-plan/SKILL.md](../../.claude/skills/issue-plan/SKILL.md)。

@@ -48,12 +48,24 @@ WYSIWYG markdown 视图中按 `ctrl+shift+z` 无任何响应,仅 `ctrl+y` 可触
 
 ## 根因定位
 
-{待分析}
+2026-10-05 静态核查(基于 fork 当前源码),**未修复**:
+
+- redo 键位处理在 `vditor/src/ts/util/editorCommonEvent.ts` 的 keydown 链:undo 匹配 `⌘Z`(L257),redo 仅匹配 `⌘Y`(L264)——`matchHotKey("⌘Y")` 在 Windows/Linux 映射 `Ctrl+Y`、macOS 映射 `Cmd+Y`;
+- 全代码库(vditor fork + 扩展侧)无 `⇧⌘Z`/`Ctrl+Shift+Z` 分支(grep 证实);toolbar 通用 hotkey 匹配(editorCommonEvent.ts:338)也未注册该组合;
+- 本 fork 新增的 VS Code 键位层 `vditor/src/ts/util/vscodeShortcut.ts`(块复制/选择/删除等)同样无 redo 分支;
+- 扩展宿主 `package.json` 仅 4 个 keybindings(markdown paste / html preview / markdown switch / http request),无 redo 转发;
+- 故 `Ctrl+Shift+Z`/`⇧⌘Z` 按下时无任何处理,issue 现象至今存在。
 
 ## 修复方案
 
-{待分析}
+待实施(最小改法):
+
+- `editorCommonEvent.ts:264` 的 redo 分支扩展为同时接受 `⇧⌘Z`/`Ctrl+Shift+Z`:在 `matchHotKey("⌘Y", event)` 之外增加 `isCtrl(event) && event.shiftKey && !event.altKey && (event.key === "z" || event.key === "Z")`;
+- 需确认 L257 undo 分支 `matchHotKey("⌘Z")` 对 shift 组合的匹配行为:若 matchHotKey 忽略 shiftKey,则 `Shift+Z` 会先被 undo 分支消费,还需在 undo 分支排除 shiftKey。
+
+进阶(完整遵循 VS Code 键位,可后续再做): webview 无法直接读 VS Code keybindings,无公开 API;可行做法是提供扩展设置项让用户自定义 redo 键位,成本较高,建议先落最小改法。
 
 ## 验证方式
 
-{待分析}
+- F5 打开复现文件,输入并删除若干字符产生编辑记录 → `Ctrl+Z` 撤销 → `Ctrl+Shift+Z`(macOS `⇧⌘Z`)应重做成功;`Ctrl+Y` 仍可用;`Ctrl+Shift+Z` 不应误触发 undo;
+- 现状核查结论:未修复(2026-10-05)。

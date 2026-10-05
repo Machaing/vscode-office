@@ -62,7 +62,7 @@ bug
 
 ## 修复方案
 
-分页决策在 core 内部, 样式/仓库侧无法干预 → 走 pnpm patch, 在 [patches/@eigenpal__docx-editor-core.patch](../../patches/@eigenpal__docx-editor-core.patch) 上**追加**(与 597 域修复共存, 两者改动的 chunk 文件不相交)。
+分页决策在 core 内部, 样式/仓库侧无法干预 → 走 pnpm patch, 在 [patches/@eigenpal__docx-editor-core.patch](../../../patches/@eigenpal__docx-editor-core.patch) 上**追加**(与 597 域修复共存, 两者改动的 chunk 文件不相交)。
 
 修改 `Kt` 的行拆分决策一行(ESM/CJS 两份同步改):
 

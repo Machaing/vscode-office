@@ -68,9 +68,9 @@ F6 及所有含 `$` 绝对引用(直接或间接)的公式单元格显示 `NaN%`
 
 提交者基于 4.2.0 产物的三点分析与本仓库源码一致,真实链路如下:
 
-1. **缓存结果不用于显示**: [excel_reader.ts](../../src/react/view/excel/excel_reader.ts) 的 `formatCellText` 对公式单元格返回 `"=" + cell.formula`(text 即公式字符串),ExcelJS 从 `<v>` 解析出的缓存结果(`cell.result`)原本不参与显示,渲染只能依赖本地求值器。
-2. **求值器分词器不支持 `$`**: 渲染兜底求值器 [cell.js](../../src/react/view/excel/x-spreadsheet/core/cell.js) 的 `infixExprToSuffixExpr` 逐字符分词,4.2.0 的字符分类没有 `$` 分支,`$` 落入运算符分支被压入 operatorStack。`E6/$E$9` 实际分词为 `["E6", "/", "E9", "$", "$"]`(提交者按 4.2.0 产物 regex 分词器得到 `["E6","/","E","9","$","$"]`,机理相同):`/` 弹栈时右操作数尚为 undefined,`numberCalc('/', undefined, 23)` → NaN;SUM 间接引用时 numberCalc 对 NaN 操作数走字符串拼接,得到 `"0+NaN+NaN+NaN"`。node 实测(旧版 cell.js):`=E6/$E$9` → NaN、`=SUM(F6:F8)` → `"0+NaN+NaN+NaN"`。
-3. **percent 渲染不乘 100**: [excel_styles.ts](../../src/react/view/excel/excel_styles.ts) 把含 `%` 的 numFmt(`0.0%`)映射为 x-spreadsheet 的 `percent` 格式,[format.js](../../src/react/view/excel/x-spreadsheet/core/format.js) 的 percent render 原为 `${v}%`(不乘 100、不按位数舍入),NaN → `NaN%`。
+1. **缓存结果不用于显示**: [excel_reader.ts](../../../src/react/view/excel/excel_reader.ts) 的 `formatCellText` 对公式单元格返回 `"=" + cell.formula`(text 即公式字符串),ExcelJS 从 `<v>` 解析出的缓存结果(`cell.result`)原本不参与显示,渲染只能依赖本地求值器。
+2. **求值器分词器不支持 `$`**: 渲染兜底求值器 [cell.js](../../../src/react/view/excel/x-spreadsheet/core/cell.js) 的 `infixExprToSuffixExpr` 逐字符分词,4.2.0 的字符分类没有 `$` 分支,`$` 落入运算符分支被压入 operatorStack。`E6/$E$9` 实际分词为 `["E6", "/", "E9", "$", "$"]`(提交者按 4.2.0 产物 regex 分词器得到 `["E6","/","E","9","$","$"]`,机理相同):`/` 弹栈时右操作数尚为 undefined,`numberCalc('/', undefined, 23)` → NaN;SUM 间接引用时 numberCalc 对 NaN 操作数走字符串拼接,得到 `"0+NaN+NaN+NaN"`。node 实测(旧版 cell.js):`=E6/$E$9` → NaN、`=SUM(F6:F8)` → `"0+NaN+NaN+NaN"`。
+3. **percent 渲染不乘 100**: [excel_styles.ts](../../../src/react/view/excel/excel_styles.ts) 把含 `%` 的 numFmt(`0.0%`)映射为 x-spreadsheet 的 `percent` 格式,[format.js](../../../src/react/view/excel/x-spreadsheet/core/format.js) 的 percent render 原为 `${v}%`(不乘 100、不按位数舍入),NaN → `NaN%`。
 
 **与本 plan 创建时的状态差异**: 2026-09-06 的提交 `a97a480`(早于本 plan 初始化)已实现下述修复 a/b 与 percent ×100,NaN 问题已消除;但 percent 小数位仍硬编码 `toFixed(2)`,F6 显示 `27.38%` 而非 Excel `0.0%` 语义的 `27.4%`。本次(2026-09-14)核实既有修复的正确性并补齐 c 的小数位语义。
 
@@ -80,16 +80,16 @@ F6 及所有含 `$` 绝对引用(直接或间接)的公式单元格显示 `NaN%`
 
 1. **有缓存 result 时优先用缓存值显示**(核心,同时解决 NaN 与 percent 显示):
    - `excel_reader.ts` 新增 `formatFormulaValue` 提取 `cell.result`(含 error/richText/Date 处理)写入 `CellData.formulaValue`,`text` 仍保留公式以便保存与编辑;
-   - [table.js](../../src/react/view/excel/x-spreadsheet/component/table.js) `renderCell`:公式单元格 `formulaValue` 优先于求值器;
-   - [row.js](../../src/react/view/excel/x-spreadsheet/core/row.js):编辑(`setCellText`)、公式重定位(复制粘贴/插入删除行列)时删除 `formulaValue`,使失效缓存不遮蔽重算。
+   - [table.js](../../../src/react/view/excel/x-spreadsheet/component/table.js) `renderCell`:公式单元格 `formulaValue` 优先于求值器;
+   - [row.js](../../../src/react/view/excel/x-spreadsheet/core/row.js):编辑(`setCellText`)、公式重定位(复制粘贴/插入删除行列)时删除 `formulaValue`,使失效缓存不遮蔽重算。
 2. **求值器分词器支持 `$`**(无缓存时的兜底正确性): `cell.js` 分词器增加 `$` 分支——绝对引用标记直接剥掉,`$E$9` 与 `E9` 分词一致。
 3. **percent 格式对齐 Excel 语义**(本次):
-   - [index.ts](../../src/react/view/excel/x-spreadsheet/index.ts) `CellStyle` 增加 `formatDecimals`(数字格式自带的小数位数);
+   - [index.ts](../../../src/react/view/excel/x-spreadsheet/index.ts) `CellStyle` 增加 `formatDecimals`(数字格式自带的小数位数);
    - `excel_styles.ts` 读取时从 numFmt 提取位数(`0.0%`→1、`0%`→0、`0.00%`→2)写入 `formatDecimals`,保存时 `spreadsheetFormatToNumFmt` 反向映射回原位数 numFmt(此前一律写 `0.00%`,会改写原格式);
    - `format.js` percent render 按 `formatDecimals`(默认 2)`toFixed`,`×100` 后再按位数舍入;
    - `table.js` 将 `style` 传给 `formatter.render(cellText, style)`(其余 format render 均忽略第二参,'number' 的 `useGrouping` 收到真值对象与原默认行为一致)。
 
-**已知限制(不处理)**: 无缓存值时兜底求值器的 `numberCalc` 除法结果超 5 位小数仍 `toFixed(2)` 截断([helper.js](../../src/react/view/excel/x-spreadsheet/core/helper.js)),F6 显示 `27.0%`(Excel 为 27.4%)。真实 Excel/WPS 保存的文件均带 `<v>` 缓存走主路径不受影响;该截断为 x-spreadsheet 上游通用显示行为,不为本 issue 单独放宽。
+**已知限制(不处理)**: 无缓存值时兜底求值器的 `numberCalc` 除法结果超 5 位小数仍 `toFixed(2)` 截断([helper.js](../../../src/react/view/excel/x-spreadsheet/core/helper.js)),F6 显示 `27.0%`(Excel 为 27.4%)。真实 Excel/WPS 保存的文件均带 `<v>` 缓存走主路径不受影响;该截断为 x-spreadsheet 上游通用显示行为,不为本 issue 单独放宽。
 
 ## 修复记录
 
