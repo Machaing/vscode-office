@@ -39,7 +39,9 @@ jobs:
         run: pnpm exec eslint "src/**/*.{ts,tsx}"
 
       - name: Build & package vsix
-        run: pnpm run package
+        run: |
+          mkdir -p release
+          pnpm run package
 
       # 从 changelog.md 提取对应版本段落作为 Release notes(标题行 # <版本> <日期> 起,至下一版本标题前)
       - name: Extract release notes from changelog
