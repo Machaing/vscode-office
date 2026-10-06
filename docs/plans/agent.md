@@ -12,9 +12,28 @@
 
 - `{编号}`: 对应仓库的 issue 号;`{主题}`: 小写英文短语,连字符分隔,能看懂涉及的功能模块
 - 一类主题多个文档时用更细的 slug 区分,不再建子目录
-- **按处理状态分放子目录**: 新建的 plan 落 `todo/`(含 `{待分析}` 占位或未实施的设计);根因分析、
-  修复实施并验证后移入 `done/`,同时同步三处引用——issues.xlsx「关联plan文件路径」、
-  `test-workspace/README.md` 登记表链接、plan 内相对链接(子目录下指向仓库根需 `../../../`)
+- **按处理状态分放子目录**: 新建的 plan 落 `todo/`(含 `{待分析}` 占位或未实施的设计);
+  完成后按下节「完成归档」流程移入 `done/`
+
+## 完成归档
+
+plan 满足以下条件即视为完成,应从 `todo/` 归档到 `done/`:
+
+1. 根因已定位并写入 plan;
+2. 修复已实施并验证(实测复现文件 + 回归基线),或确认无需代码修复(如已被其他 issue 的修复覆盖),
+   并把结论写入 plan 的「修复方案 / 验证方式」,不留 `{待分析}` 占位。
+
+归档步骤:
+
+1. `git mv docs/plans/todo/plan-*.md docs/plans/done/`;
+2. 同步四处引用:
+   - `docs/issues/cweijan-issues/issues.xlsx`: 「处理状态」列改为 `本项目处理`(参照 cweijan 原版实现的用
+     `参考cweijan方式完成处理`)、「关联plan文件路径」列改为 `done/` 路径、「备注」列补
+     `YYYY-MM-DD核查:结论` 一句话;
+   - `docs/issues/cweijan-issues/ISSUES.md` 只读快照中该 issue 的行(处理状态与关联 plan 列,与 xlsx 保持一致);
+   - `test-workspace/README.md` 复现文件登记表中的 plan 链接改为 `done/` 路径;
+   - plan 内部指向仓库根/兄弟目录的 markdown 相对链接(子目录深度多一级,需改为 `../../../`);
+3. 提交信息沿用 issue 文档惯例,如 `docs(issues,cweijan-607): 实测验证通过,plan 归档至 done`。
 
 ## 与其他目录的关系
 
