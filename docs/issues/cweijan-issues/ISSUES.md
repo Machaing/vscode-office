@@ -74,4 +74,4 @@
 | [#603](https://github.com/cweijan/vscode-office/issues/603) | [BUG]Only outputting blank PDFs and DOCs now! | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-603-blank-pdf-docx-export.md |
 | [#604](https://github.com/cweijan/vscode-office/issues/604) | [BUG] xlsx viewer crashes ("Cannot read properties of undefined (reading '0')") on IF nested 3+ levels deep |  | open | 待处理 | docs/plans/todo/plan-cweijan-issues-604-nested-if-crash.md |
 | [#606](https://github.com/cweijan/vscode-office/issues/606) | To avoid problems elsewhere, add a setting to use underscore for italic (Ctrl+I), instead of asterisk | enhancement | open | 待处理 |  |
-| [#607](https://github.com/cweijan/vscode-office/issues/607) | [BUG] XLSX without <dimension> renders as blank Sheet1 with no error on Windows |  | open | 待处理 | docs/plans/todo/plan-cweijan-issues-607-missing-dimension.md |
+| [#607](https://github.com/cweijan/vscode-office/issues/607) | [BUG] XLSX without <dimension> renders as blank Sheet1 with no error on Windows |  | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-607-missing-dimension.md |
