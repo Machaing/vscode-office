@@ -1,38 +1,49 @@
 # 更改日志(简体中文)
 
-> [English version](../changelog.md) | 历史版本(4.1.6 及更早)已归档至 [docs/archive/changelog-archive.md](archive/changelog-archive.md)
+> [English version](../changelog.md) | 历史版本(4.1.7 及更早)已归档至 [docs/archive/changelog-archive.md](archive/changelog-archive.md)
+
+> 反馈问题请提交 issue 至 [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues);本扩展为独立维护的 fork,请勿反馈到上游 [cweijan/vscode-office](https://github.com/cweijan/vscode-office)。
+
+# 4.2.2 2026-10-6
+
+Markdown Editor:
+
+- 支持自定义编辑器快捷键;redo 补充 Ctrl+Shift+Z;macOS 不再占用 ⌘H。([cweijan/vscode-office#204](https://github.com/cweijan/vscode-office/issues/204)、[cweijan/vscode-office#218](https://github.com/cweijan/vscode-office/issues/218))
+- 工具栏新增快捷键说明面板。
+- 支持配置编辑器 UI 界面语言。
+- 修复行内 HTML 标签(kbd/mark/span/u/br/img)保存丢失。([cweijan/vscode-office#226](https://github.com/cweijan/vscode-office/issues/226))
 
 # 4.2.1 2026-9-15
 
 Word:
 
-- 修复表格行被跨页切开,整行移至下一页。
-- 修复 TIFF 图片空白,渲染前先解码为 PNG。
-- 修复 TOC 目录条目文字丢失。
+- 修复表格行被跨页切开,整行移至下一页。([cweijan/vscode-office#497](https://github.com/cweijan/vscode-office/issues/497))
+- 修复 TIFF 图片空白,渲染前先解码为 PNG。([cweijan/vscode-office#311](https://github.com/cweijan/vscode-office/issues/311))
+- 修复 TOC 目录条目文字丢失。([cweijan/vscode-office#597](https://github.com/cweijan/vscode-office/issues/597))
 
 Markdown Editor:
 
-- 新增 `office.markdown.find` 命令,搜索可跳转到匹配处。
-- 修复打开即显示已修改、保存时静默改写内容。
-- 修复切换窗口后文末空行被删除。
-- 修复标题转换后有序列表编号丢失。
-- 修复行高与字号不匹配导致代码块行距拥挤。
-- 恢复 GFM 表格尺寸规则,移除单元格宽度与换行限制。
+- 新增 `office.markdown.find` 命令,搜索可跳转到匹配处。([cweijan/vscode-office#599](https://github.com/cweijan/vscode-office/issues/599))
+- 修复打开即显示已修改、保存时静默改写内容。([cweijan/vscode-office#596](https://github.com/cweijan/vscode-office/issues/596))
+- 修复切换窗口后文末空行被删除。([cweijan/vscode-office#601](https://github.com/cweijan/vscode-office/issues/601))
+- 修复标题转换后有序列表编号丢失。([cweijan/vscode-office#590](https://github.com/cweijan/vscode-office/issues/590))
+- 修复行高与字号不匹配导致代码块行距拥挤。([cweijan/vscode-office#571](https://github.com/cweijan/vscode-office/issues/571))
+- 恢复 GFM 表格尺寸规则,移除单元格宽度与换行限制。([cweijan/vscode-office#575](https://github.com/cweijan/vscode-office/issues/575))
 
 Excel:
 
-- 超大 CSV/XLSX 截断为只读预览,防止窗口卡死与内存溢出。
+- 超大 CSV/XLSX 截断为只读预览,防止窗口卡死与内存溢出。([cweijan/vscode-office#239](https://github.com/cweijan/vscode-office/issues/239))
 - 修复 `$` 公式不被计算。
-- 修复百分比格式小数位,公式显示与保存回写与 Excel 对齐。
-- 修复损坏 XLSX 导致 webview 崩溃,回退 SheetJS 并提示错误。
+- 修复百分比格式小数位,公式显示与保存回写与 Excel 对齐。([cweijan/vscode-office#592](https://github.com/cweijan/vscode-office/issues/592))
+- 修复损坏 XLSX 导致 webview 崩溃,回退 SheetJS 并提示错误。([cweijan/vscode-office#576](https://github.com/cweijan/vscode-office/issues/576))
 
 PDF:
 
-- 修复内部链接跳转与外部链接识别。
+- 修复内部链接跳转与外部链接识别。([cweijan/vscode-office#593](https://github.com/cweijan/vscode-office/issues/593))
 
 Export:
 
-- 修复导出失败时静默生成空白 PDF/DOCX/HTML,现会明确报错。
+- 修复导出失败时静默生成空白 PDF/DOCX/HTML,现会明确报错。([cweijan/vscode-office#603](https://github.com/cweijan/vscode-office/issues/603))
 
 # 4.2.0 2026-8-16
 
@@ -112,35 +123,6 @@ PDF:
 
 - 优化侧栏样式。
 
-# 4.1.7 2026-7-24
-
-Markdown Editor:
-
-- 支持硬换行(`Shift+Enter`)。
-- 支持在浏览器中打开 PlantUML 图。
-- 更新 Mermaid 工具栏配色。
-- 更新「在 VS Code 中编辑」图标颜色。
-
-Excel:
-
-- 新增自动调整列宽。
-- 更新工具栏 VS Code 图标。
-- 优化底部工作表交互区:WPS 式导航、工作表列表菜单、活动标签自动滚动。
-- 修复:
-  - 容忍不支持的格式与公式。
-  - 修复滚动后单元格定位不准。
-  - 修复数据验证规则扩展导致工作簿加载失败。
-  - 修复默认选中单元格的合并区域识别。
-  - 修复首行为空时 CSV 加载失败。
-
-PDF:
-
-- 新增 PDF Pro 工具并优化工具对话框。
-
-Git History:
-
-- 优化详情对话框定位。
-
 ---
 
-更早版本(4.1.6 及之前)见 [docs/archive/changelog-archive.md](archive/changelog-archive.md) | [English version](../changelog.md)
+更早版本(4.1.7 及之前)见 [docs/archive/changelog-archive.md](archive/changelog-archive.md) | [English version](../changelog.md)

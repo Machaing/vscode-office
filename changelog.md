@@ -1,38 +1,49 @@
 # Change log
 
-> [简体中文版](docs/changelog-CN.md) | History (4.1.6 and earlier) archived in [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md)
+> [简体中文版](docs/changelog-CN.md) | History (4.1.7 and earlier) archived in [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md)
+
+> Please report issues to [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues); this is an independently maintained fork, do not report to the upstream [cweijan/vscode-office](https://github.com/cweijan/vscode-office).
+
+# 4.2.2 2026-10-6
+
+Markdown Editor:
+
+- Support customizing editor keybindings; add Ctrl+Shift+Z for redo; macOS no longer occupies ⌘H. ([cweijan/vscode-office#204](https://github.com/cweijan/vscode-office/issues/204), [cweijan/vscode-office#218](https://github.com/cweijan/vscode-office/issues/218))
+- Add a keybinding cheatsheet panel to the toolbar.
+- Support configuring the editor UI language.
+- Fix inline HTML tags (kbd/mark/span/u/br/img) being lost on save. ([cweijan/vscode-office#226](https://github.com/cweijan/vscode-office/issues/226))
 
 # 4.2.1 2026-9-15
 
 Word:
 
-- Fix table rows being split across pages; move the whole row to the next page.
-- Fix blank TIFF images by decoding to PNG before rendering.
-- Fix TOC entry text loss.
+- Fix table rows being split across pages; move the whole row to the next page. ([cweijan/vscode-office#497](https://github.com/cweijan/vscode-office/issues/497))
+- Fix blank TIFF images by decoding to PNG before rendering. ([cweijan/vscode-office#311](https://github.com/cweijan/vscode-office/issues/311))
+- Fix TOC entry text loss. ([cweijan/vscode-office#597](https://github.com/cweijan/vscode-office/issues/597))
 
 Markdown Editor:
 
-- Add `office.markdown.find` command to make find jump to matches.
-- Fix files showing as dirty on open and silent rewrites on save.
-- Fix trailing blank lines being removed after switching windows.
-- Fix ordered-list numbers lost on heading conversion.
-- Fix cramped code block lines caused by line-height and font-size mismatch.
-- Restore GFM table sizing; remove cell width and wrapping limits.
+- Add `office.markdown.find` command to make find jump to matches. ([cweijan/vscode-office#599](https://github.com/cweijan/vscode-office/issues/599))
+- Fix files showing as dirty on open and silent rewrites on save. ([cweijan/vscode-office#596](https://github.com/cweijan/vscode-office/issues/596))
+- Fix trailing blank lines being removed after switching windows. ([cweijan/vscode-office#601](https://github.com/cweijan/vscode-office/issues/601))
+- Fix ordered-list numbers lost on heading conversion. ([cweijan/vscode-office#590](https://github.com/cweijan/vscode-office/issues/590))
+- Fix cramped code block lines caused by line-height and font-size mismatch. ([cweijan/vscode-office#571](https://github.com/cweijan/vscode-office/issues/571))
+- Restore GFM table sizing; remove cell width and wrapping limits. ([cweijan/vscode-office#575](https://github.com/cweijan/vscode-office/issues/575))
 
 Excel:
 
-- Truncate oversized CSV/XLSX files to a read-only preview to prevent frozen windows and OOM.
+- Truncate oversized CSV/XLSX files to a read-only preview to prevent frozen windows and OOM. ([cweijan/vscode-office#239](https://github.com/cweijan/vscode-office/issues/239))
 - Fix `$` formulas not being calculated.
-- Fix percent format decimals; align formula display and save round-trip with Excel.
-- Fix webview crash on corrupted XLSX; fall back to SheetJS with an error message.
+- Fix percent format decimals; align formula display and save round-trip with Excel. ([cweijan/vscode-office#592](https://github.com/cweijan/vscode-office/issues/592))
+- Fix webview crash on corrupted XLSX; fall back to SheetJS with an error message. ([cweijan/vscode-office#576](https://github.com/cweijan/vscode-office/issues/576))
 
 PDF:
 
-- Fix internal link navigation and external link detection.
+- Fix internal link navigation and external link detection. ([cweijan/vscode-office#593](https://github.com/cweijan/vscode-office/issues/593))
 
 Export:
 
-- Fix exports silently producing blank PDF/DOCX/HTML on failure; errors now surface.
+- Fix exports silently producing blank PDF/DOCX/HTML on failure; errors now surface. ([cweijan/vscode-office#603](https://github.com/cweijan/vscode-office/issues/603))
 
 # 4.2.0 2026-8-16
 
@@ -112,35 +123,6 @@ PDF:
 
 - Improve sidebar styling.
 
-# 4.1.7 2026-7-24
-
-Markdown Editor:
-
-- Support hard line breaks (`Shift+Enter`).
-- Support opening PlantUML diagrams in the browser.
-- Update Mermaid toolbar color scheme.
-- Update Edit in VS Code icon color.
-
-Excel:
-
-- Add auto-fit columns action.
-- Update toolbar VS Code icons.
-- Polish sheet tab interaction area (WPS-style navigation, sheet list menu, and active tab scrolling).
-- Fix:
-  - Tolerate unsupported formats and formulas.
-  - Fix inaccurate cell positioning after scrolling.
-  - Fix workbook loading failure caused by expanded data validation rules.
-  - Fix merged cell region recognition for the default selected cell.
-  - Fix CSV loading failure when the first row is empty.
-
-PDF:
-
-- Add PDF Pro tools and polish the tools dialog.
-
-Git History:
-
-- Improve details dialog positioning.
-
 ---
 
-History (4.1.6 and earlier): [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md) | [简体中文版](docs/changelog-CN.md)
+History (4.1.7 and earlier): [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md) | [简体中文版](docs/changelog-CN.md)

@@ -1,8 +1,66 @@
 # Changelog Archive
 
-历史版本更改日志归档(4.1.6 及更早)。最新版本见仓库根目录 [changelog.md](../../changelog.md)。
+历史版本更改日志归档(4.1.7 及更早)。最新版本见仓库根目录 [changelog.md](../../changelog.md)。
 
 ---
+# 4.1.7 2026-7-24
+
+Markdown Editor:
+
+- Support hard line breaks (`Shift+Enter`).
+- Support opening PlantUML diagrams in the browser.
+- Update Mermaid toolbar color scheme.
+- Update Edit in VS Code icon color.
+
+Excel:
+
+- Add auto-fit columns action.
+- Update toolbar VS Code icons.
+- Polish sheet tab interaction area (WPS-style navigation, sheet list menu, and active tab scrolling).
+- Fix:
+  - Tolerate unsupported formats and formulas.
+  - Fix inaccurate cell positioning after scrolling.
+  - Fix workbook loading failure caused by expanded data validation rules.
+  - Fix merged cell region recognition for the default selected cell.
+  - Fix CSV loading failure when the first row is empty.
+
+PDF:
+
+- Add PDF Pro tools and polish the tools dialog.
+
+Git History:
+
+- Improve details dialog positioning.
+
+# 4.1.7 2026-7-24
+
+Markdown Editor:
+
+- 支持硬换行(`Shift+Enter`)。
+- 支持在浏览器中打开 PlantUML 图。
+- 更新 Mermaid 工具栏配色。
+- 更新「在 VS Code 中编辑」图标颜色。
+
+Excel:
+
+- 新增自动调整列宽。
+- 更新工具栏 VS Code 图标。
+- 优化底部工作表交互区:WPS 式导航、工作表列表菜单、活动标签自动滚动。
+- 修复:
+  - 容忍不支持的格式与公式。
+  - 修复滚动后单元格定位不准。
+  - 修复数据验证规则扩展导致工作簿加载失败。
+  - 修复默认选中单元格的合并区域识别。
+  - 修复首行为空时 CSV 加载失败。
+
+PDF:
+
+- 新增 PDF Pro 工具并优化工具对话框。
+
+Git History:
+
+- 优化详情对话框定位。
+
 # 4.1.6 2026-7-20
 
 Markdown Editor:

@@ -2,7 +2,7 @@
 	"name": "vscode-office-enhance",
 	"displayName": "Office Viewer Enhance",
 	"description": "Fork of Office Viewer with faster bug fixes. View word, excel, powerpoint files and using WYSIWYG editor for markdown.",
-	"version": "4.2.1",
+	"version": "4.2.2",
 	"publisher": "maizhuoying",
 	"icon": "image/logo.png",
 	"engines": {
