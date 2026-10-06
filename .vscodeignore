@@ -30,6 +30,8 @@ test-workspace/
 *.pyc
 docs/**
 image/**
+!image/logo.png
+CLAUDE.md
 .claude/**
 .github/**
 !package.nls*.json
