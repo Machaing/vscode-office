@@ -1,0 +1,63 @@
+name: Release
+
+# 推送 v*.*.* 格式的 tag 时触发:CI 构建 vsix 并发布到 GitHub Release
+# 发版流程:本地改版本号 + changelog 并提交,打 tag 后 `git push origin main --tags`
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # pnpm 必须先于 setup-node 安装(cache: pnpm 依赖它)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # frozen-lockfile + pnpm-workspace.yaml 的 patchedDependencies,
+      # 保证 CI 与本地依赖完全一致(@eigenpal/docx-editor-core 补丁生效)
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm exec eslint "src/**/*.{ts,tsx}"
+
+      - name: Build & package vsix
+        run: pnpm run package
+
+      # 从 changelog.md 提取对应版本段落作为 Release notes(标题行 # <版本> <日期> 起,至下一版本标题前)
+      - name: Extract release notes from changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v ver="$VERSION" '
+            !found && $0 ~ "^# " ver " " { found=1; print; next }
+            found && /^# / { exit }
+            found { print }
+          ' changelog.md > release-notes.md
+          echo "--- Release notes (v${VERSION}) ---"
+          cat release-notes.md
+
+      # release/ 内刚打包出唯一的 vsix,通配兼容不同历史命名(早期为 vscode-office-*)
+      - name: Create GitHub Release & upload vsix
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/*.vsix \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file release-notes.md
