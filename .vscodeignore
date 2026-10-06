@@ -25,4 +25,11 @@ yarn.lock
 pnpm-lock.yaml
 pnpm-workspace.yaml
 release/**
+test-workspace/
+**/__pycache__/
+*.pyc
+docs/**
+image/**
+.claude/**
+.github/**
 !package.nls*.json
