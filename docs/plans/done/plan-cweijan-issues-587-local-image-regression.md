@@ -173,7 +173,7 @@ markdown 中的照片不显示: 截图亲验为碎图占位符(破损图标 + �
 `viewAbsoluteLocal`/imageParser 导致 `file:///` 绝对路径图片失去支持。经评论信息还原
 (用户引用为相对路径且文件实际存在)复核: **该推断与本案场景不符,予以撤销**。其考证价值
 转移: `3e17862` 移除造成的 `file:///` 显示空洞仍真实存在,归入
-[plan-cweijan-issues-405](plan-cweijan-issues-405-image-placeholder.md) 的可选补强项
+[plan-cweijan-issues-405](../todo/plan-cweijan-issues-405-image-placeholder.md) 的可选补强项
 (该 issue 的 `/` 开头工作区绝对路径缺口已由 `e0c132b` 补上)。首版同时完成的
 「4.1.7 两个图片提交(`e0c132b`/`116c3b7`)非回归源」的排除结论依然成立,不再赘述。
 

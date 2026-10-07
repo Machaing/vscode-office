@@ -57,7 +57,7 @@
 | [#580](https://github.com/cweijan/vscode-office/issues/580) | Add an option to disable Cmd/Ctrl + mouse wheel zoom in the Markdown editor | enhancement | open | 待处理 |  |
 | [#584](https://github.com/cweijan/vscode-office/issues/584) | 请问Markdown的自定义快捷键可以帮忙开发一下吗？ | enhancement | open | 待处理 |  |
 | [#586](https://github.com/cweijan/vscode-office/issues/586) | markdown WYSIWYG 能支持 vim 模式吗 | enhancement | open | 待处理 |  |
-| [#587](https://github.com/cweijan/vscode-office/issues/587) | [BUG]markdown 的照片突然不显示了，原来的版本可以正常显示 | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-587-local-image-regression.md |
+| [#587](https://github.com/cweijan/vscode-office/issues/587) | [BUG]markdown 的照片突然不显示了，原来的版本可以正常显示 | bug | open | 无需处理 | docs/plans/done/plan-cweijan-issues-587-local-image-regression.md |
 | [#589](https://github.com/cweijan/vscode-office/issues/589) | The rendered Markdown document takes a long time to load. |  | open | 待处理 | docs/plans/todo/plan-cweijan-issues-589-large-file-slow-load.md |
 | [#590](https://github.com/cweijan/vscode-office/issues/590) | [BUG] Heading conversion drops ordered list numbers in Markdown/Markdown 标题操作丢失有序列表序号 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-590-heading-list-number.md |
 | [#591](https://github.com/cweijan/vscode-office/issues/591) | 希望支持自定义压缩文件后缀 | enhancement | open | 待处理 |  |
