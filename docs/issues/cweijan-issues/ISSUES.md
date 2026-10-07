@@ -30,7 +30,7 @@
 | [#282](https://github.com/cweijan/vscode-office/issues/282) | Option to treat single linebreaks as softbreaks | enhancement | open | 待处理 |  |
 | [#295](https://github.com/cweijan/vscode-office/issues/295) | Once I press enter or perform other actions, the images in the document will disappear |  | open | 待处理 | docs/plans/todo/plan-cweijan-issues-295-image-disappear.md |
 | [#298](https://github.com/cweijan/vscode-office/issues/298) | Feature Request - Integrating VSCode Error/Problem Reporting and Copilot Suggestions inline | enhancement | open | 待处理 |  |
-| [#308](https://github.com/cweijan/vscode-office/issues/308) | 给图片重命名 | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-308-image-rename-variable.md |
+| [#308](https://github.com/cweijan/vscode-office/issues/308) | 给图片重命名 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-308-image-rename-variable.md |
 | [#309](https://github.com/cweijan/vscode-office/issues/309) | Support pasting images when using VS Code with WSL | enhancement | open | 待处理 |  |
 | [#311](https://github.com/cweijan/vscode-office/issues/311) | [BUG] Word 中的 .tif 格式图片无法预览 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-311-tif-image.md |
 | [#323](https://github.com/cweijan/vscode-office/issues/323) | [BUG] Shortcut for switching markdown editor doesn't work | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-323-switch-editor-shortcut.md |

@@ -56,12 +56,23 @@ ${fileName}imags1713670793753.png
 
 ## 根因定位
 
-{待分析}
+变量替换逻辑位于 [src/common/fileUtil.ts](../../../src/common/fileUtil.ts) 的 `adjustImgPath()`(调用链:markdownEditorProvider.ts:544 编辑器粘贴图片、markdownService.ts:135 图片上传,均经此函数):
+
+```ts
+.replace("${fileName}", parse(uri.fsPath).name.replace(/\s/g, ''))
+```
+
+**主因**:`String.prototype.replace()` 第一个参数为**字符串**时只替换第一次出现。模板中第二个及以后的 `${fileName}`(以及 `${now}`/`${date}`/`${uuid}`/`${ext}`/`${workspaceDir}` 多次出现时同理)原样残留 —— 与 issue 现象(第一个 `${fileName}` 已替换、第二个残留、仅出现一次的 `${now}` 正常)完全吻合。
+
+**次因(隐藏坑)**:replacement 字符串中 `$&`、`` $` ``、`$'`、`$$` 有特殊含义。`fileName` 取自用户文件名,若文件名含 `$&` 等序列会被错误展开污染结果。
 
 ## 修复方案
 
-{待分析}
+fileUtil.ts 变量替换改为**带 `g` 标志的正则 + 函数形式**:`replace(/\$\{fileName\}/g, () => value)`,同时解决只替换一次与 `$` 特殊展开两个问题。涉及 `${fileName}`/`${now}`/`${date}`/`${uuid}`/`${ext}` 五个链式替换及 `${workspaceDir}` 两处(24 行 `relPath` 去前缀的正则同样补 `g`)。
 
 ## 验证方式
 
-{待分析}
+1. F5 调试,打开复现文件 `test-workspace/markdown/test-markdown-cweijan-308-image-rename-variable.md`;
+2. 设置 `vscode-office.pasterImgPath` 为 `${fileName}-images/${fileName}-${now}.${ext}`(两个 `${fileName}`);
+3. 复制图片后在编辑器中 Ctrl+V,检查磁盘生成的文件名:两处 `${fileName}` 均替换为 `test-markdown-cweijan-308-image-rename-variable`,`${now}` 为时间戳;
+4. 回归:默认模板(单次占位符)粘贴行为不变;`${workspaceDir}` 模板(配合 `pasteImageToWorkspacePath`)路径仍正确。
