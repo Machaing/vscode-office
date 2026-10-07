@@ -33,7 +33,7 @@
 | [#308](https://github.com/cweijan/vscode-office/issues/308) | 给图片重命名 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-308-image-rename-variable.md |
 | [#309](https://github.com/cweijan/vscode-office/issues/309) | Support pasting images when using VS Code with WSL | enhancement | open | 待处理 |  |
 | [#311](https://github.com/cweijan/vscode-office/issues/311) | [BUG] Word 中的 .tif 格式图片无法预览 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-311-tif-image.md |
-| [#323](https://github.com/cweijan/vscode-office/issues/323) | [BUG] Shortcut for switching markdown editor doesn't work | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-323-switch-editor-shortcut.md |
+| [#323](https://github.com/cweijan/vscode-office/issues/323) | [BUG] Shortcut for switching markdown editor doesn't work | bug | open | 无需处理 | docs/plans/done/plan-cweijan-issues-323-switch-editor-shortcut.md |
 | [#341](https://github.com/cweijan/vscode-office/issues/341) | Change paper size of exported PDF file | enhancement | open | 待处理 |  |
 | [#346](https://github.com/cweijan/vscode-office/issues/346) | Format markdown on save using prettier | enhancement | open | 待处理 |  |
 | [#364](https://github.com/cweijan/vscode-office/issues/364) | 文字编辑居中 | enhancement | open | 待处理 |  |
