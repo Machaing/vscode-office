@@ -1,6 +1,6 @@
 # Office Viewer Enhance
 
-English | [简体中文](README-CN.md) | [繁體中文](README-TW.md)
+English | [简体中文](README-CN.md)
 
 ## Overview
 
@@ -29,6 +29,11 @@ This extension lets you preview and edit common office and design files directly
 - HTTP request: `.http`, `.rest`
 - Java: `.class` (decompiler)
 - Compressed files: `.zip`, `.jar`, `.vsix`, `.rar`, `.7z`, `.tar`, `.tar.gz`, `.tgz`, `.apk`
+
+## Installation
+
+1. **Marketplace**: Search for **Office Viewer Enhance** in the VS Code Extensions panel ([Marketplace page](https://marketplace.visualstudio.com/items?itemName=maizhuoying.vscode-office-enhance))
+2. **Manual**: Download the latest VSIX from the [Releases page](https://github.com/Machaing/vscode-office/releases), then open the "···" menu at the top right of the Extensions panel and choose "Install from VSIX..."
 
 ## FAQ
 

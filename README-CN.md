@@ -1,6 +1,6 @@
 # Office Viewer Enhance
 
-[English](README.md) | 简体中文 | [繁體中文](README-TW.md)
+[English](README.md) | 简体中文
 
 ## 概述
 
@@ -29,6 +29,11 @@
 - HTTP 请求: `.http`、`.rest`
 - Java: `.class`（反编译）
 - 压缩文件: `.zip`、`.jar`、`.vsix`、`.rar`、`.7z`、`.tar`、`.tar.gz`、`.tgz`、`.apk`
+
+## 安装方式
+
+1. **市场安装**: 在 VS Code 扩展面板搜索 **Office Viewer Enhance** 安装([Marketplace 页面](https://marketplace.visualstudio.com/items?itemName=maizhuoying.vscode-office-enhance))
+2. **手动安装**: 在 [Release 页面](https://github.com/Machaing/vscode-office/releases)下载最新版本的 VSIX 文件,在 VS Code 扩展面板右上角「···」菜单中选择「从 VSIX 安装...」导入
 
 ## 常见使用问题
 
