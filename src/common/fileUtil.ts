@@ -14,14 +14,16 @@ export function adjustImgPath(uri: vscode.Uri, ext: string = 'png') {
     const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
     const uuid = crypto.randomUUID().replace(/-/g, '');
     const workspacePath = getWorkspacePath(uri);
+    // 使用带 g 标志的正则 + 函数形式替换:占位符多次出现时全部替换,
+    // 且函数形式避免文件名/路径中的 $ 序列($&、$' 等)被 replace 特殊展开
     const imgPath = Global.getConfig<string>("pasterImgPath")
-        .replace("${fileName}", parse(uri.fsPath).name.replace(/\s/g, ''))
-        .replace("${now}", now.getTime() + "")
-        .replace("${date}", date)
-        .replace("${uuid}", uuid)
-        .replace("${ext}", ext);
-    const fullPath = imgPath.replace("${workspaceDir}", workspacePath);
-    let relPath = imgPath.replace(/\$\{workspaceDir\}\/?/, '');
+        .replace(/\$\{fileName\}/g, () => parse(uri.fsPath).name.replace(/\s/g, ''))
+        .replace(/\$\{now\}/g, () => now.getTime() + "")
+        .replace(/\$\{date\}/g, () => date)
+        .replace(/\$\{uuid\}/g, () => uuid)
+        .replace(/\$\{ext\}/g, () => ext);
+    const fullPath = imgPath.replace(/\$\{workspaceDir\}/g, () => workspacePath);
+    let relPath = imgPath.replace(/\$\{workspaceDir\}\/?/g, '');
     if (
         Global.getConfig<boolean>("pasteImageToWorkspacePath", false)
         && workspacePath
