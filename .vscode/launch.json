@@ -20,6 +20,20 @@
 			"preLaunchTask": "dev"
 		},
 		{
+			"name": "Extension (zh-CN NLS)",
+			"type": "extensionHost",
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--locale=zh-cn",
+				"${workspaceFolder}/test-workspace"
+			],
+			"outFiles": [
+				"${workspaceFolder}/out/**/*.js"
+			],
+			"preLaunchTask": "dev"
+		},
+		{
 			"name": "Extension (Web)",
 			"type": "extensionHost",
 			"request": "launch",

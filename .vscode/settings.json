@@ -9,5 +9,10 @@
         "vditor/src/js/lute": true
     },
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-    "typescript.tsc.autoDetect": "off"
+    "typescript.tsc.autoDetect": "off",
+    // 将各语言 package.nls.*.json 折叠到 package.nls.json 名下,保持资源管理器整洁
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "package.nls.json": "package.nls.*.json"
+    }
 }
