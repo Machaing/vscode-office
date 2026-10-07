@@ -32,6 +32,8 @@ docs/**
 image/**
 !image/logo.png
 CLAUDE.md
+README-CN.md
+changelog-CN.md
 .claude/**
 .github/**
 !package.nls*.json

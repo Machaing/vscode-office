@@ -39,7 +39,7 @@
 
 - [Markdown：默认使用 VS Code 原生编辑器](docs/faq/markdown-default-editor-CN.md)
 - [Markdown：导出操作](docs/faq/markdown-export-CN.md)
-- [Markdown 编辑器快捷键](docs/faq/markdown-shortcuts.md)
+- [Markdown 编辑器快捷键](docs/faq/markdown-shortcuts-CN.md)
 
 ## 其他功能
 

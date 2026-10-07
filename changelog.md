@@ -1,6 +1,6 @@
 # Change log
 
-> [简体中文版](docs/changelog-CN.md) | History (4.1.7 and earlier) archived in [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md)
+> [简体中文版](changelog-CN.md) | History (4.1.7 and earlier) archived in [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md)
 
 > Please report issues to [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues); this is an independently maintained fork, do not report to the upstream [cweijan/vscode-office](https://github.com/cweijan/vscode-office).
 
@@ -125,4 +125,4 @@ PDF:
 
 ---
 
-History (4.1.7 and earlier): [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md) | [简体中文版](docs/changelog-CN.md)
+History (4.1.7 and earlier): [docs/archive/changelog-archive.md](docs/archive/changelog-archive.md) | [简体中文版](changelog-CN.md)

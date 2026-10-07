@@ -11,8 +11,11 @@
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
     // 将各语言 package.nls.*.json 折叠到 package.nls.json 名下,保持资源管理器整洁
+    // 中文文档同样折叠到英文版名下(README-CN / changelog-CN)
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "package.nls.json": "package.nls.*.json"
+        "package.nls.json": "package.nls.*.json",
+        "README.md": "README-CN.md",
+        "changelog.md": "changelog-CN.md"
     }
 }

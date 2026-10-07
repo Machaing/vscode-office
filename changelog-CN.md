@@ -1,6 +1,6 @@
 # 更改日志(简体中文)
 
-> [English version](../changelog.md) | 历史版本(4.1.7 及更早)已归档至 [docs/archive/changelog-archive.md](archive/changelog-archive.md)
+> [English version](changelog.md) | 历史版本(4.1.7 及更早)已归档至 [docs/archive/changelog-archive-CN.md](docs/archive/changelog-archive-CN.md)
 
 > 反馈问题请提交 issue 至 [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues);本扩展为独立维护的 fork,请勿反馈到上游 [cweijan/vscode-office](https://github.com/cweijan/vscode-office)。
 
@@ -125,4 +125,4 @@ PDF:
 
 ---
 
-更早版本(4.1.7 及之前)见 [docs/archive/changelog-archive.md](archive/changelog-archive.md) | [English version](../changelog.md)
+更早版本(4.1.7 及之前)见 [docs/archive/changelog-archive-CN.md](docs/archive/changelog-archive-CN.md) | [English version](changelog.md)

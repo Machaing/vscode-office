@@ -1,8 +1,9 @@
 # Changelog Archive
 
-历史版本更改日志归档(4.1.7 及更早)。最新版本见仓库根目录 [changelog.md](../../changelog.md)。
+> [简体中文版](changelog-archive-CN.md) | History (4.1.7 and earlier). See [changelog.md](../../changelog.md) for the latest versions.
 
 ---
+
 # 4.1.7 2026-7-24
 
 Markdown Editor:
@@ -31,35 +32,6 @@ PDF:
 Git History:
 
 - Improve details dialog positioning.
-
-# 4.1.7 2026-7-24
-
-Markdown Editor:
-
-- 支持硬换行(`Shift+Enter`)。
-- 支持在浏览器中打开 PlantUML 图。
-- 更新 Mermaid 工具栏配色。
-- 更新「在 VS Code 中编辑」图标颜色。
-
-Excel:
-
-- 新增自动调整列宽。
-- 更新工具栏 VS Code 图标。
-- 优化底部工作表交互区:WPS 式导航、工作表列表菜单、活动标签自动滚动。
-- 修复:
-  - 容忍不支持的格式与公式。
-  - 修复滚动后单元格定位不准。
-  - 修复数据验证规则扩展导致工作簿加载失败。
-  - 修复默认选中单元格的合并区域识别。
-  - 修复首行为空时 CSV 加载失败。
-
-PDF:
-
-- 新增 PDF Pro 工具并优化工具对话框。
-
-Git History:
-
-- 优化详情对话框定位。
 
 # 4.1.6 2026-7-20
 
@@ -532,35 +504,35 @@ Other:
 
 # 2.9.5 2023-1-12
 
-- 更新主题的editorInlayHint颜色.
+- Update the editorInlayHint color of the theme.
 - Markdown:
-  - 代码块预览增加行号显示.
-  - 支持配置代码块颜色样式.
-  - 粘贴图片路径增加workspaceDir变量.
-  - 修复无法导出PDF.
-  - 修复无法显示绝对路径的图片.
+  - Code block preview shows line numbers.
+  - Support configuring code block color style.
+  - Add workspaceDir variable to the pasted image path.
+  - Fix PDF export failure.
+  - Fix absolute-path images not displaying.
 
 # 2.9.4 2022-12-20
 
-- 调整代码块颜色.
-- 支持设置导出pdf的chromium路径.
+- Adjust code block colors.
+- Support setting the chromium path for PDF export.
 
 # 2.9.3 2022-12-10
 
-- 修复Pdf部分字体无法加载.
-- QuickItem和菜单的border颜色优化.
+- Fix some PDF fonts failing to load.
+- Polish border colors of QuickItem and menus.
 
 # 2.9.2 2022-12-6
 
-- 修复表格工具栏消失.
-- 保存xlsx时增加确认框.
-- 导出Html和docx时不生成目录.
-- 修复图片过多时无法显示图片文件名.
+- Fix the table toolbar disappearing.
+- Add a confirmation dialog when saving xlsx.
+- Do not generate TOC when exporting HTML and docx.
+- Fix image file names not displaying when there are many images.
 
 # 2.9.1 2022-11-23
 
-- 调整markdown编辑器小屏下的大纲宽度
-- Markdown转换的Pdf调整页面边距.
+- Adjust the outline width of the markdown editor on small screens
+- Adjust page margins of PDF converted from Markdown.
 
 # 2.9.0 2022-11-9
 
@@ -582,117 +554,117 @@ Other:
 
 # 2.7.9 2022-10-23
 
-- 修复小屏下工具栏丢失.
+- Fix toolbar loss on small screens.
 
 # 2.7.8 2022-10-19
 
 - Markdown:
-  - 修复导出的pdf数学公式显示异常.
-  - 优化自带主题的markdown显示效果.
+  - Fix math formula display issues in exported PDF.
+  - Improve markdown rendering of built-in themes.
 - Pdf:
-  - 优先显示大纲视图.
-  - 美化部分视觉效果.
-  - 修复只能显示二级大纲.
+  - Show outline view by default.
+  - Polish some visual effects.
+  - Fix only second-level outline showing.
 
 # 2.7.7 2022-10-18
 
 - markdown:
-  - 升级katex版本.
-  - 固定工具栏位置.
-  - 记住文件最后的编辑位置.
-  - 修复切换不同的markdown总数没有更新.
-  - 修复小屏下工具栏样式异常, 以及无法显示大纲.
+  - Upgrade katex version.
+  - Pin the toolbar position.
+  - Remember the last edit position of the file.
+  - Fix word count not updating when switching markdown files.
+  - Fix toolbar style issues on small screens and outline not displaying.
 
 # 2.7.5 2022-10-12
 
-- 优化大纲切换的焦点.
+- Improve focus handling when switching outline.
 
 # 2.7.4 2022-10-11
 
 - markdown
-  - 修复字数没有实时更新.
-  - 修复diff视图无法显示图片.
-  - 修复部分情况下在外部编辑后没有实时更新.
-- 修复excel无法保存更新.
-- 图片浏览器支持通过ctrl+滑动放大图片.
+  - Fix word count not updating in real time.
+  - Fix images not displaying in diff view.
+  - Fix content not refreshing after external edits in some cases.
+- Fix excel unable to save updates.
+- Image viewer supports ctrl + scroll to zoom.
 
 # 2.7.3 2022-10-5
 
-- 完善焦点聚焦逻辑.
-- 支持ctrl+shift+v粘贴为纯文本.
-- 增加自动清理webview缓存.
+- Improve focus logic.
+- Support ctrl+shift+v to paste as plain text.
+- Add automatic webview cache cleanup.
 - Markdown:
 
-  - 自动识别粘贴的图片类型.
-  - 修复粘贴文本后选中的文本还在.
-- 预览Html支持解析本地js文件.
+  - Detect pasted image type automatically.
+  - Fix selected text remaining after pasting text.
+- HTML preview supports parsing local js files.
 
 # 2.7.2 2022-9-15
 
-- 移除图片中的空格.
-- 修复latex公式显示不全.
+- Remove spaces in image paths.
+- Fix latex formulas being cut off.
 
 # 2.7.1 2022-9-5
 
-- 优化编辑器焦点恢复功能.
+- Improve editor focus restoration.
 
 # 2.7.0 2022-9-2
 
-- 升级vditor版本.
-- 增加设置编辑器焦点的延迟.
-- 美化右键菜单样式, 点击其他地方后隐藏菜单.
+- Upgrade vditor version.
+- Add a delay setting for editor focus.
+- Beautify the context menu; hide it when clicking elsewhere.
 
 # 2.6.9 2022-8-29
 
-- 修复代码块背景颜色异常.
+- Fix abnormal code block background color.
 
 # 2.6.8 2022-8-28
 
-- Markdown: 修复显示绝对路径图片的设置无效.
+- Markdown: fix the absolute-path image setting not working.
 - Xlsx:
-  - 支持查看xlsm文件.
-  - 加快excel文件打开速度.
-  - 修复xlsx超过26的列无法显示.
+  - Support viewing xlsm files.
+  - Speed up opening excel files.
+  - Fix columns beyond 26 not displaying in xlsx.
 
 # 2.6.7 2022-8-28
 
 - Markdown:
-  - 修复分割线无法显示.
-  - 移除单引号和美元符号的补全.
-  - 导出的pdf目录序号修改样式为圆圈.
-  - 支持关闭代码预览, 修改代码块背景颜色.
-- 修复查看docx文件时, 如果页面数量页面错乱.
+  - Fix horizontal rules not displaying.
+  - Remove single quote and dollar sign completion.
+  - Use circled numbers for TOC numbering in exported PDF.
+  - Support disabling code preview and changing code block background color.
+- Fix page disorder when viewing docx files with many pages.
 
 # 2.6.1 2022-6-19
 
-- 修复在Vditor无法打开相对路径的markdown.
+- Fix relative-path markdown files not opening in Vditor.
 
 # 2.6.0 2022-6-13
 
-- 对主题的自适应功能进行优化.
-- 修复编辑markdown时输出了无关日志.
+- Improve theme adaptation.
+- Fix unrelated logs printed while editing markdown.
 
 # 2.5.8 2022-6-7
 
-- 支持打开dotx文件
-- markdown编辑器支持打开图片超链接
-- 更新超链接颜色
+- Support opening dotx files
+- Markdown editor supports opening image hyperlinks
+- Update hyperlink colors
 
 # 2.5.7 2022-6-7
 
-- 优化粘贴图片的逻辑
-- 优化自动主题颜色的边框颜色
-- 保存后更新字数总数
-- 修改默认代码主题
+- Improve the image pasting logic
+- Improve border colors of the auto theme
+- Update word count after saving
+- Change the default code theme
 
 # 2.5.5 2022-5-28
 
-- 支持配置markdown粘贴图片的路径
-- 更新vditor版本
+- Support configuring the pasted image path for markdown
+- Update the vditor version
 
 # 2.5.1 2021-12-29
 
-- 增加稳定性, 修复图片有时保存失败
+- Improve stability; fix images occasionally failing to save
 - Support save outline open state.
 
 # 2.5.0 2021-12-27

@@ -31,7 +31,7 @@ description: 为本项目（Office Viewer Enhance）发布新版本：给定 x.x
 CHANGELOG 的 4.x 惯例（沿用文件顶部既有条目的风格）：
 
 - 标题行 `# <版本号> <今天日期>`，日期**不补零**：写 `2026-9-13` 而不是 `2026-09-13`。
-- **双文件方案**：根目录 `changelog.md` 为**英文**（Marketplace 默认展示），[docs/changelog-CN.md](../../../docs/changelog-CN.md) 为**简体中文镜像**；两文件条目一一对应、顶部互相链接。起草时同时给出英文与中文两份条目（中文供 changelog-CN.md，英文供 changelog.md）。
+- **双文件方案**：根目录 `changelog.md` 为**英文**（Marketplace 默认展示），[changelog-CN.md](../../../changelog-CN.md) 为**简体中文镜像**；两文件条目一一对应、顶部互相链接。起草时同时给出英文与中文两份条目（中文供 changelog-CN.md，英文供 changelog.md）。
 - 按模块分组；组名独占一行以冒号结尾，条目为 `- ` 列表。
 - 模块名来自 commit 的 scope 映射：`markdown`→Markdown Editor、`word`→Word、`excel`→Excel、`pdf`→PDF、`ppt`→PowerPoint、`git`→Git History、`epub`→EPUB、`svg`→SVG、`xmind`→XMind；无 scope 的按内容归入对应模块，或使用顶层 `Fix:` / `Update:` 分组。
 - 中文条目基于 commit 信息润色，英文条目译为简洁英文动词开头（如 `修复 TOC 目录条目文本丢失` → 中文条目 `修复 TOC 目录条目文字丢失。` / 英文条目 `Fix TOC entry text loss.`）。
@@ -43,8 +43,8 @@ CHANGELOG 的 4.x 惯例（沿用文件顶部既有条目的风格）：
 
 1. package.json：仅修改顶层 `"version"` 为新版本号，其他内容不动。
 2. changelog.md：在文件头（`# Change log` 标题行与 `>` 引用行）之后、上一版本条目之前插入确认后的英文条目（保持一个空行分隔）。
-3. docs/changelog-CN.md：同样位置插入中文条目，与英文版保持同步。
-4. **归档**：两个 changelog 均只保留最近 5 个版本。插入新条目后若超过 5 个，把最旧的条目（从其 `# <版本号> <日期>` 标题行起，到下一个版本标题行之前；文件尾的 `---` 与尾注行保留不动）剪切，插入 [docs/archive/changelog-archive.md](../../../docs/archive/changelog-archive.md) 的 `---` 分隔线之后、既有最旧条目之前，不要弄丢或重复任何条目。归档不做语言转换，剪过去的内容保持原样（归档文件本身中英混排）。
+3. changelog-CN.md（根目录）：同样位置插入中文条目，与英文版保持同步。
+4. **归档**：两个 changelog 均只保留最近 5 个版本。插入新条目后若超过 5 个，把最旧的条目（从其 `# <版本号> <日期>` 标题行起，到下一个版本标题行之前；文件尾的 `---` 与尾注行保留不动）剪切，**按语言归档**：changelog.md 剪下的英文条目插入 [docs/archive/changelog-archive.md](../../../docs/archive/changelog-archive.md)，changelog-CN.md 剪下的中文条目插入 [docs/archive/changelog-archive-CN.md](../../../docs/archive/changelog-archive-CN.md)，均在 `---` 分隔线之后、既有最旧条目之前，不要弄丢或重复任何条目。归档不做语言转换，剪过去的内容保持原样。
 
 ## 第 5 步：编译打包
 
