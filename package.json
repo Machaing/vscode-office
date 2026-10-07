@@ -1,7 +1,7 @@
 {
 	"name": "vscode-office-enhance",
-	"displayName": "Office Viewer Enhance",
-	"description": "Fork of Office Viewer with faster bug fixes. View word, excel, powerpoint files and using WYSIWYG editor for markdown.",
+	"displayName": "%extension.displayName%",
+	"description": "%extension.description%",
 	"version": "4.2.2",
 	"publisher": "maizhuoying",
 	"icon": "image/logo.png",
@@ -201,69 +201,69 @@
 		"commands": [
 			{
 				"command": "vscode-office.save-response-body",
-				"title": "Save Response",
+				"title": "%command.saveResponse.title%",
 				"icon": "$(save)",
 				"enablement": "!office.extensionHost.web"
 			},
 			{
 				"command": "vscode-office.copy-response-body",
-				"title": "Copy Response",
+				"title": "%command.copyResponse.title%",
 				"icon": "$(copy)",
 				"enablement": "!office.extensionHost.web"
 			},
 			{
 				"command": "office.markdown.switch",
-				"title": "Switch markdown editor",
+				"title": "%command.markdownSwitch.title%",
 				"icon": "$(edit)"
 			},
 			{
 				"command": "office.csv.switch",
-				"title": "Switch CSV editor",
+				"title": "%command.csvSwitch.title%",
 				"icon": "$(edit)"
 			},
 			{
 				"command": "office.markdown.paste",
-				"title": "Enhance paste in markdown",
+				"title": "%command.markdownPaste.title%",
 				"enablement": "!office.extensionHost.web"
 			},
 			{
 				"command": "office.markdown.find",
-				"title": "Find text in markdown editor"
+				"title": "%command.markdownFind.title%"
 			},
 			{
 				"command": "office.markdown.undo",
-				"title": "Markdown: Undo",
+				"title": "%command.markdownUndo.title%",
 				"enablement": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
 			},
 			{
 				"command": "office.markdown.redo",
-				"title": "Markdown: Redo",
+				"title": "%command.markdownRedo.title%",
 				"enablement": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
 			},
 			{
 				"command": "office.markdown.headings",
-				"title": "Markdown: Headings",
+				"title": "%command.markdownHeadings.title%",
 				"enablement": "activeCustomEditorId == 'maizhuoying.markdownViewer'"
 			},
 			{
 				"command": "office.html.preview",
-				"title": "Preview HTML"
+				"title": "%command.htmlPreview.title%"
 			},
 			{
 				"command": "office.gitHistory.view",
-				"title": "View Git History",
+				"title": "%command.gitHistoryView.title%",
 				"icon": "$(history)",
 				"enablement": "!office.extensionHost.web"
 			},
 			{
 				"command": "office.gitHistory.viewFileHistory",
-				"title": "Git: View File History",
+				"title": "%command.gitFileHistory.title%",
 				"icon": "$(git-commit)",
 				"enablement": "!office.extensionHost.web"
 			},
 			{
 				"command": "office.gitHistory.quickSync",
-				"title": "Git: Quick Sync",
+				"title": "%command.gitQuickSync.title%",
 				"icon": "$(sync)",
 				"enablement": "!office.extensionHost.web"
 			}
@@ -385,7 +385,7 @@
 		"customEditors": [
 			{
 				"viewType": "maizhuoying.officeViewer",
-				"displayName": "Office Viewer Enhance",
+				"displayName": "%editor.officeViewer.displayName%",
 				"selector": [
 					{
 						"filenamePattern": "*.xls"
@@ -475,7 +475,7 @@
 			},
 			{
 				"viewType": "maizhuoying.archiveViewer",
-				"displayName": "Archive Viewer",
+				"displayName": "%editor.archiveViewer.displayName%",
 				"selector": [
 					{
 						"filenamePattern": "*.jar"
@@ -511,7 +511,7 @@
 			},
 			{
 				"viewType": "maizhuoying.imageViewer",
-				"displayName": "Image Preview (Office Viewer)",
+				"displayName": "%editor.imageViewer.displayName%",
 				"priority": "option",
 				"selector": [
 					{
@@ -554,7 +554,7 @@
 			},
 			{
 				"viewType": "maizhuoying.markdownViewer",
-				"displayName": "Markdown Editor",
+				"displayName": "%editor.markdownViewer.displayName%",
 				"selector": [
 					{
 						"filenamePattern": "file:/**/*.md"
@@ -578,7 +578,7 @@
 			},
 			{
 				"viewType": "maizhuoying.htmlViewer",
-				"displayName": "Html Viewer",
+				"displayName": "%editor.htmlViewer.displayName%",
 				"priority": "option",
 				"selector": [
 					{
@@ -594,7 +594,7 @@
 			},
 			{
 				"viewType": "maizhuoying.parquetViewer",
-				"displayName": "Parquet Viewer",
+				"displayName": "%editor.parquetViewer.displayName%",
 				"priority": "option",
 				"selector": [
 					{
@@ -604,7 +604,7 @@
 			},
 			{
 				"viewType": "maizhuoying.classViewer",
-				"displayName": "Java Decompiler",
+				"displayName": "%editor.classViewer.displayName%",
 				"selector": [
 					{
 						"filenamePattern": "file:/**/*.class"
@@ -614,18 +614,18 @@
 		],
 		"configuration": [
 			{
-				"title": "Git History",
+				"title": "%configuration.gitHistory.title%",
 				"order": 98,
 				"properties": {
 					"vscode-office.gitHistory.quickSyncButton": {
 						"type": "boolean",
 						"default": false,
-						"description": "Show Quick Sync button in Source Control (Git) title toolbar."
+						"description": "%configuration.gitHistory.quickSyncButton.description%"
 					}
 				}
 			},
 			{
-				"title": "Markdown",
+				"title": "%configuration.markdown.title%",
 				"order": 1,
 				"properties": {
 					"vscode-office.markdown.language": {
@@ -641,7 +641,7 @@
 						],
 						"default": "auto",
 						"enumDescriptions": [
-							"Follow VS Code display language",
+							"%configuration.markdown.language.auto%",
 							"简体中文",
 							"繁體中文",
 							"English",
@@ -649,7 +649,7 @@
 							"한국어",
 							"Русский"
 						],
-						"markdownDescription": "UI language of the Markdown editor (toolbar, tooltips, panels). `auto` follows the VS Code display language. Changing this reloads open Markdown editors to apply."
+						"markdownDescription": "%configuration.markdown.language.description%"
 					},
 					"vscode-office.markdown.hotkeys": {
 						"type": "object",
@@ -657,7 +657,7 @@
 						"additionalProperties": {
 							"type": "string"
 						},
-						"markdownDescription": "Customize editor action hotkeys in the Markdown WYSIWYG/IR editor. Keys are action ids: `undo`, `redo`, `headings`, `bold`, `italic`, `strike`, `link`, `ordered-list`, `check`, `quote`, `line`, `code`, `inline-code`, `table`. Values are VS Code style combos like `ctrl+shift+z` / `cmd+b` / `ctrl+alt+1`; set `\"\"` to disable an action's default hotkey. On macOS the `headings` action has no default hotkey (to avoid the system Hide conflict)."
+						"markdownDescription": "%configuration.markdown.hotkeys.description%"
 					},
 					"vscode-office.editorTheme": {
 						"type": "string",
@@ -674,7 +674,7 @@
 							"Dracula"
 						],
 						"default": "Auto",
-						"markdownDescription": "The theme for the Markdown editor."
+						"markdownDescription": "%configuration.markdown.editorTheme.description%"
 					},
 					"vscode-office.codeMirrorTheme": {
 						"type": "string",
@@ -692,7 +692,7 @@
 							"Material Dark"
 						],
 						"default": "Auto",
-						"markdownDescription": "CodeMirror syntax theme for code blocks in the Markdown editor."
+						"markdownDescription": "%configuration.markdown.codeMirrorTheme.description%"
 					},
 					"vscode-office.mermaidTheme": {
 						"type": "string",
@@ -708,7 +708,7 @@
 							"Nord"
 						],
 						"default": "Auto",
-						"markdownDescription": "Mermaid diagram theme in the Markdown editor. Auto follows the editor theme."
+						"markdownDescription": "%configuration.markdown.mermaidTheme.description%"
 					},
 					"vscode-office.editMode": {
 						"type": "string",
@@ -717,37 +717,37 @@
 							"ir"
 						],
 						"default": "wysiwyg",
-						"markdownDescription": "Default edit mode for the Markdown editor."
+						"markdownDescription": "%configuration.markdown.editMode.description%"
 					},
 					"vscode-office.restoreViewState": {
 						"type": "boolean",
 						"default": true,
-						"markdownDescription": "Restore caret focus when opening a Markdown file. Scroll position is always restored."
+						"markdownDescription": "%configuration.markdown.restoreViewState.description%"
 					},
 					"vscode-office.workspacePathAsImageBasePath": {
 						"type": "boolean",
 						"default": false,
-						"description": "Using workspace path as markdown image base path."
+						"description": "%configuration.markdown.workspacePathAsImageBasePath.description%"
 					},
 					"vscode-office.pasteImageToWorkspacePath": {
 						"type": "boolean",
 						"default": false,
-						"description": "Paste markdown images into the workspace path and insert image links with a leading slash."
+						"description": "%configuration.markdown.pasteImageToWorkspacePath.description%"
 					},
 					"vscode-office.pasterImgPath": {
 						"type": "string",
 						"default": "image/${fileName}/${now}.${ext}",
-						"description": "Markdown paste image path, variables: workspaceDir, fileName, now, date (YYYYMMDD), uuid, ext (file extension)."
+						"description": "%configuration.markdown.pasterImgPath.description%"
 					}
 				}
 			},
 			{
-				"title": "Markdown PDF",
+				"title": "%configuration.markdownPdf.title%",
 				"order": 2,
 				"properties": {
 					"vscode-office.chromiumPath": {
 						"type": "string",
-						"description": "Set the chromium browser location for exporting markdown pdf."
+						"description": "%configuration.markdownPdf.chromiumPath.description%"
 					},
 					"vscode-office.puppeteerArgs": {
 						"type": "array",
@@ -755,24 +755,24 @@
 							"type": "string"
 						},
 						"default": [],
-						"description": "Additional arguments to pass to Puppeteer/Chromium when exporting PDF. Example: [\"--no-sandbox\", \"--disable-setuid-sandbox\"] for Linux servers running as root."
+						"description": "%configuration.markdownPdf.puppeteerArgs.description%"
 					},
 					"vscode-office.pdfMarginTop": {
 						"type": "integer",
 						"default": 25,
-						"description": "Printed pdf default top margin."
+						"description": "%configuration.markdownPdf.pdfMarginTop.description%"
 					}
 				}
 			},
 			{
-				"title": "HTTP Client",
+				"title": "%configuration.httpClient.title%",
 				"order": 3,
 				"properties": {
 					"vscode-office.followredirect": {
 						"type": "boolean",
 						"default": true,
 						"scope": "resource",
-						"description": "Follow HTTP 3xx responses as redirects."
+						"description": "%configuration.httpClient.followredirect.description%"
 					},
 					"vscode-office.environmentVariables": {
 						"type": "object",
@@ -780,7 +780,7 @@
 							"$shared": {}
 						},
 						"scope": "resource",
-						"markdownDescription": "Sets the environments and custom variables belongs to it."
+						"markdownDescription": "%configuration.httpClient.environmentVariables.description%"
 					},
 					"vscode-office.previewOption": {
 						"type": "string",
@@ -792,7 +792,7 @@
 						],
 						"default": "body",
 						"scope": "resource",
-						"description": "Response preview output option"
+						"description": "%configuration.httpClient.previewOption.description%"
 					},
 					"vscode-office.previewColumn": {
 						"type": "string",
@@ -802,7 +802,7 @@
 						],
 						"default": "beside",
 						"scope": "resource",
-						"description": "Response preview column option"
+						"description": "%configuration.httpClient.previewColumn.description%"
 					},
 					"vscode-office.formParamEncodingStrategy": {
 						"type": "string",
@@ -813,19 +813,19 @@
 						],
 						"default": "automatic",
 						"scope": "resource",
-						"description": "Form param encoding strategy for x-www-form-urlencoded body"
+						"description": "%configuration.httpClient.formParamEncodingStrategy.description%"
 					},
 					"vscode-office.addRequestBodyLineIndentationAroundBrackets": {
 						"type": "boolean",
 						"default": true,
 						"scope": "resource",
-						"description": "Add line indentation around brackets in request body"
+						"description": "%configuration.httpClient.addRequestBodyLineIndentationAroundBrackets.description%"
 					},
 					"vscode-office.decodeEscapedUnicodeCharacters": {
 						"type": "boolean",
 						"default": false,
 						"scope": "resource",
-						"description": "Decode escaped unicode characters in response body."
+						"description": "%configuration.httpClient.decodeEscapedUnicodeCharacters.description%"
 					},
 					"vscode-office.logLevel": {
 						"type": "string",
@@ -837,13 +837,13 @@
 						],
 						"default": "error",
 						"scope": "resource",
-						"description": "The verbosity of logging in the REST output panel"
+						"description": "%configuration.httpClient.logLevel.description%"
 					},
 					"vscode-office.enableCustomVariableReferencesCodeLens": {
 						"type": "boolean",
 						"default": true,
 						"scope": "resource",
-						"description": "Enable custom variable references CodeLens in request file"
+						"description": "%configuration.httpClient.enableCustomVariableReferencesCodeLens.description%"
 					}
 				}
 			}
