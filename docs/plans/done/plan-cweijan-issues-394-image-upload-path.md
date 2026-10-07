@@ -81,6 +81,10 @@ If I open either repository folder instead of their parent folder, the extension
    └── repo2/                <- 再放一个仓库,匹配"多仓库共父目录"场景
    ```
 
+   本仓库已将该结构固定构造于 `test-workspace-multi/issue-394/`(本地目录,已加入 .gitignore,
+   说明见其 README): `repo1`/`repo2` 均已 `git init`,`repo1/docs/index.md` 已复制复现文件内容,
+   F5 后直接「打开文件夹」选中该父目录即可进入步骤 2。
+
 2. F5 调起扩展调试,在开发扩展宿主中「文件 → 打开文件夹」打开 `issue-394` 父目录(保持默认 `vscode-office.pasterImgPath` = `image/${fileName}/${now}.${ext}`);
 3. 打开 `repo1/docs/index.md`,复制一张图片后在正文中 Ctrl+V 粘贴;
 4. 预期: 图片保存为 `repo1/docs/image/index/<时间戳>.png`(父目录自动创建)并插入引用;实际: 报 ENOENT,与 issue 现象一致;
@@ -180,3 +184,13 @@ writeFileSync(imagePath, Buffer.from(img, 'binary'))
 5. 上传链路回归:右键/工具栏「Insert Image」选择本地图片文件,预期与粘贴走同一
    `saveImageAndBuildMarkdown` 链路,同样自动建目录;
 6. 文件完好性:保存 md 后磁盘引用路径、`imgExtGuide` 的扩展名纠正(用 GIF 伪命名 .png 测)均符合预期。
+
+### 验证记录(2026-10-07,4.2.2)
+
+- 验证方式 1(核心项)实测通过: 工作区打开 `test-workspace-multi/issue-394/` 父目录,
+  在 `repo1/docs/index.md` 中 Ctrl+V 粘贴图片,**无 ENOENT**,图片成功保存为
+  `repo1\docs\image\index\1791370569889.png`(`docs/image/index/` 目录链自动创建)——
+  复现步骤 4 的 ENOENT 现象在现行版本无法复现,与「已由上游 v4.0.5 `ac374ed` 修复、
+  现行链路完整」的根因结论一致;
+- 验证方式 2-6(直接打开 `repo1` 的对照、深目录链、模板/配置、上传链路、文件完好性)
+  为附加回归项,未逐条执行(核心结论已由上项锁定)。

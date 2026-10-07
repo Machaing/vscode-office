@@ -10,5 +10,6 @@ bun.lock
 yarn.lock
 test/output
 test-workspace/
+test-workspace-multi/
 release/__pycache__/
 *.pyc
