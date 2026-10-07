@@ -43,7 +43,15 @@ print(df[df['编号'].isin([157,592])][cols].to_string(index=False))
 3. WebFetch `https://github.com/cweijan/vscode-office/issues/{编号}`,
    prompt:「提取该 issue 的完整信息:标题、正文(问题描述、复现步骤、期望行为、实际行为、环境版本)、评论要点,原样保留关键细节」
 
-需要的信息:title、body、labels、url;评论中有维护者结论的也摘录。
+需要的信息:title、body(**逐字**)、labels、url、**全部评论逐字内容**
+(`GET /repos/cweijan/vscode-office/issues/{编号}/comments`;gh 不可用时匿名 API 同样可取)。
+WebFetch 兜底抓取可能漏掉评论区,以 API 结果为准。
+
+**图片归档**:正文/评论中的每张图片下载到 `docs/plans/images/{plan 文件名(不含扩展名)}-{时间戳}.{ext}`
+(命名如 `plan-cweijan-issues-323-switch-editor-shortcut-1791365015.png`,时间戳为下载时的 unix 秒;
+对正文图片 URL 用 `curl -sL` 跟随 github assets 重定向即可;页面里的 private-user-images 外链
+带时效签名,不可长期引用),下载后**亲验截图内容**(键位/路径/报错等关键信息),
+plan 原文节以 `../images/` 相对路径嵌入(todo/ 与 done/ 同深度,归档后链接不变)。
 
 ## 第 4 步:定 slug 与格式目录
 
@@ -78,11 +86,25 @@ print(df[df['编号'].isin([157,592])][cols].to_string(index=False))
 
 ## 标签
 
-{labels 逗号分隔}
+{labels 逗号分隔}(附报告者、创建时间、当前状态)
 
-## 问题描述
+## 问题描述-原文
 
-{从 issue 正文摘录整理,保留复现步骤、环境与版本}
+{逐字引用 issue 正文 markdown 源码,保留复现步骤、环境与版本;
+图片下载到 docs/plans/images/{plan 文件名(不含扩展名)}-{时间戳}.{ext} 并以 ../images/ 相对路径嵌入}
+
+## 问题评论信息
+
+{逐字引用全部评论(作者、时间、原文),保留原文拼写;无评论则写「无评论」;
+评论中的 PR/issue 链接附「标题 + 当前状态」}
+
+## 问题描述-中文
+
+{正文中文翻译;截图亲验后转写其中关键信息(键位/路径/报错文案等)}
+
+## 问题评论信息-中文
+
+{评论中文翻译;无评论则写「无」}
 
 ## 期望行为
 
