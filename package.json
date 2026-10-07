@@ -51,26 +51,6 @@
 	"main": "./out/extension.js",
 	"browser": "./out/extension.web.js",
 	"contributes": {
-		"themes": [
-			{
-				"label": "One Dark Modern",
-				"uiTheme": "vs-dark",
-				"path": "./theme/onedark-modern.json"
-			},
-			{
-				"label": "One Dark Modern Classic",
-				"uiTheme": "vs-dark",
-				"path": "./theme/onedark-modern-classic.json"
-			}
-		],
-		"iconThemes": [
-			{
-				"id": "office-material-icon-theme",
-				"label": "Material Icon Theme (Office Viewer Enhance)",
-				"path": "./theme/material-icons.json",
-				"_watch": true
-			}
-		],
 		"languages": [
 			{
 				"id": "nginx",
