@@ -9,7 +9,11 @@ package-lock.json
 bun.lock
 yarn.lock
 test/output
-test-workspace/
 test-workspace-multi/
-release/__pycache__/
+# test-workspace: 排除可重新生成的大体积复现文件与现场构建产物(生成脚本均在 _generate/)
+test-workspace/excel/test-excel-cweijan-239-large-csv.csv
+test-workspace/markdown/test-markdown-cweijan-589-large-file-slow-load.md
+test-workspace/_generate/render*/bundle.js
+test-workspace/_generate/render*/bundle.css
+__pycache__/
 *.pyc

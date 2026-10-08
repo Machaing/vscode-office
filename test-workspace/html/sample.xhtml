@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>XHTML 严格语法测试</title>
+  <style type="text/css">
+    body { font-family: serif; max-width: 600px; margin: 2rem auto; }
+    h1 { color: #9c27b0; border-bottom: 2px dotted #9c27b0; }
+    .tag { font-family: monospace; background: #f3e5f5; padding: 2px 4px; }
+  </style>
+</head>
+<body>
+  <h1>XHTML 文档</h1>
+  <p>本文档使用严格 XHTML 语法:标签必须闭合、属性必须加引号、必须有 xmlns 命名空间声明。</p>
+  <p>空元素写法:水平线 <span class="tag">&lt;hr /&gt;</span>,换行 <span class="tag">&lt;br /&gt;</span>。</p>
+  <hr />
+  <table border="1" summary=" XHTML 测试表 ">
+    <caption>元素对照</caption>
+    <tr><th>XHTML</th><th>HTML</th></tr>
+    <tr><td>&lt;br /&gt;</td><td>&lt;br&gt;</td></tr>
+    <tr><td>&lt;img ... /&gt;</td><td>&lt;img ...&gt;</td></tr>
+  </table>
+  <p><img src="../image/sample.png" alt="XHTML 内嵌图片" width="96" /></p>
+</body>
+</html>

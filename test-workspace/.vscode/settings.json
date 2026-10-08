@@ -1,0 +1,13 @@
+// F5 调试窗口(Extension Development Host)打开的是本目录,
+// folder 设置在此生效而不继承主仓库根目录的 .vscode/settings.json
+{
+    // 主题，区分宿主窗口
+    "workbench.colorTheme": "Dark Modern",
+
+    // Markdown 编辑器 UI 语言固定为简体中文(不依赖调试窗口显示语言,便于稳定测试)
+    // 值可为 auto/zh_CN/zh_TW/en_US/ja_JP/ko_KR/ru_RU,详见扩展设置 "vscode-office.markdown.language"
+    "vscode-office.markdown.language": "zh_CN",
+
+    // cweijan-issues-308 测试
+    // "vscode-office.pasterImgPath": "${fileName}-images/${fileName}-${now}.${ext}"
+}

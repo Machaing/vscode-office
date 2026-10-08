@@ -1,0 +1,65 @@
+### Office Viewer HTTP Client 测试文件
+### 用法: 光标放在请求上按 Ctrl+Enter (Mac: Cmd+Enter) 发送
+
+@host = https://httpbin.org
+@token = test-token-123
+
+### 1. GET 请求 + 环境变量
+GET {{host}}/get?name=office-viewer&lang=zh HTTP/1.1
+Accept: application/json
+
+### 2. GET 带自定义请求头
+GET {{host}}/headers HTTP/1.1
+Authorization: Bearer {{token}}
+X-Custom-Header: office-viewer-test
+
+### 3. POST JSON 请求体
+POST {{host}}/post HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Office Viewer",
+  "version": "4.2.0",
+  "features": ["excel", "word", "ppt", "pdf"],
+  "nested": {
+    "enabled": true,
+    "count": 42
+  }
+}
+
+### 4. POST 表单
+POST {{host}}/post HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+username=maizhuoying&role=admin&备注=中文表单值
+
+### 5. 文件上传(选择实际存在的文件)
+# @name upload
+POST {{host}}/post HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="sample.csv"
+Content-Type: text/csv
+
+月份,销量
+一月,1200
+------WebKitFormBoundary--
+
+### 6. 响应断言与重定向
+# 与 REST Client 语法兼容
+GET {{host}}/redirect-to?url=/get&status_code=302 HTTP/1.1
+
+> {%
+client.test("状态码为 200", function() {
+  client.assert(response.status === 200, "期望 200");
+});
+%}
+
+### 7. 同文件多个请求以 ### 分隔, 请求间可定义局部变量
+@contentType = application/json
+
+PUT {{host}}/put HTTP/1.1
+Content-Type: {{contentType}}
+
+{"updated": true}

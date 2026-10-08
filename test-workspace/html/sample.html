@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML 查看器测试</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #4285f4, #34a853);
+      color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+    th { background: #f5f5f5; }
+    tr:nth-child(even) { background: #fafafa; }
+    .card {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
+    }
+    button {
+      background: #1a73e8; color: #fff; border: none;
+      padding: 8px 16px; border-radius: 4px; cursor: pointer;
+    }
+    button:hover { background: #1557b0; }
+    img { max-width: 100%; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HTML 查看器测试页</h1>
+    <p>测试 CSS 样式、表格、脚本与资源加载</p>
+  </header>
+
+  <div class="card">
+    <h2>表格</h2>
+    <table>
+      <thead>
+        <tr><th>格式</th><th>查看器</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>.html</td><td>Html Viewer</td><td>本文件</td></tr>
+        <tr><td>.htm</td><td>Html Viewer</td><td>旧扩展名</td></tr>
+        <tr><td>.xhtml</td><td>Html Viewer</td><td>XML 语法</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>脚本交互</h2>
+    <p id="output">点击按钮测试 JavaScript 是否执行:</p>
+    <button onclick="document.getElementById('output').textContent = 'JS 已于 ' + new Date().toLocaleTimeString() + ' 执行'">点击我</button>
+  </div>
+
+  <div class="card">
+    <h2>相对路径资源</h2>
+    <p>同工作区图片(相对路径 <code>../image/sample.png</code>):</p>
+    <img src="../image/sample.png" alt="相对路径图片" width="128">
+  </div>
+
+  <script>
+    console.log('sample.html script executed');
+  </script>
+</body>
+</html>

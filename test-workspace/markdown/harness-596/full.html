@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>issue-596 full pipeline harness</title>
+    <link rel="stylesheet" href="/resource/markdown/dist/index.css" />
+    <link rel="stylesheet" href="/resource/markdown/index.css" />
+    <style>
+        body { margin: 0; }
+    </style>
+</head>
+
+<body>
+    <div id="vditor"></div>
+
+    <div class="vditor-context-menu" id="context-menu" role="menu" hidden>
+        <div class="vditor-context-menu__group" role="group">
+            <button class="vditor-context-menu__item" type="button" data-action="aiPolish" role="menuitem">AI Polish</button>
+        </div>
+    </div>
+
+    <script src="/test-workspace/markdown/harness-596/mock-handler.js"></script>
+    <script src="/resource/markdown/dist/index.min.js"></script>
+    <script type="module" src="/resource/markdown/index.js"></script>
+</body>
+
+</html>

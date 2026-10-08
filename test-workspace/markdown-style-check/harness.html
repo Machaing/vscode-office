@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>issue-575 / issue-571 style harness</title>
+    <!-- 真实构建产物（随 vditor 构建更新） -->
+    <link rel="stylesheet" href="/resource/markdown/dist/index.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 12px;
+            background: #fafbfc;
+            font-family: -apple-system, "Segoe UI", sans-serif;
+        }
+
+        .pane {
+            width: 900px;
+            margin-bottom: 24px;
+            border: 1px dashed #bbb;
+        }
+
+        /* ===== 旧规则复刻（a5ac09b / d1f7c9e 后、修复前的发布状态）， specificity 加一层 .sim-legacy ===== */
+        .sim-legacy .vditor-reset table {
+            display: block;
+            word-break: keep-all;
+            width: max-content;
+            max-width: 100%;
+            overflow: auto;
+        }
+
+        .sim-legacy .vditor-reset table td,
+        .sim-legacy .vditor-reset table th {
+            min-width: 80px;
+            max-width: 300px;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        .sim-legacy .vditor-cm-host .cm-scroller {
+            line-height: calc(var(--vscode-editor-font-size, 13px) * 1.35);
+        }
+
+        .cm-line {
+            white-space: pre;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ================= issue-575: 表格宽度自适应 ================= -->
+    <h3>issue-575 table — FIXED (current dist css)</h3>
+    <div class="pane">
+        <div class="vditor" id="table-fixed">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false" id="table-fixed-reset">
+<table>
+  <thead><tr><th>名称</th><th>说明</th><th>数量</th></tr></thead>
+  <tbody>
+    <tr><td>alpha</td><td>常规说明</td><td>1</td></tr>
+    <tr><td>beta</td><td>常规说明</td><td>2</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>模块Module</th><th>主要功能FunctionDescription</th><th>负责人Owner</th><th>状态Status</th><th>最后更新时间LastUpdatedTime</th><th>优先级Priority</th><th>备注Notes</th><th>版本Version</th><th>关联需求RelatedRequirement</th></tr></thead>
+  <tbody>
+    <tr><td>用户中心UserCenter</td><td>账号注册登录与权限管理AccountRegistrationLoginAndPermissionManagement</td><td>张三ZhangSan</td><td>进行中InProgress</td><td>2026-09-01T12:00:00Z</td><td>高High</td><td>无None</td><td>v1.2.0</td><td>REQ-1001Requirement</td></tr>
+    <tr><td>订单系统OrderSystem</td><td>订单创建支付与退款流程处理OrderCreationPaymentAndRefundProcessing</td><td>李四LiSi</td><td>已完成Completed</td><td>2026-08-15T08:30:00Z</td><td>中Medium</td><td>已归档Archived</td><td>v2.0.1</td><td>REQ-1002Requirement</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>标识符</th><th>路径</th></tr></thead>
+  <tbody>
+    <tr><td>abcdefghijklmnopqrstuvwxyz0123456789</td><td>/very/long/path/without/any/spaces/to/trigger/overflow/behavior/in/table/cell</td></tr>
+  </tbody>
+</table>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>issue-575 table — LEGACY sim (bug 规则复刻)</h3>
+    <div class="pane sim-legacy">
+        <div class="vditor" id="table-legacy">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false" id="table-legacy-reset">
+<table>
+  <thead><tr><th>名称</th><th>说明</th><th>数量</th></tr></thead>
+  <tbody>
+    <tr><td>alpha</td><td>常规说明</td><td>1</td></tr>
+    <tr><td>beta</td><td>常规说明</td><td>2</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>模块Module</th><th>主要功能FunctionDescription</th><th>负责人Owner</th><th>状态Status</th><th>最后更新时间LastUpdatedTime</th><th>优先级Priority</th><th>备注Notes</th><th>版本Version</th><th>关联需求RelatedRequirement</th></tr></thead>
+  <tbody>
+    <tr><td>用户中心UserCenter</td><td>账号注册登录与权限管理AccountRegistrationLoginAndPermissionManagement</td><td>张三ZhangSan</td><td>进行中InProgress</td><td>2026-09-01T12:00:00Z</td><td>高High</td><td>无None</td><td>v1.2.0</td><td>REQ-1001Requirement</td></tr>
+    <tr><td>订单系统OrderSystem</td><td>订单创建支付与退款流程处理OrderCreationPaymentAndRefundProcessing</td><td>李四LiSi</td><td>已完成Completed</td><td>2026-08-15T08:30:00Z</td><td>中Medium</td><td>已归档Archived</td><td>v2.0.1</td><td>REQ-1002Requirement</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>标识符</th><th>路径</th></tr></thead>
+  <tbody>
+    <tr><td>abcdefghijklmnopqrstuvwxyz0123456789</td><td>/very/long/path/without/any/spaces/to/trigger/overflow/behavior/in/table/cell</td></tr>
+  </tbody>
+</table>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= issue-571: 代码块行距 ================= -->
+    <h3>issue-571 code block line-height</h3>
+    <div class="pane" id="cm-A" style="--vscode-editor-font-size:14px">
+        <b>Scenario A — 宿主注入 --vscode-editor-font-size:14px</b>
+        <div class="vditor">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false">
+<pre class="vditor-cm-preview-host vditor-cm-host cm-A-fixed"><div class="cm-editor"><div class="cm-scroller"><div class="cm-content"><div class="cm-line">function greet(name) {</div><div class="cm-line">  const message = `Hello, ${name}!`;</div><div class="cm-line">  第一行文字 First line</div><div class="cm-line">}</div></div></div></div></pre>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pane" id="cm-B">
+        <b>Scenario B — 宿主未注入 vscode 字号变量(走 16px 回退)</b>
+        <div class="vditor">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false">
+<pre class="vditor-cm-preview-host vditor-cm-host cm-B-fixed"><div class="cm-editor"><div class="cm-scroller"><div class="cm-content"><div class="cm-line">function greet(name) {</div><div class="cm-line">  const message = `Hello, ${name}!`;</div><div class="cm-line">  第一行文字 First line</div><div class="cm-line">}</div></div></div></div></pre>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pane" id="cm-C">
+        <b>Scenario C — 用户在设置面板把编辑字号调到 20px(.vditor 内联 --editor-font-size)</b>
+        <div class="vditor" style="--editor-font-size:20px">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false">
+<pre class="vditor-cm-preview-host vditor-cm-host cm-C-fixed"><div class="cm-editor"><div class="cm-scroller"><div class="cm-content"><div class="cm-line">function greet(name) {</div><div class="cm-line">  const message = `Hello, ${name}!`;</div><div class="cm-line">  第一行文字 First line</div><div class="cm-line">}</div></div></div></div></pre>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pane sim-legacy" id="cm-legacy-B">
+        <b>LEGACY sim — Scenario B 旧规则(16px 字号 + 13×1.35 行高)</b>
+        <div class="vditor">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false">
+<pre class="vditor-cm-preview-host vditor-cm-host cm-B-legacy"><div class="cm-editor"><div class="cm-scroller"><div class="cm-content"><div class="cm-line">function greet(name) {</div><div class="cm-line">  const message = `Hello, ${name}!`;</div><div class="cm-line">  第一行文字 First line</div><div class="cm-line">}</div></div></div></div></pre>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pane sim-legacy" id="cm-legacy-C">
+        <b>LEGACY sim — Scenario C 旧规则(20px 字号 + 14×1.35 行高)</b>
+        <div class="vditor" style="--vscode-editor-font-size:14px; --editor-font-size:20px">
+            <div class="vditor-content">
+                <div class="vditor-wysiwyg">
+                    <pre class="vditor-reset" contenteditable="false">
+<pre class="vditor-cm-preview-host vditor-cm-host cm-C-legacy"><div class="cm-editor"><div class="cm-scroller"><div class="cm-content"><div class="cm-line">function greet(name) {</div><div class="cm-line">  const message = `Hello, ${name}!`;</div><div class="cm-line">  第一行文字 First line</div><div class="cm-line">}</div></div></div></div></pre>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <pre id="report" style="width:900px; white-space:pre-wrap; font-size:12px"></pre>
+
+    <script>
+        function cmMetrics(id) {
+            const scroller = document.querySelector("#" + id + " .cm-scroller");
+            const line = document.querySelector("#" + id + " .cm-line");
+            const cs = getComputedStyle(line);
+            const fs = parseFloat(cs.fontSize);
+            const lh = parseFloat(cs.lineHeight);
+            const rect = line.getBoundingClientRect();
+            return {
+                fontSizePx: fs,
+                lineHeightPx: Math.round(lh * 100) / 100,
+                ratio: Math.round(lh / fs * 1000) / 1000,
+                lineRectHeight: Math.round(rect.height * 100) / 100,
+                scrollerLineHeight: getComputedStyle(scroller).lineHeight,
+            };
+        }
+
+        function cellLineCount(td) {
+            // 用 Range 统计单元格内容的行盒数量（1 = 未折行）
+            const range = document.createRange();
+            range.selectNodeContents(td);
+            const rects = Array.from(range.getClientRects()).filter(r => r.width > 1 && r.height > 1);
+            return rects.length;
+        }
+
+        function tableMetrics(resetId) {
+            const reset = document.getElementById(resetId);
+            return Array.from(reset.querySelectorAll("table")).map((table, i) => {
+                const cs = getComputedStyle(table);
+                const tds = Array.from(table.querySelectorAll("td, th"));
+                const wideCell = tds.reduce((a, b) => (b.textContent.length > a.textContent.length ? b : a), tds[0]);
+                return {
+                    tableIndex: i,
+                    display: cs.display,
+                    width: cs.width,
+                    maxWidth: cs.maxWidth,
+                    clientWidth: table.clientWidth,
+                    scrollWidth: table.scrollWidth,
+                    hasHorizontalScroll: table.scrollWidth > table.clientWidth + 1,
+                    tdComputedStyle: (() => {
+                        const t = getComputedStyle(table.querySelector("td"));
+                        return {
+                            maxWidth: t.maxWidth,
+                            overflowWrap: t.overflowWrap,
+                            wordBreak: t.wordBreak,
+                            whiteSpace: t.whiteSpace,
+                        };
+                    })(),
+                    maxCellLineCount: Math.max(...tds.map(cellLineCount)),
+                    longestCell: { text: wideCell.textContent.slice(0, 40) + "...", lineCount: cellLineCount(wideCell), width: Math.round(wideCell.getBoundingClientRect().width) },
+                };
+            });
+        }
+
+        const report = {
+            tableFixed: tableMetrics("table-fixed-reset"),
+            tableLegacy: tableMetrics("table-legacy-reset"),
+            cmA: cmMetrics("cm-A"),
+            cmB: cmMetrics("cm-B"),
+            cmC: cmMetrics("cm-C"),
+            cmLegacyB: cmMetrics("cm-legacy-B"),
+            cmLegacyC: cmMetrics("cm-legacy-C"),
+        };
+        window.__report = report;
+        document.getElementById("report").textContent = JSON.stringify(report, null, 2);
+    </script>
+</body>
+
+</html>

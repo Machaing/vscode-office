@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://127.0.0.1:8766/vditor/dist/index.css">
+<script src="http://127.0.0.1:8766/vditor/dist/index.min.js"></script>
+<style>body { margin: 0; } #vditor { height: 100vh; }</style>
+</head>
+<body>
+<div id="vditor"></div>
+<pre id="log" style="white-space:pre-wrap"></pre>
+<script>
+window.log = (s) => { document.getElementById('log').textContent += s + "\n"; };
+const MODE = new URLSearchParams(location.search).get('mode') || 'wysiwyg';
+const MD = new URLSearchParams(location.search).get('md') || '226';
+const mds = {
+  '226': `按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 复制，按 <kbd>Ctrl</kbd> + <kbd>V</kbd> 粘贴。\n`,
+  '157': `- 前置列表项\n- 包含表格的列表项：\n\n  | 名称   | 数量 | 备注   |\n  | ------ | ---- | ------ |\n  | item-a | 1    | first  |\n  | item-b | 2    | second |\n\n  hello\n- 后续列表项\n`,
+};
+window.editor = new Vditor('vditor', {
+  value: mds[MD],
+  cdn: 'http://127.0.0.1:8766/vditor',
+  height: '100%',
+  mode: MODE,
+  cache: { enable: false },
+  lang: 'en_US',
+  after() {
+    window.__ready = true;
+    log('MODE=' + MODE + ' ready');
+    log('initial getValue: ' + JSON.stringify(window.editor.getValue()));
+  },
+});
+</script>
+</body>
+</html>
