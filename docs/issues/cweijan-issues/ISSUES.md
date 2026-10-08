@@ -49,7 +49,7 @@
 | [#503](https://github.com/cweijan/vscode-office/issues/503) | [BUG]WLS2 windows linux 子系统 转换md 到pdf 出现错误 | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-503-wsl-export-chromium.md |
 | [#529](https://github.com/cweijan/vscode-office/issues/529) | [BUG] word中的目录无法显示 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-529-toc-blank.md |
 | [#544](https://github.com/cweijan/vscode-office/issues/544) | md文件是否可以每一段时间自动刷新/自动刷新内容？ | enhancement | open | 待处理 |  |
-| [#570](https://github.com/cweijan/vscode-office/issues/570) | [BUG] markdown编辑器会突然跳到最顶端 (没按home键) | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-570-scroll-jump-to-top.md |
+| [#570](https://github.com/cweijan/vscode-office/issues/570) | [BUG] markdown编辑器会突然跳到最顶端 (没按home键) | bug | open | 无需处理 | docs/plans/done/plan-cweijan-issues-570-scroll-jump-to-top.md |
 | [#571](https://github.com/cweijan/vscode-office/issues/571) | [BUG]代码块内各行文字挤在一起 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-571-codeblock-line-spacing.md |
 | [#575](https://github.com/cweijan/vscode-office/issues/575) | [BUG] md 表格显示没有按页面宽度自适应 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-575-table-width-adapt.md |
 | [#576](https://github.com/cweijan/vscode-office/issues/576) | [BUG]Cannot read properties of undefined (reading 'sheets') | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-576-sheets-undefined.md |
