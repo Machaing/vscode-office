@@ -48,7 +48,7 @@ Office Viewer 将两个 `.xlsx` 工作簿打开为**空白 `Sheet1` 网格**:工
 
 ## 复现数据
 
-复现文件(生成脚本: `test-workspace/_generate/issue_607_missing_dimension.py`,内容: openpyxl 生成 2 个 sheet `Data1`/`Data2` 后 zipfile 后处理):
+复现文件(生成脚本: `test-workspace/_generate-script/issue_607_missing_dimension.py`,内容: openpyxl 生成 2 个 sheet `Data1`/`Data2` 后 zipfile 后处理):
 
 1. `test-workspace/excel/test-excel-cweijan-607-missing-dimension.xlsx` — 删除全部 `<dimension/>`(排除项,实测打开正常);
 2. `test-workspace/excel/test-excel-cweijan-607-x-prefixed-ns.xlsx` — 删 `<dimension/>` + worksheet XML 元素全部改 `x:` 前缀、根元素 `xmlns=` 改 `xmlns:x=`(根因项,复刻 issue 导出器行为)。

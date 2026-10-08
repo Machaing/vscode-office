@@ -21,7 +21,7 @@ import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "excel", "test-excel-cweijan-604-nested-if-crash.xlsx")
-TMP = os.path.join(ROOT, "_generate", "_604_tmp.xlsx")
+TMP = os.path.join(ROOT, "_generate-script", "_604_tmp.xlsx")
 
 NESTED3 = '=IF(A{r}="S",1,IF(A{r}="M",3,IF(A{r}="L",5,0)))'
 NESTED2 = '=IF(A{r}="S",1,IF(A{r}="M",3,0))'

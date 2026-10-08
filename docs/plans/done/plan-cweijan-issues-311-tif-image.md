@@ -38,7 +38,7 @@ Word 文档中的 .tif 格式图片无法预览(标题及截图)。
 ## 复现数据
 
 复现文件: `test-workspace/word/test-word-cweijan-311-tif-image.docx`
-生成脚本: `test-workspace/_generate/issue_311_tif_image.py`
+生成脚本: `test-workspace/_generate-script/issue_311_tif_image.py`
 
 文件内容说明: 用 Pillow 生成同一张测试图(渐变背景 + 同心圆),分别以 PNG(对照组)与 TIFF(RGB 基线、未压缩)内嵌到同一 docx 的两个章节中。Word/WPS 打开两张图均应可见;查看器缺陷仅影响 TIFF 那张时即可对照确认问题范围。
 
@@ -81,7 +81,7 @@ Word 预览图片链路(@eigenpal/docx-editor 内部,dist 反查确认):
 
 - 新增 `src/react/view/word/tiffMedia.ts`(convertDocxTiffMedia + mayContainTiffMedia + decodeTiffToPng)。
 - 修改 `src/react/view/word/Word.tsx`: `setDocumentBuffer(await convertDocxTiffMedia(buffer))`。
-- 验证工具: `test-workspace/_generate/render311/`(无头渲染 harness,`?convert=1` 直接 import 仓库内 `tiffMedia.ts` 验证真实代码;`?dump=1` 导出转换后 zip 供结构校验),变体文件 `test-311-no-png-default.docx`(剥除 png Content_Types 声明)、`test-311-multipage-tiff.docx`(2 页 TIFF)。
+- 验证工具: `test-workspace/_generate-script/render311/`(无头渲染 harness,`?convert=1` 直接 import 仓库内 `tiffMedia.ts` 验证真实代码;`?dump=1` 导出转换后 zip 供结构校验),变体文件 `test-311-no-png-default.docx`(剥除 png Content_Types 声明)、`test-311-multipage-tiff.docx`(2 页 TIFF)。
 - 未改 docx-editor 依赖与 patches/,未引入新依赖。
 
 ## 验证方式
@@ -89,12 +89,12 @@ Word 预览图片链路(@eigenpal/docx-editor 内部,dist 反查确认):
 无头 Chrome(DevTools MCP)+ 真实 `DocxEditor` 管线,esbuild bundle 静态服务加载(与 render529 同套路):
 
 ```bash
-npx esbuild test-workspace/_generate/render311/main.jsx --bundle --format=iife \
-  --outfile=test-workspace/_generate/render311/bundle.js --jsx=automatic \
+npx esbuild test-workspace/_generate-script/render311/main.jsx --bundle --format=iife \
+  --outfile=test-workspace/_generate-script/render311/bundle.js --jsx=automatic \
   --platform=browser --define:process.env.NODE_ENV='"production"'
 cd test-workspace && python -m http.server 8791 --bind 127.0.0.1
 # 浏览器打开(渲染完成 title 变 RENDER_DONE, 结果在 window.__RESULT__):
-#  修复前: /_generate/render311/index.html?file=word/test-word-cweijan-311-tif-image.docx
+#  修复前: /_generate-script/render311/index.html?file=word/test-word-cweijan-311-tif-image.docx
 #  修复后: 同 URL 加 &convert=1
 # 判定: 文档两张 img 中 TIFF 那张 naturalWidth>0 且 canvas drawImage 可绘制
 ```

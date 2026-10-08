@@ -38,7 +38,7 @@ bug
 ## 复现数据
 
 复现文件: `test-workspace/excel/test-excel-cweijan-239-large-csv.csv`
-生成脚本: `test-workspace/_generate/issue_239_large_csv_hang.py`
+生成脚本: `test-workspace/_generate-script/issue_239_large_csv_hang.py`
 
 文件内容说明: 表头 + 12 万行 × 9 列确定性伪随机浮点数的 CSV(约 12MB),与 issue 报告的文件同结构(100 万行 × 9 列浮点数)。受仓库体积限制未直接生成 100MB,行数可通过脚本顶部 `ROWS` 常量调整;行数越大现象越明显,100MB 量级可复现 "window is not responding"。
 
@@ -50,7 +50,7 @@ bug
 
 ## 根因定位
 
-现象为「webview 主线程长任务 + 堆内存爆炸 → VS Code 渲染进程 GC 卡死 → 整窗 "not responding"」。用 esbuild bundle 真实 `excel_reader.ts` 后在 node 分段计时定位(node 22,桌面机;webview 同为 V8,量级可比;脚本 `test-workspace/_generate/verify_239.mjs`,`--orig` 可切 git HEAD 基线):
+现象为「webview 主线程长任务 + 堆内存爆炸 → VS Code 渲染进程 GC 卡死 → 整窗 "not responding"」。用 esbuild bundle 真实 `excel_reader.ts` 后在 node 分段计时定位(node 22,桌面机;webview 同为 V8,量级可比;脚本 `test-workspace/_generate-script/verify_239.mjs`,`--orig` 可切 git HEAD 基线):
 
 ### CSV 路径(decodeCsvBuffer → udsv → 行对象构建 → x-spreadsheet)
 
@@ -99,11 +99,11 @@ bug
   - `src/react/view/excel/excel_reader.ts`:`MAX_LOAD_ROWS`/`MAX_EXCELJS_XML_SIZE` 常量;CSV onData 提前终止 + `countCsvRows`;ExcelJS 转换封顶 + `readSheetXmlSize` 体量路由;SheetJS `sheetRows` 截断 + `!fullref`/探针行判定;`ExcelData.totalRows`/`truncated`。
   - `src/react/view/excel/Excel.tsx`:截断强制只读 + 截断横幅(与只读横幅互斥展示)。
   - `src/react/view/excel/x-spreadsheet/locale/{en,zh-cn,zh-tw,de,nl}.js`:`viewer.truncatedBanner`/`viewer.truncatedBannerNoTotal`。
-  - `test-workspace/_generate/verify_239.mjs`:分段计时验证脚本(esbuild bundle 真实源码,`--orig` 对比 git HEAD 基线,输出各段耗时/堆/sheets JSON md5)。
+  - `test-workspace/_generate-script/verify_239.mjs`:分段计时验证脚本(esbuild bundle 真实源码,`--orig` 对比 git HEAD 基线,输出各段耗时/堆/sheets JSON md5)。
 
 ## 验证方式
 
-node 侧模拟(node 22,`node test-workspace/_generate/verify_239.mjs <文件> [ext] [--orig]`):
+node 侧模拟(node 22,`node test-workspace/_generate-script/verify_239.mjs <文件> [ext] [--orig]`):
 
 1. **修复前后对比(同一 1M 行数据)**:
 
@@ -116,4 +116,4 @@ node 侧模拟(node 22,`node test-workspace/_generate/verify_239.mjs <文件> [e
 2. **上限逻辑边界**:恰好 100000 行 CSV 不截断、100001 行 CSV 截断且 `totalRows=100001`(精确);100k 行 xlsx(ExcelJS 路径)截断 `totalRows=100001`;注入 `<dimension>` 的同类文件 `totalRows` 经 `!fullref` 精确给出。
 3. **小文件零回归**:sample.csv / sample.tsv / issue-221 csv / sample.xlsx / sample.xlsm / sample.xls / sample.ods / formula-dollar-ref.xlsx / issue-592 xlsx 共 9 个既有用例,修复前后 sheets JSON md5 全部一致(`--orig` 基线逐一对拍);样式快照字节数一致(sample.xlsx 1252B)。
 4. **编译与规范**:`npm run build` 通过;改动文件 ESLint 0 error(仅 Excel.tsx 既有的 exhaustive-deps 警告,与本修复无关)。
-5. 临时生成的大文件(1M 行 csv/xlsx、边界 csv、注入 dimension 的 xlsx)验证后已删除;`verify_239.mjs` 按仓库惯例保留在 `test-workspace/_generate/` 供复验。
+5. 临时生成的大文件(1M 行 csv/xlsx、边界 csv、注入 dimension 的 xlsx)验证后已删除;`verify_239.mjs` 按仓库惯例保留在 `test-workspace/_generate-script/` 供复验。

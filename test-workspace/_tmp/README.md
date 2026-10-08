@@ -1,4 +1,4 @@
-# tmp/ — issue 处理过程的临时验证脚本存档
+# _tmp/ — issue 处理过程的临时验证脚本存档
 
 处理 issue 157(嵌套表格)与 226(kbd 标签)的根因定位时,lute.min.js(vditor 内置的
 Markdown 解析器,Go 实现经 GopherJS 转译的黑盒产物)无法断点调试,因此用 node 直接
@@ -23,7 +23,7 @@ Markdown 解析器,Go 实现经 GopherJS 转译的黑盒产物)无法断点调�
 运行方式(需先 `npm run dev` 或 `npm run build` 产出 `vditor/dist/`):
 
 ```bash
-node test-workspace/tmp/_tmp_lute_harness.js
+node test-workspace/_tmp/_tmp_lute_harness.js
 ```
 
 另含压缩包查看器功能测试的残留(`_tmp.tar`、`_tmp.tgz`、`_7z_staging/`、`_tar_staging/`,

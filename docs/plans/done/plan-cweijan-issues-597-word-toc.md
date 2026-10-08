@@ -34,7 +34,7 @@ Word 文档目录页渲染异常：目录标题与条目文本丢失，仅显示
 
 ## 复现数据
 
-`test-workspace/word/` 下提供两个复现文件(生成脚本见 `test-workspace/_generate/issue_597_toc.py` 与 `issue_597_variants.py`):
+`test-workspace/word/` 下提供两个复现文件(生成脚本见 `test-workspace/_generate-script/issue_597_toc.py` 与 `issue_597_variants.py`):
 
 | 文件 | TOC 结构 | 渲染结果 |
 | --- | --- | --- |
@@ -89,7 +89,7 @@ issue 上传者的文件应为 plain 变体(或所有条目共段的单段 TOC),
 ## 修复记录(已实施本地补丁)
 
 已于 2026-09-12 通过 `pnpm patch` 实施本地修复([patches/@eigenpal__docx-editor-core.patch](../../../patches/@eigenpal__docx-editor-core.patch),
-配置见 [pnpm-workspace.yaml](../../../pnpm-workspace.yaml), 应用脚本见 `test-workspace/_generate/apply_597_patch.py`),
+配置见 [pnpm-workspace.yaml](../../../pnpm-workspace.yaml), 应用脚本见 `test-workspace/_generate-script/apply_597_patch.py`),
 对 `dist/chunk-TNQDZQ6K.mjs` 与 `dist/chunk-OPJSWATH.js` 中 `q()` 状态机做三处修改:
 
 1. 增加域栈 `fldStack`: 嵌套域 `begin` 时压栈保存外层 `{d,C,p,w,y,h,B}`, 不再直接清空;
@@ -107,13 +107,13 @@ issue 上传者的文件应为 plain 变体(或所有条目共段的单段 TOC),
 
 ```bash
 # 生成复现文件
-python test-workspace/_generate/issue_597_toc.py
-python test-workspace/_generate/issue_597_variants.py
+python test-workspace/_generate-script/issue_597_toc.py
+python test-workspace/_generate-script/issue_597_variants.py
 
 # 用扩展真实渲染管线验证(需先 F5 打开扩展, 分别预览两个文件):
 # - issue-597-toc.docx         目录完整
 # - issue-597-toc-plain.docx   第一条目录条目仅剩页码
 ```
 
-另有无头验证脚本(浏览器直接跑 DocxEditor): `test-workspace/_generate/render597/main.jsx`,
+另有无头验证脚本(浏览器直接跑 DocxEditor): `test-workspace/_generate-script/render597/main.jsx`,
 经 esbuild bundle 后由静态服务加载, 可脱离 VS Code 快速回归。

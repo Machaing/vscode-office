@@ -1,8 +1,8 @@
 /** issue-239 验证: 用 esbuild bundle 真实 excel_reader.ts 后分段计时 CSV 加载链路
 
 用法:
-  node test-workspace/_generate/verify_239.mjs <文件> [ext]        # 当前源码
-  node test-workspace/_generate/verify_239.mjs <文件> [ext] --orig # git HEAD 版本(修复前基线)
+  node test-workspace/_generate-script/verify_239.mjs <文件> [ext]        # 当前源码
+  node test-workspace/_generate-script/verify_239.mjs <文件> [ext] --orig # git HEAD 版本(修复前基线)
 
 输出 decode / inferSchema / udsv parse / 行对象构建 / loadSheets 全程 / 格式快照 各段耗时,
 以及 sheets JSON 的 md5(小文件修复前后必须一致)。

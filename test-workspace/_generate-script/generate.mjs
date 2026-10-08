@@ -1,6 +1,6 @@
 /**
  * 生成 Office Viewer 测试文档(Node 部分): pdf/psd/parquet/epub/xmind/archive/xls/ods
- * 运行: node test-workspace/_generate/generate.mjs
+ * 运行: node test-workspace/_generate-script/generate.mjs
  */
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync, copyFileSync, readdirSync, readFileSync } from 'node:fs';
@@ -227,7 +227,7 @@ async function genArchives() {
 
 	// tar / tar.gz / tgz
 	const tar = require(path.join(PKG, 'node_modules', 'tar'));
-	const staging = path.join(ROOT, '_generate', '_tar_staging');
+	const staging = path.join(ROOT, '_generate-script', '_tar_staging');
 	const fs = await import('node:fs');
 	fs.rmSync(staging, { recursive: true, force: true });
 	fs.mkdirSync(path.join(staging, 'docs'), { recursive: true });
@@ -242,7 +242,7 @@ async function genArchives() {
 }
 
 function tarCreate(tar, staging, gzip) {
-	const file = path.join(ROOT, '_generate', gzip ? '_tmp.tgz' : '_tmp.tar');
+	const file = path.join(ROOT, '_generate-script', gzip ? '_tmp.tgz' : '_tmp.tar');
 	return new Promise((resolve, reject) => {
 		tar.c({ file, cwd: staging, gzip: gzip ? { level: 9 } : false }, ['.'])
 			.then(() => resolve(file))
@@ -253,7 +253,7 @@ function tarCreate(tar, staging, gzip) {
 async function gen7z() {
 	const { execFileSync } = await import('node:child_process');
 	const cli = path.join(PKG, 'node_modules', '7z-wasm', 'cli.js');
-	const staging = path.join(ROOT, '_generate', '_7z_staging');
+	const staging = path.join(ROOT, '_generate-script', '_7z_staging');
 	const fs = await import('node:fs');
 	fs.rmSync(staging, { recursive: true, force: true });
 	fs.mkdirSync(staging, { recursive: true });

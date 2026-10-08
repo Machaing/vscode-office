@@ -58,7 +58,7 @@ await check('xmind (zip + content.json)', async () => {
 // 7z: 用 7z-wasm 列表校验(虚拟 FS 不认盘符绝对路径, 用相对路径)
 await check('sample.7z (7z-wasm l)', () => {
 	const { execFileSync } = require('node:child_process');
-	const cwd = path.join(ROOT, '_generate');
+	const cwd = path.join(ROOT, '_generate-script');
 	const rel = path.relative(cwd, path.join(ROOT, 'archive', 'sample.7z')).replace(/\\/g, '/');
 	const out = execFileSync(process.execPath, [path.join(PKG, 'node_modules', '7z-wasm', 'cli.js'), 'l', rel], { encoding: 'utf-8', cwd });
 	if (!out.includes('readme.txt') || !out.includes('data.bin')) throw new Error('列表缺少条目');

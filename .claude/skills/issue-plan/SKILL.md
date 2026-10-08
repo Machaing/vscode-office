@@ -119,7 +119,7 @@ plan 原文节以 `../images/` 相对路径嵌入(todo/ 与 done/ 同深度,归�
 ## 复现数据
 
 复现文件: `test-workspace/{格式}/test-{格式}-cweijan-{编号}-{slug}.{ext}`
-生成脚本: `test-workspace/_generate/issue_{编号}_{slug}.py`{或 .mjs;文本类手写无脚本则写「文本文件,直接维护」}
+生成脚本: `test-workspace/_generate-script/issue_{编号}_{slug}.py`{或 .mjs;文本类手写无脚本则写「文本文件,直接维护」}
 
 文件内容说明: {复现文件构造了什么场景,与 issue 现象的对应关系}
 
@@ -147,9 +147,9 @@ plan 原文节以 `../images/` 相对路径嵌入(todo/ 与 done/ 同深度,归�
 命名:`test-{格式}-cweijan-{编号}-{slug}.{ext}`,放 `test-workspace/{格式目录}/`。三分支:
 
 1. **文本格式(md/html)**:直接 Write,内容最小化构造 bug 场景(只含触发该 bug 所需的结构);
-2. **二进制格式(docx/xlsx/pdf/csv 等)**:写生成脚本 `test-workspace/_generate/issue_{编号}_{slug}.py`
-   (openpyxl / python-docx / Pillow,风格参照 [issue_597_variants.py](../../../test-workspace/_generate/issue_597_variants.py))
-   或 `.mjs`(pdf-lib 等,参照 [generate.mjs](../../../test-workspace/_generate/generate.mjs)),脚本头部注释写明对应 issue,然后执行生成;
+2. **二进制格式(docx/xlsx/pdf/csv 等)**:写生成脚本 `test-workspace/_generate-script/issue_{编号}_{slug}.py`
+   (openpyxl / python-docx / Pillow,风格参照 [issue_597_variants.py](../../../test-workspace/_generate-script/issue_597_variants.py))
+   或 `.mjs`(pdf-lib 等,参照 [generate.mjs](../../../test-workspace/_generate-script/generate.mjs)),脚本头部注释写明对应 issue,然后执行生成;
 3. **交互类 bug**:最小基础文件(几行文本/一个代码块/一张图等操作对象)+ 详细手动复现步骤写入 plan。
 
 所有脚本输出路径、plan 中引用路径一律用相对仓库根的 POSIX 风格路径。

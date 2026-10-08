@@ -17,7 +17,7 @@ import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "excel", "test-excel-cweijan-592-formula-percent-nan.xlsx")
-TMP = os.path.join(ROOT, "_generate", "_592_tmp.xlsx")
+TMP = os.path.join(ROOT, "_generate-script", "_592_tmp.xlsx")
 
 
 def main():

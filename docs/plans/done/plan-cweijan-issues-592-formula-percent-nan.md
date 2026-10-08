@@ -54,7 +54,7 @@ F6 及所有含 `$` 绝对引用(直接或间接)的公式单元格显示 `NaN%`
 ## 复现数据
 
 复现文件: `test-workspace/excel/test-excel-cweijan-592-formula-percent-nan.xlsx`
-生成脚本: `test-workspace/_generate/issue_592_formula_percent_nan.py`
+生成脚本: `test-workspace/_generate-script/issue_592_formula_percent_nan.py`
 
 文件内容说明: 按正文场景构造——`E6:E8` 为 23/40/21,`E9`=`=SUM(E6:E8)`,`F6:F8`=`=E{r}/$E$9`(格式 `0.0%`),`F9`=`=SUM(F6:F8)`(间接引用),`G15`=`=$E$15*$C$6`(全绝对引用形态)。openpyxl 保存公式不写缓存值,脚本在打包阶段向这些公式单元格注入与公式一致的 `<v>` 缓存结果(如 F6=`0.27380952380952384`),模拟 Excel/WPS 保存的真实文件。
 

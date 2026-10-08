@@ -31,7 +31,7 @@ import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "excel")
-TMP = os.path.join(ROOT, "_generate", "_607_tmp.xlsx")
+TMP = os.path.join(ROOT, "_generate-script", "_607_tmp.xlsx")
 
 DIM_PAT = re.compile(r"<dimension[^>]*/>")
 TAG_PAT = re.compile(r"<(\/?)([a-zA-Z][\w.-]*)")

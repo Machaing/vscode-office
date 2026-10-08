@@ -69,7 +69,7 @@ Upon attempting to save the file, a dialog window appears with the following err
 ## 复现数据
 
 复现文件：`test-workspace/excel/test-excel-cweijan-415-s3-save-error.xlsx`
-生成脚本：`test-workspace/_generate/issue_415_s3_save_error.py`
+生成脚本：`test-workspace/_generate-script/issue_415_s3_save_error.py`
 
 文件内容说明：最小 xlsx（一张工作表、少量单元格数据），作为上传到 S3 后经 AWS Toolkit 打开编辑的载体。该 issue 的保存链路依赖 AWS Toolkit 的 S3 远程文件（URI 以 `s3:` 开头，而非本地磁盘的 `file:`），无法在纯本地文件上复现，本地文件仅作 S3 上传载体；核心操作步骤见下方手动复现步骤。
 

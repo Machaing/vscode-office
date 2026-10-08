@@ -87,7 +87,7 @@
 - 配置: [pnpm-workspace.yaml](../../../pnpm-workspace.yaml) 的 `patchedDependencies`
 - **升级该依赖前必须**: 检查上游 changelog 是否已包含等效修复;
   - 已修复 → 移除补丁与 `patchedDependencies`,直接升级;
-  - 未修复 → 用 `test-workspace/_generate/apply_597_patch.py` 的锚点在新版本上重新生成补丁
+  - 未修复 → 用 `test-workspace/_generate-script/apply_597_patch.py` 的锚点在新版本上重新生成补丁
     (锚点基于压缩产物,上游重构后需人工适配),并以 `issue-597-toc*.docx` 双变体做渲染回归。
 
 ## 四、验证基线
@@ -97,7 +97,7 @@
 ```bash
 npm run build                 # 编译
 npm run lint:fix              # 静态检查
-python test-workspace/_generate/generate.py && node test-workspace/_generate/generate.mjs
-python test-workspace/_generate/verify.py && node test-workspace/_generate/verify.mjs
+python test-workspace/_generate-script/generate.py && node test-workspace/_generate-script/generate.mjs
+python test-workspace/_generate-script/verify.py && node test-workspace/_generate-script/verify.mjs
 # 手动: F5 后抽查 test-workspace/ 各格式查看器; word 用 issue-597 双变体回归 TOC
 ```

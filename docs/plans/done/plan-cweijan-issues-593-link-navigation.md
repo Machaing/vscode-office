@@ -41,7 +41,7 @@ bug
 ## 复现数据
 
 复现文件: `test-workspace/pdf/test-pdf-cweijan-593-link-navigation.pdf`
-生成脚本: `test-workspace/_generate/issue_593_link_navigation.mjs`
+生成脚本: `test-workspace/_generate-script/issue_593_link_navigation.mjs`
 
 文件内容说明: 用 pdf-lib 生成 3 页 A4 PDF:
 

@@ -51,7 +51,7 @@ I'm using CC and Office Viewer on VS Code. The current version is 4.1.3, but I'v
 ## 复现数据
 
 复现文件：`test-workspace/markdown/test-markdown-cweijan-589-large-file-slow-load.md`
-生成脚本：`test-workspace/_generate/issue_589_large_file_slow_load.py`
+生成脚本：`test-workspace/_generate-script/issue_589_large_file_slow_load.py`
 
 文件内容说明：程序生成约 5MB 的混合结构 markdown（标题层级 + 段落 + 列表 + 表格 + 代码块，模拟 CC 长任务输出的长文档），行数/体积可在脚本头部参数调整。分两个场景验证：
 
@@ -62,7 +62,7 @@ I'm using CC and Office Viewer on VS Code. The current version is 4.1.3, but I'v
 
 1. F5 调起扩展调试；
 2. 场景 A: 打开 `test-markdown-cweijan-589-large-file-slow-load.md`，记录点击 → 可交互耗时；
-3. 场景 B: 运行 `python test-workspace/_generate/issue_589_large_file_slow_load.py --append` 使目标文件持续追加写入，期间（重新）打开该文件观察行为；
+3. 场景 B: 运行 `python test-workspace/_generate-script/issue_589_large_file_slow_load.py --append` 使目标文件持续追加写入，期间（重新）打开该文件观察行为；
 4. 预期：场景 A 秒级打开；场景 B 不因写入监听反复整页重载；
    实际（按 issue）：加载耗时分钟级（10-20 分钟）。
 
@@ -113,7 +113,7 @@ I'm using CC and Office Viewer on VS Code. The current version is 4.1.3, but I'v
 对应「复现步骤」：
 
 - 场景 A:打开 5MB 静态文件，记录点击→可交互耗时作基线；本方案主要不针对该场景，预期小改善（方案 5 生效）；
-- 场景 B:`python test-workspace/_generate/issue_589_large_file_slow_load.py --append` 持续追加期间（重新）打开文件：方案 1 生效后不再逐次全量重载（webview console 加计数或用 DevTools Performance 观察重渲染次数），方案 2 生效后追加期间滚动位置保持、已渲染内容不闪烁重建；5MB 下现象不明显则调大至 10MB/50MB 复测；
+- 场景 B:`python test-workspace/_generate-script/issue_589_large_file_slow_load.py --append` 持续追加期间（重新）打开文件：方案 1 生效后不再逐次全量重载（webview console 加计数或用 DevTools Performance 观察重渲染次数），方案 2 生效后追加期间滚动位置保持、已渲染内容不闪烁重建；5MB 下现象不明显则调大至 10MB/50MB 复测；
 - 量化口径：点击→首次可输入耗时、追加期间每秒重渲染次数、webview 进程内存曲线，修复前后各记录一轮。
 
 回归项：

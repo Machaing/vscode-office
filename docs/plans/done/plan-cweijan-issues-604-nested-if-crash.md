@@ -126,7 +126,7 @@ Cannot read properties of undefined (reading '0')
 ## 复现数据
 
 复现文件: `test-workspace/excel/test-excel-cweijan-604-nested-if-crash.xlsx`
-生成脚本: `test-workspace/_generate/issue_604_nested_if_crash.py`
+生成脚本: `test-workspace/_generate-script/issue_604_nested_if_crash.py`
 
 文件内容说明: 单 Sheet 布局(基于 issue 最小复现扩展出对照列):
 

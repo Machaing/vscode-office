@@ -35,7 +35,7 @@ bug
 ## 复现数据
 
 复现文件: `test-workspace/word/test-word-cweijan-497-cross-page-table.docx`
-生成脚本: `test-workspace/_generate/issue_497_cross_page_table.py`
+生成脚本: `test-workspace/_generate-script/issue_497_cross_page_table.py`
 
 文件内容说明: 1 个 100 行 × 4 列的长表格(Table Grid 样式),首行设置 `w:tblHeader` 跨页重复表头,每第 15 行设置较大行高使行边界与分页边界交错;表格前后各有正文段落,便于对比跨页前后内容是否正常渲染。Word/WPS 中该表格跨约 3 页。
 
@@ -71,11 +71,11 @@ bug
 
 行为对照 Word: Word 表格属性默认勾选"允许跨页断行"时同样会切行, 但用户普遍以"整行顺延"为完整显示预期, 故本修复采取不切行策略(与 issue 标题期望一致)。
 
-应用脚本: `test-workspace/_generate/apply_497_patch.py`(参照 `apply_597_patch.py` 套路; 若重建 pnpm patch 目录, 需先跑 `apply_597_patch.py` 再跑本脚本, 最后 `pnpm patch-commit node_modules/.pnpm_patches/@eigenpal/docx-editor-core@1.9.0`)。
+应用脚本: `test-workspace/_generate-script/apply_497_patch.py`(参照 `apply_597_patch.py` 套路; 若重建 pnpm patch 目录, 需先跑 `apply_597_patch.py` 再跑本脚本, 最后 `pnpm patch-commit node_modules/.pnpm_patches/@eigenpal/docx-editor-core@1.9.0`)。
 
 ## 修复记录
 
-2026-09-15 已实施本地补丁并通过无头验证(`test-workspace/_generate/render497/`):
+2026-09-15 已实施本地补丁并通过无头验证(`test-workspace/_generate-script/render497/`):
 
 - **修前**(截图 `render497/render-497-before.png`): 10 个表格分片 `(0,10)(10,20)(20,31)(30,41)(40,51)…(90,101)`, 行 30/40/50/60/70/80/90 各出现在相邻两个分片(被切), 8 个分片带 cut border; 页 4 底部行 40 仅显示首行说明文字, 页 5 顶部续行序号/名称为空;
 - **修后**(截图 `render497/render-497-fixed.png`): 11 个分片 `(0,10)(10,20)(20,30)…(100,101)` 严格按整行边界, `splitRows=[]`、`missingRows=[]`、cut border 0; 页 4 底部行 39 完整收尾(带底边框), 页 5 顶部重复表头下行 40 完整(序号 + 三行说明文字齐全); 100 行全部可见, 无行丢失、无跨片重叠, 总页数仍 11;
@@ -88,11 +88,11 @@ bug
 
 ```bash
 # 1. 生成复现文件(已有则跳过)
-python test-workspace/_generate/issue_497_cross_page_table.py
+python test-workspace/_generate-script/issue_497_cross_page_table.py
 
 # 2. 构建无头验证 bundle(仓库根目录)
-npx esbuild test-workspace/_generate/render497/main.jsx --bundle --format=iife \
-  --outfile=test-workspace/_generate/render497/bundle.js --jsx=automatic \
+npx esbuild test-workspace/_generate-script/render497/main.jsx --bundle --format=iife \
+  --outfile=test-workspace/_generate-script/render497/bundle.js --jsx=automatic \
   --platform=browser --define:process.env.NODE_ENV='"production"'
 
 # 3. 以 test-workspace 为根起静态服务
@@ -100,7 +100,7 @@ cd test-workspace && python -m http.server 8791 --bind 127.0.0.1
 
 # 4. 浏览器打开(渲染完成后 title=RENDER_DONE, 结果在 window.__RESULT__;
 #    harness 会滚动遍历虚拟化分页并聚合所有表格分片):
-#    http://127.0.0.1:8791/_generate/render497/index.html?file=word/test-word-cweijan-497-cross-page-table.docx
+#    http://127.0.0.1:8791/_generate-script/render497/index.html?file=word/test-word-cweijan-497-cross-page-table.docx
 #    判定: splitRows 与 missingRows 均为 [], fragmentsWithCut=0,
 #          fragments 形如 0-10,10-20,…,100-101(整行边界, 无跨片重叠)。
 #    回归: ?file=word/issue-597-toc.docx 、?file=word/issue-597-toc-plain.docx

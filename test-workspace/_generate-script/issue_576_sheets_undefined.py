@@ -20,7 +20,7 @@ import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "excel", "test-excel-cweijan-576-sheets-undefined.xlsx")
-TMP = os.path.join(ROOT, "_generate", "_576_tmp.xlsx")
+TMP = os.path.join(ROOT, "_generate-script", "_576_tmp.xlsx")
 
 
 def main():

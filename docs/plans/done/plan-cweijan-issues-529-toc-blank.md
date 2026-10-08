@@ -38,7 +38,7 @@ bug
 ## 复现数据
 
 复现文件: `test-workspace/word/test-word-cweijan-529-toc-blank.docx`
-生成脚本: `test-workspace/_generate/issue_529_toc_blank.py`
+生成脚本: `test-workspace/_generate-script/issue_529_toc_blank.py`
 
 文件内容说明: 含 TOC 目录域的 docx,目录条目为域结果区内的普通文本 run + 嵌套 PAGEREF 域(无 `<w:hyperlink>` 包裹,TOC 域跨条目段落),正文含两级标题、分页与书签锚点。该结构与 [#597](plan-cweijan-issues-597-word-toc.md) 复现的 plain 变体同类——缺陷版本下条目文本在解析时丢失、仅剩页码,与「序号可见、内容空白」现象一致;本 fork 已针对 597 实施本地补丁,本文件同时可用作该补丁的回归用例。
 
@@ -64,10 +64,10 @@ bug
 
 2026-09-14 验证**已修复**(经 597 补丁顺带覆盖):
 
-- **方式**: 无头 Chrome 跑真实 `DocxEditor` 渲染管线(参照 597 的无头验证)。脚本 `test-workspace/_generate/render529/main.jsx`(esbuild bundle 后静态服务加载,与 `render597/main.jsx` 同一套路,支持 `?file=` 参数),渲染完成后从 `.ProseMirror` 逐段提取文本与首条目 DOM。
+- **方式**: 无头 Chrome 跑真实 `DocxEditor` 渲染管线(参照 597 的无头验证)。脚本 `test-workspace/_generate-script/render529/main.jsx`(esbuild bundle 后静态服务加载,与 `render597/main.jsx` 同一套路,支持 `?file=` 参数),渲染完成后从 `.ProseMirror` 逐段提取文本与首条目 DOM。
 - **结果(529 复现文件)**: 六条目录条目全部完整渲染为「标题 + tab + 页码」:
   `第一章 项目概述→1`、`第二章 需求分析→2`、`2.1 功能需求→2`、`2.2 非功能需求→3`、`第三章 系统设计→4`、`第四章 总结与展望→5`;
-  首条目 DOM 为文本 run + `<span class="docx-tab">` + `<span class="docx-field docx-field-pageref" data-instruction="PAGEREF _Toc52901 \h">1</span>`,嵌套 PAGEREF 正确保留为域节点。截图: `test-workspace/_generate/render529/render-529-toc.png`。
+  首条目 DOM 为文本 run + `<span class="docx-tab">` + `<span class="docx-field docx-field-pageref" data-instruction="PAGEREF _Toc52901 \h">1</span>`,嵌套 PAGEREF 正确保留为域节点。截图: `test-workspace/_generate-script/render529/render-529-toc.png`。
 - **回归(597 两个文件)**: `issue-597-toc-plain.docx` 五条目仍完整(`第一章 引言→1` 等),`issue-597-toc.docx`(hyperlink 版)仍完整且保留条目链接,均无回归。
 - 保留推断性说明: 报告者原始文件未上传,若上游有反馈称该结构之外的情形仍复现,需索取原始文件另行定位(见上文根因定位备注)。
 
@@ -75,18 +75,18 @@ bug
 
 ```bash
 # 1. 生成复现文件(已有则跳过)
-python test-workspace/_generate/issue_529_toc_blank.py
+python test-workspace/_generate-script/issue_529_toc_blank.py
 
 # 2. 构建无头验证 bundle(仓库根目录)
-npx esbuild test-workspace/_generate/render529/main.jsx --bundle --format=iife \
-  --outfile=test-workspace/_generate/render529/bundle.js --jsx=automatic \
+npx esbuild test-workspace/_generate-script/render529/main.jsx --bundle --format=iife \
+  --outfile=test-workspace/_generate-script/render529/bundle.js --jsx=automatic \
   --platform=browser --define:process.env.NODE_ENV='"production"'
 
 # 3. 以 test-workspace 为根起静态服务
 cd test-workspace && python -m http.server 8791 --bind 127.0.0.1
 
 # 4. 浏览器打开(渲染完成后页面 title 变为 RENDER_DONE):
-#    http://127.0.0.1:8791/_generate/render529/index.html?file=word/test-word-cweijan-529-toc-blank.docx
+#    http://127.0.0.1:8791/_generate-script/render529/index.html?file=word/test-word-cweijan-529-toc-blank.docx
 #    回归: ?file=word/issue-597-toc.docx 、?file=word/issue-597-toc-plain.docx
 #    控制台执行 copy(window.__RESULT__.paragraphs) 取逐段文本;
 #    判定: 每条目录条目应同时含标题文本与页码(如 "第一章 项目概述\t1"),而非仅页码。

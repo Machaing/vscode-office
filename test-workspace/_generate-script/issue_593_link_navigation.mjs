@@ -7,7 +7,7 @@
  * - 第 1 页: 两个内部 GoTo 链接注记(/Dest -> 第 2/3 页顶部) + 一个外部 URI 链接;
  * - 第 2/3 页: 各含一个返回第 1 页的内部链接 + 一个外部 URI 链接;
  * - 文档级 /Outlines 书签 3 项分别指向三页, 并设置 /PageMode /UseOutlines。
- * 运行: node test-workspace/_generate/issue_593_link_navigation.mjs
+ * 运行: node test-workspace/_generate-script/issue_593_link_navigation.mjs
  */
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
