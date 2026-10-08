@@ -61,7 +61,7 @@ npm run lint:fix   # ESLint 检查并自动修复
 
 ## 文档结构(docs/)
 
-- `plans/`: 计划与处理方案,命名规范见 [docs/plans/agent.md](docs/plans/agent.md) —— issue 处理类 `plan-cweijan-issues-{编号}-{主题}.md`(上游) / `plan-my-issues-{编号}-{主题}.md`(本仓库),其他 `plan-{主题}.md`;新建 plan 落 `todo/`,根因定位且修复验证通过(或确认无需修复)后按 agent.md「完成归档」流程移入 `done/`(git mv + 同步 issues.xlsx 状态/关联路径、ISSUES.md 快照行、test-workspace 登记表链接、plan 内相对链接)
+- `plans/`: 计划与处理方案,命名与行文规范见 [docs/plans/agent.md](docs/plans/agent.md) —— issue 处理类 `plan-cweijan-issues-{编号}-{主题}.md`(上游) / `plan-my-issues-{编号}-{主题}.md`(本仓库),其他 `plan-{主题}.md`;新建 plan 落 `todo/`,根因定位且修复验证通过(或确认无需修复)后按 agent.md「完成归档」流程移入 `done/`(git mv + 同步 issues.xlsx 状态/关联路径、ISSUES.md 快照行、test-workspace 登记表链接、plan 内相对链接)
 - `issues/cweijan-issues/`: 上游 issue 跟踪。`sync_issues.py` **只同步上游 open issue**(gh 优先,REST API 兜底)生成 `issues.xlsx`(人工维护处理状态/关联 plan/备注三列,脚本不覆盖;已登记 issue 被上游关闭时更新"上游状态"并保留该行,历史 closed 不主动拉取)与 `ISSUES.md` 只读快照(README 引用);`--init {编号} {slug}` 生成 `plan-cweijan-issues-{编号}-{主题}.md` 骨架并回填关联列
 - `faq/`、`dev/`、`release/`、`archive/`: 常见使用问题、开发指南、发布步骤、弃用存档(均双语,`-CN` 后缀;README 与 changelog 的中英版本均在根目录,中文版经 explorer.fileNesting 折叠于英文版下)
 
@@ -71,6 +71,7 @@ npm run lint:fix   # ESLint 检查并自动修复
 - ESLint(flat config):`unused-imports/no-unused-imports` 为 error,提交前运行 `npm run lint:fix`;`no-explicit-any` 已关闭,TypeScript 为非 strict 模式。
 - 静态资源(pdf.js、markdown webview、java-decompiler.jar、sponsor 图片)统一放 `resource/`,通过 `extensionResource` / `readExtensionText`([src/common/extensionResource.ts](src/common/extensionResource.ts))读取,不要硬编码路径。
 - webview 内用户可见文案需加入 i18n:`src/react/i18n/messages/`(11 种语言);扩展宿主侧用 `src/common/vscode-nls-i18n`。
+- 中文文档(plan、README、changelog、FAQ)用通顺的叙述性中文:冒号只用于引导列表/表格/引文,不以无谓语的名词短语直接冒号接完整句;行文标点用中文全角(逗号/分号/冒号/括号,反引号与链接内、`file.ts:123` 类记号除外);英文术语首次出现加中文注释;不用翻译腔黑话(prepend/defer/workaround 之类),代码链路写成有主谓的句子而非箭头堆砌。plan「问题确认及解决」章节生成后按 [agent.md](docs/plans/agent.md) 的「行文自查清单」通读检查。
 
 ## Git 提交规范
 
