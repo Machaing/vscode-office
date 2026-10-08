@@ -236,3 +236,13 @@ N 层嵌套产生 N 个函数名与 N 个**连续** `)`:最内层 `)` 以函数�
    - `test-excel-cweijan-576-sheets-undefined.xlsx`: 走既有解析兜底链,行为不变;
    - Excel/WPS 真实保存的含 3 层 IF 文件(自带 `<v>` 缓存): 显示缓存值,不进求值器。
 4. **若跟进方向 ①**(任一档)需追加: 嵌套混合公式(`=SUM(A1,SUM(B1:B3),IF(C1>0,1,0))`)、区间 `A1:B5`、一元负号、`$` 绝对引用(#592 用例)的后缀序列与求值结果不劣化。
+
+## 修复记录
+
+- 2026-10-08 实施方向 ②并实测验证通过(`ef61b86`): [table.js](../../../src/react/view/excel/x-spreadsheet/component/table.js)
+  `renderCell` 的 `_cell.render` 包 try/catch,失败格显示 `#VALUE!` 并 console.warn 行列定位;
+  `formulaValue` 缓存优先与 `formatter.render` 均在 try 外,零改动。
+- 实测结果(复现文件 F5,与上方验证预期逐项一致): 文件正常打开、整表与 sheet 标签完整渲染;
+  `B1`(3 层无缓存)→ `#VALUE!`;`C1`(带缓存)→ `3`;`D1`/`E1` 对照与第 2 行分支无回归。
+- 方向 ①(求值引擎嵌套调用帧、字符串比较语义)未实施,作为独立增强另行跟进
+  (即使不修,B1 类无缓存格显示 `#VALUE!` 而非崩溃,文件可正常打开)。
