@@ -98,10 +98,16 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
       // cached formula result from file (<v>) takes precedence over re-evaluation
       cellText = cell.formulaValue;
     } else if (!data.settings.evalPaused) {
-      cellText = _cell.render(cell.text || '', formulam, (y, x) => {
-        const refCell = data.rows.getCell(x, y);
-        return (refCell && refCell.text) ? refCell.text : '';
-      });
+      try {
+        cellText = _cell.render(cell.text || '', formulam, (y, x) => {
+          const refCell = data.rows.getCell(x, y);
+          return (refCell && refCell.text) ? refCell.text : '';
+        });
+      } catch (e) {
+        // fail-safe: one broken formula shows #VALUE! instead of failing the whole sheet (#604)
+        console.warn(`formula eval failed at ${rindex},${cindex}: ${cell.text}`, e);
+        cellText = '#VALUE!';
+      }
     } else {
       cellText = cell.text || '';
     }
