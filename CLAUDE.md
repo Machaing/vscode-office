@@ -21,43 +21,7 @@ npm run lint:fix   # ESLint 检查并自动修复
 
 ## 架构
 
-### 四个构建单元,由一个 vite 命令编排
-
-所有 npm scripts 都通过 `vite` 启动([vite.config.ts](vite.config.ts)),它负责:
-
-1. **React webview**(vite):`src/react/` → `out/webview/`,webview 侧单页应用。
-2. **扩展宿主**(esbuild,[build.ts](build.ts),由 vite.config.ts 动态 import 触发):
-   - 桌面版:`src/extension.ts` → `out/extension.js`(CJS,node platform)
-   - Web 版:`src/extension.web.ts` → `out/extension.web.js`(CJS,browser platform;Node 内置模块通过 [src/shims/](src/shims/) 和 build.ts 的 node-shim 插件替换)
-   - 生产构建另将 5 个重依赖(vscode-html-to-docx、highlight.js、pdf-lib、katex、puppeteer-core,见 build.ts 的 `dependencies`)单独 bundle 到 `out/node_modules`,构建时标记为 external
-3. **vditor 子项目**([vite/vditorPlugin.ts](vite/vditorPlugin.ts)):`vditor/` 是独立的 vite 库项目(fork 的 Markdown 编辑器),dev 时由 chokidar watch `vditor/src` 触发重建,prod 时在 closeBundle 阶段构建;产物(UMD)自动复制到 `resource/markdown/dist/`。
-
-桌面构建还会把 `template/**`、`unrar.wasm`、`7zz.wasm` 复制进 `out/`。
-
-### 扩展宿主 → webview 的数据流
-
-1. `package.json` 的 `customEditors` 按文件名模式分发到各 Provider(`maizhuoying.officeViewer`、`maizhuoying.markdownViewer`、`maizhuoying.archiveViewer` 等)。
-2. Provider(如 [officeViewerProvider.ts](src/provider/officeViewerProvider.ts))根据文件后缀决定 `route`(excel/word/ppt/font/epub/psd/xmind/parquet/…),调用 `ReactApp.view(webview, { route })`。
-3. `ReactApp`([src/common/reactApp.ts](src/common/reactApp.ts))加载 webview HTML,把 route、语言、用户配置等 JSON 注入到 HTML 的 `{{configs}}` 占位符。
-4. webview 入口 [src/react/main.tsx](src/react/main.tsx) 通过 `getConfigs()` 读取 configs,按 `route` 渲染对应的 lazy-loaded 组件(`src/react/view/<name>/`)。
-
-例外:PDF 走独立的 pdf.js 查看器(`resource/pdf/viewer.html`),Markdown 走 vditor(`resource/markdown/index.html`),都不经过 React。
-
-### 宿主与 webview 的消息通信
-
-[Handler](src/common/handler.ts)(`Handler.bind(panel, uri)`)封装 postMessage:宿主 `handler.on(event, cb)` / `handler.emit(event, content)`,并自动挂接文件监听(`fileChange`、`externalUpdate`、`dispose`)。webview 侧对应逻辑在 `src/react/util/vscode.ts`。
-
-### Desktop / Web 平台差异
-
-- Web 入口不注册:HTTP Client、Git History、剪贴板贴图、Java 反编译、压缩包查看器(由 WebUnsupportedViewerProvider 兜底)。
-- 运行时判断:`isWebExtensionHost()`([src/common/extensionHost.ts](src/common/extensionHost.ts));`package.json` 命令/菜单用 `office.extensionHost.web` context key 控制 enablement。
-
-### 新增一种文件类型查看器
-
-1. `package.json` → `customEditors` 增加文件名 selector。
-2. [officeViewerProvider.ts](src/provider/officeViewerProvider.ts) 的 switch 中把后缀映射到新 `route`。
-3. `src/react/view/<name>/` 新建组件,并在 [src/react/main.tsx](src/react/main.tsx) 增加 lazy import 与 route 分支。
-4. 打开时可调用 `TelemetryService.trackOfficeViewOpen`(本 fork 已禁用遥测,该方法为 no-op,保留接口便于日后恢复)。
+构建编排见 [docs/dev/04-build-CN.md](docs/dev/04-build-CN.md);宿主与 webview 的数据流与消息通信、平台差异、新增文件类型查看器的步骤见 [docs/dev/03-architecture-CN.md](docs/dev/03-architecture-CN.md);工程目录结构见 [docs/dev/02-structure-CN.md](docs/dev/02-structure-CN.md)。
 
 ## 文档结构(docs/)
 

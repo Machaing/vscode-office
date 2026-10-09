@@ -40,6 +40,12 @@ npm run build    # production build
 npm run package  # create .vsix
 ```
 
+For how the build is orchestrated (the four build units, dev vs production), see [04-build.md](04-build.md).
+
+For the overall architecture (host → webview data flow, messaging, platform differences), see [03-architecture.md](03-architecture.md).
+
+For the repository directory layout, see [02-structure.md](02-structure.md).
+
 ## Publishing
 
 See [docs/release/publish.md](../release/publish.md) for VS Code Marketplace and Open VSX publishing steps.

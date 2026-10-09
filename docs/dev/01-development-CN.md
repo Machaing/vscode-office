@@ -40,6 +40,12 @@ npm run build    # 生产构建
 npm run package  # 生成 .vsix
 ```
 
+构建的编排方式(四个构建单元、dev 与 build 的差异)参阅 [04-build-CN.md](04-build-CN.md)。
+
+整体架构(宿主与 webview 的数据流、消息通信、平台差异)参阅 [03-architecture-CN.md](03-architecture-CN.md)。
+
+工程目录结构参阅 [02-structure-CN.md](02-structure-CN.md)。
+
 ## 发布
 
 参阅 [docs/release/publish-CN.md](../release/publish-CN.md) 了解发布到 VS Code Marketplace 与 Open VSX 的步骤。

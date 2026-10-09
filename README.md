@@ -51,7 +51,7 @@ This extension lets you preview and edit common office and design files directly
 
 ## Development
 
-See [docs/dev/development.md](docs/dev/development.md) for prerequisites, debugging, build, and publishing.
+See [docs/dev/01-development.md](docs/dev/01-development.md) for prerequisites, debugging, build, and publishing.
 
 ## Privacy
 

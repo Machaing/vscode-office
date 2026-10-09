@@ -51,7 +51,7 @@
 
 ## 开发指南
 
-参阅 [docs/dev/development-CN.md](docs/dev/development-CN.md) 了解环境要求、调试、构建与发布。
+参阅 [docs/dev/01-development-CN.md](docs/dev/01-development-CN.md) 了解环境要求、调试、构建与发布。
 
 ## 隐私
 
