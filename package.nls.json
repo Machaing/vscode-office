@@ -27,6 +27,7 @@
 	"ext.markdown.findPrompt": "Enter text to find in the markdown editor",
 	"ext.markdown.findNotFound": "No match found in the markdown editor: $1",
 	"ext.markdown.findNoActiveEditor": "No active markdown editor.",
+	"ext.office.saveWriteFailed": "Save failed: the file is on the \"$1\" filesystem and the write was rejected by its provider ($2). Use \"Save As\" to save a copy locally.",
 	"extension.displayName": "Office Viewer Enhance",
 	"extension.description": "Fork of Office Viewer with faster bug fixes. View word, excel, powerpoint files and using WYSIWYG editor for markdown.",
 	"command.saveResponse.title": "Save Response",

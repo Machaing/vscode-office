@@ -27,6 +27,7 @@
 	"ext.markdown.findPrompt": "Markdown エディターで検索するテキストを入力してください",
 	"ext.markdown.findNotFound": "Markdown エディターで一致が見つかりませんでした: $1",
 	"ext.markdown.findNoActiveEditor": "アクティブな Markdown エディターがありません。",
+	"ext.office.saveWriteFailed": "保存に失敗しました：ファイルは「$1」ファイルシステム上にあり、書き込みがそのプロバイダーに拒否されました（$2）。ツールバーの「名前を付けて保存」でローカルに保存できます。",
 	"extension.displayName": "Office Viewer Enhance",
 	"extension.description": "より迅速なバグ修正を提供する Office Viewer のフォークです。Word、Excel、PowerPoint ファイルを表示し、Markdown 用の WYSIWYG エディターを提供します。",
 	"command.saveResponse.title": "応答を保存",

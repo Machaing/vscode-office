@@ -3,6 +3,8 @@ import { basename, join, parse } from 'path';
 import { Handler } from "@/common/handler";
 import { isUriReadOnly } from '@/common/fileReadOnly';
 import { Uri, workspace } from 'vscode';
+import { i18n } from '@/common/global';
+import { Output } from '@/common/Output';
 import { emitFileOfficeOpen, emitVirtualOfficeOpen, isVirtualUri } from '@/provider/handlers/officeContent';
 
 const fileSaveTimes: Record<string, number> = {};
@@ -63,10 +65,22 @@ export function handleCommonEvent(uri: Uri, handler: Handler, options?: { skipOp
                 return;
             }
             fileSaveTimes[uri.toString()] = Date.now();
-            await workspace.fs.writeFile(uri, res)
-            fileSaveTimes[uri.toString()] = Date.now();
-            setDirty(handler, uri, false);
-            handler.emit("saveDone")
+            try {
+                await workspace.fs.writeFile(uri, res)
+                fileSaveTimes[uri.toString()] = Date.now();
+                setDirty(handler, uri, false);
+                handler.emit("saveDone")
+            } catch (error) {
+                // 写入失败时保留 dirty 标记便于重试或另存;非 file 来源(如 s3 等第三方虚拟
+                // 文件系统)不把提供方的原始报错直接弹给用户,改弹本扩展指引(cweijan-415)
+                delete fileSaveTimes[uri.toString()];
+                Output.debug(error);
+                if (uri.scheme === 'file') {
+                    throw error;
+                }
+                const detail = String((error as Error)?.message ?? error);
+                void vscode.window.showErrorMessage(i18n('ext.office.saveWriteFailed', uri.scheme, detail));
+            }
         })
         .on("saveAs", async (payload: { content: number[], ext?: string }) => {
             const res = new Uint8Array(payload.content);

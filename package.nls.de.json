@@ -27,6 +27,7 @@
 	"ext.markdown.findPrompt": "Text eingeben, der im Markdown-Editor gesucht werden soll",
 	"ext.markdown.findNotFound": "Keine Übereinstimmung im Markdown-Editor gefunden: $1",
 	"ext.markdown.findNoActiveEditor": "Kein aktiver Markdown-Editor.",
+	"ext.office.saveWriteFailed": "Speichern fehlgeschlagen: die Datei liegt im Dateisystem \"$1\", der Schreibvorgang wurde vom Anbieter abgelehnt ($2). Verwenden Sie \"Speichern unter\", um eine lokale Kopie zu speichern.",
 	"extension.displayName": "Office Viewer Enhance",
 	"extension.description": "Fork von Office Viewer mit schnelleren Fehlerbehebungen. Zeigt Word-, Excel- und PowerPoint-Dateien an und bietet einen WYSIWYG-Editor für Markdown.",
 	"command.saveResponse.title": "Antwort speichern",

@@ -368,13 +368,31 @@
 				"displayName": "%editor.officeViewer.displayName%",
 				"selector": [
 					{
-						"filenamePattern": "*.xls"
+						"filenamePattern": "file:/**/*.xls"
 					},
 					{
-						"filenamePattern": "*.xlsx"
+						"filenamePattern": "vscode-vfs:/**/*.xls"
 					},
 					{
-						"filenamePattern": "*.xlsm"
+						"filenamePattern": "vscode-remote:/**/*.xls"
+					},
+					{
+						"filenamePattern": "file:/**/*.xlsx"
+					},
+					{
+						"filenamePattern": "vscode-vfs:/**/*.xlsx"
+					},
+					{
+						"filenamePattern": "vscode-remote:/**/*.xlsx"
+					},
+					{
+						"filenamePattern": "file:/**/*.xlsm"
+					},
+					{
+						"filenamePattern": "vscode-vfs:/**/*.xlsm"
+					},
+					{
+						"filenamePattern": "vscode-remote:/**/*.xlsm"
 					},
 					{
 						"filenamePattern": "file:/**/*.csv"
@@ -386,10 +404,22 @@
 						"filenamePattern": "vscode-remote:/**/*.csv"
 					},
 					{
-						"filenamePattern": "*.tsv"
+						"filenamePattern": "file:/**/*.tsv"
 					},
 					{
-						"filenamePattern": "*.ods"
+						"filenamePattern": "vscode-vfs:/**/*.tsv"
+					},
+					{
+						"filenamePattern": "vscode-remote:/**/*.tsv"
+					},
+					{
+						"filenamePattern": "file:/**/*.ods"
+					},
+					{
+						"filenamePattern": "vscode-vfs:/**/*.ods"
+					},
+					{
+						"filenamePattern": "vscode-remote:/**/*.ods"
 					},
 					{
 						"filenamePattern": "file:/**/*.docx"

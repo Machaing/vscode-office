@@ -34,6 +34,21 @@
 			"preLaunchTask": "dev"
 		},
 		{
+			"name": "Extension (S3 Mock)",
+			"type": "extensionHost",
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionDevelopmentPath=${workspaceFolder}/test-workspace/_tmp/issue_415_mock_s3",
+				"--disable-extensions",
+				"${workspaceFolder}/test-workspace"
+			],
+			"outFiles": [
+				"${workspaceFolder}/out/**/*.js"
+			],
+			"preLaunchTask": "dev"
+		},
+		{
 			"name": "Extension (Web)",
 			"type": "extensionHost",
 			"request": "launch",

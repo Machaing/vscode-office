@@ -27,6 +27,7 @@
 	"ext.markdown.findPrompt": "输入要在 Markdown 编辑器中定位的文本",
 	"ext.markdown.findNotFound": "Markdown 编辑器中未找到匹配: $1",
 	"ext.markdown.findNoActiveEditor": "当前没有打开的 Markdown 编辑器。",
+	"ext.office.saveWriteFailed": "保存失败：文件位于「$1」文件系统，写入被其提供方拒绝（$2）。可使用工具栏「另存为」保存到本地。",
 	"extension.displayName": "Office Viewer Enhance",
 	"extension.description": "Office Viewer 的分支版本，bug 修复更及时。查看 Word、Excel、PowerPoint 文件，并为 Markdown 提供所见即所得编辑器。",
 	"command.saveResponse.title": "保存响应",

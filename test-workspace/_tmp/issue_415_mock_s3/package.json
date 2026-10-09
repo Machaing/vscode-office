@@ -1,0 +1,26 @@
+{
+	"name": "mock-s3-provider",
+	"displayName": "Mock S3 Provider (issue 415 verification)",
+	"description": "Registers an s3mock FileSystemProvider that simulates AWS Toolkit's S3 filesystem, for vscode-office issue cweijan-415.",
+	"version": "0.0.1",
+	"publisher": "vscode-office-dev",
+	"private": true,
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "mockS3.openTestFile",
+				"title": "Mock S3: Open test xlsx"
+			}
+		]
+	}
+}

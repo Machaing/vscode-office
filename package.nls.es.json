@@ -27,6 +27,7 @@
 	"ext.markdown.findPrompt": "Introduzca el texto a buscar en el editor de Markdown",
 	"ext.markdown.findNotFound": "No se encontraron coincidencias en el editor de Markdown: $1",
 	"ext.markdown.findNoActiveEditor": "No hay un editor de Markdown activo.",
+	"ext.office.saveWriteFailed": "Error al guardar: el archivo está en el sistema de archivos \"$1\" y la escritura fue rechazada por su proveedor ($2). Use \"Guardar como\" para guardar una copia localmente.",
 	"extension.displayName": "Office Viewer Enhance",
 	"extension.description": "Fork de Office Viewer con correcciones de errores más rápidas. Vea archivos de Word, Excel y PowerPoint y use un editor WYSIWYG para Markdown.",
 	"command.saveResponse.title": "Guardar respuesta",

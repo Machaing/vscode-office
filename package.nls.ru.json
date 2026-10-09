@@ -27,6 +27,7 @@
 	"ext.markdown.findPrompt": "Введите текст для поиска в редакторе Markdown",
 	"ext.markdown.findNotFound": "Совпадений в редакторе Markdown не найдено: $1",
 	"ext.markdown.findNoActiveEditor": "Нет активного редактора Markdown.",
+	"ext.office.saveWriteFailed": "Не удалось сохранить: файл находится в файловой системе \"$1\", и запись была отклонена её поставщиком ($2). Используйте «Сохранить как», чтобы сохранить копию локально.",
 	"extension.displayName": "Office Viewer Enhance",
 	"extension.description": "Форк Office Viewer с более быстрым исправлением ошибок. Просмотр файлов Word, Excel, PowerPoint и WYSIWYG-редактор для Markdown.",
 	"command.saveResponse.title": "Сохранить ответ",

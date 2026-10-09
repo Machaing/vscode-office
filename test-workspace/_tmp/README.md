@@ -19,6 +19,7 @@ Markdown 解析器,Go 实现经 GopherJS 转译的黑盒产物)无法断点调�
 | `_tmp_lute_paste_matrix.js` | 粘贴链路保留哪些行内元素 | 226 |
 | `_tmp_browser_226.html` | 浏览器验证页(连 vite dev server 的 vditor dist,复现真实编辑器环境) | 226 |
 | `_tmp_atom_extract.js` | 逆向 lute.min.js 的 GopherJS 字符串表(FNV 哈希),在黑盒产物内定位 table/li 等标签处理函数 | 157(黑盒分析) |
+| `issue_415_mock_s3/` | 最小开发扩展,注册 `s3mock` FileSystemProvider 模拟 AWS Toolkit 的 S3 文件系统(readFile 返回复现文件字节、writeFile 抛 toolkit 同款错误),离线复现/验证保存链路;经 launch.json 的 "Extension (S3 Mock)" 配置加载 | 415 |
 
 运行方式(需先 `npm run dev` 或 `npm run build` 产出 `vditor/dist/`):
 
