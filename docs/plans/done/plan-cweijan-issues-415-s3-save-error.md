@@ -149,3 +149,11 @@ toolkit 的 S3 文件提供器与其自身 S3 标签页的生命周期绑定：�
    - 改动前：文件被本扩展 Excel 编辑器接管，保存（Ctrl+S/工具栏）弹出模拟错误文案——完整复现 issue 的弹窗链路；
    - 改动后：不再被接管（验证来源限定生效）；
 4. **回归**：本地 file 下 xls/xlsx/xlsm/csv/tsv/ods 的打开-编辑-保存-另存为；vscode-remote（WSL/SSH）与 vscode-vfs（vscode.dev 网页版，customEditors 用的是同一份 package.json）打开正常；zip 等压缩包查看器不受影响；「打开方式」手动选 Excel Viewer 仍可用；辅助修复生效后，虚拟来源下保存失败弹本扩展文案且 dirty 星号保留。
+
+## 修复记录
+
+- **2026-10-12 实施主修复与辅助修复**（commit `100b969`，fix(excel,cweijan-415)）：
+  1. [package.json](../../../package.json) 中 xls/xlsx/xlsm/tsv/ods 五个裸模式各展开为 `file:`/`vscode-vfs:`/`vscode-remote:` 三条限定，与 csv 既有写法一致；`s3:`/`s3-readonly:` 及其他第三方 scheme 不再命中，这类文件交回 VS Code 默认编辑器；
+  2. [commonHandler.ts](../../../src/provider/compress/commonHandler.ts) 的 save 写入包上 try/catch：非 `file` 来源失败时弹本扩展指引文案（i18n key 为 `ext.office.saveWriteFailed`，11 种语言包同步新增），原始错误仅入调试日志，dirty 星号保留便于重试或另存；`file` 来源失败维持原行为（异常继续上抛，由 Handler 统一弹出原始信息）；
+  3. 修复方案第 3 条（打开非白名单来源时在 Output 面板留提示）不再实施——主修复生效后本扩展已不会打开这类来源，该提示失去了触发场景。
+- **验证情况**：ESLint 与生产构建（npm run build）通过；selector 来源限定的匹配规则有仓库内 csv/docx 既有写法的实际运行先例背书；模拟验证工具已就绪——[test-workspace/_tmp/issue_415_mock_s3/](../../../test-workspace/_tmp/issue_415_mock_s3/) 开发扩展注册 `s3mock` FileSystemProvider（readFile 返回复现文件字节、writeFile 抛 toolkit 同款错误文案），配合 [.vscode/launch.json](../../../.vscode/launch.json) 的 "Extension (S3 Mock)" 调试配置加载，「验证方式」第 3 条的模拟代验证与回归项可直接执行。真实 S3 环境的主验步骤仍待外部环境执行（本仓库无 S3 凭证），先行归档，后续有环境时按「复现步骤」与「验证方式」第 1、2 条补验。

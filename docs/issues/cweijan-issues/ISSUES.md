@@ -41,7 +41,7 @@
 | [#384](https://github.com/cweijan/vscode-office/issues/384) | 自动格式化对齐的选项拓展 | enhancement | open | 待处理 |  |
 | [#394](https://github.com/cweijan/vscode-office/issues/394) | [BUG] Upload image broken if top-level GIT folder | bug | open | 无需处理 | docs/plans/done/plan-cweijan-issues-394-image-upload-path.md |
 | [#405](https://github.com/cweijan/vscode-office/issues/405) | [BUG] placeholder instead of image in markdown viewer | bug | open | 无需处理 | docs/plans/done/plan-cweijan-issues-405-image-placeholder.md |
-| [#415](https://github.com/cweijan/vscode-office/issues/415) | [BUG] Error When Saving to S3 Using AWS Toolkit for VSCode | bug | open | 待处理 | docs/plans/todo/plan-cweijan-issues-415-s3-save-error.md |
+| [#415](https://github.com/cweijan/vscode-office/issues/415) | [BUG] Error When Saving to S3 Using AWS Toolkit for VSCode | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-415-s3-save-error.md |
 | [#451](https://github.com/cweijan/vscode-office/issues/451) | markdown 编辑器 希望和AI联动 | enhancement | open | 待处理 |  |
 | [#486](https://github.com/cweijan/vscode-office/issues/486) | Add support RTL languages for Markdown | enhancement | open | 待处理 |  |
 | [#497](https://github.com/cweijan/vscode-office/issues/497) | [BUG]跨页面的表格会显示不完整 | bug | open | 本项目处理 | docs/plans/done/plan-cweijan-issues-497-cross-page-table.md |
