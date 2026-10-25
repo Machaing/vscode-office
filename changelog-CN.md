@@ -4,6 +4,27 @@
 
 > 反馈问题请提交 issue 至 [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues);本扩展为独立维护的 fork,请勿反馈到上游 [cweijan/vscode-office](https://github.com/cweijan/vscode-office)。
 
+# 4.2.3 2026-10-25
+
+Word:
+
+- 修复部分 WPS 等生成的文档打开即崩溃的问题：目录条目使用 HYPERLINK 域代码（内嵌 PAGEREF 域）时渲染层抛错，现兼容该嵌套域结构。
+- 打开内容实为旧版 Office 二进制格式（如 Word 97-2003 的 .doc）却以 .docx 命名的文件时，给出说明原因与解决办法的提示，不再显示 JSZip 技术报错。
+
+Excel:
+
+- 公式求值失败时仅该单元格显示 #VALUE!，不再导致整个文件打开失败。([cweijan/vscode-office#604](https://github.com/cweijan/vscode-office/issues/604))
+- 限定 Excel 家族 selector 的文件来源，虚拟文件系统（S3 等）保存失败时弹本扩展指引。([cweijan/vscode-office#415](https://github.com/cweijan/vscode-office/issues/415))
+
+Markdown Editor:
+
+- 修复粘贴图片时路径模板变量重复出现被全部替换的问题。([cweijan/vscode-office#308](https://github.com/cweijan/vscode-office/issues/308))
+
+Update:
+
+- package.json 接入 VS Code 官方 NLS 机制，命令名与配置描述支持 9 种语言。
+- 移除 VS Code 主题切换功能，聚焦 Office 文件核心体验。
+
 # 4.2.2 2026-10-6
 
 Markdown Editor:
@@ -99,29 +120,6 @@ Git History:
 Editor:
 
 - 脏标记改为星号。
-
-# 4.1.8 2026-7-28
-
-Excel:
-
-- 新增插入图片。
-- 新增图片裁剪工具。
-- 新增数据透视表读写支持。
-- 新增全选单元格。
-- 新增高级替换选项。
-- 提升 XLSX 加载性能。
-- 优化图片选中与拖拽行为。
-- 修复图片拖拽锚点定位不准。
-- 加载期间隐藏主题切换。
-
-Markdown Editor:
-
-- 修复链接与图片编辑弹窗布局问题。
-- 对齐 frontmatter 属性键图标。
-
-PDF:
-
-- 优化侧栏样式。
 
 ---
 

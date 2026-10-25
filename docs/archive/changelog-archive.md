@@ -4,6 +4,28 @@
 
 ---
 
+# 4.1.8 2026-7-28
+
+Excel:
+
+- Add insert image support.
+- Add image crop tools.
+- Add pivot table read/write support.
+- Add select-all-cells support.
+- Add advanced replace options.
+- Improve XLSX loading performance.
+- Improve image selection and dragging behavior.
+- Fix inaccurate image drag anchor positioning.
+- Hide the theme toggle while loading.
+
+Markdown Editor:
+
+- Fix link and image edit popover layout issues.
+- Align frontmatter property key icons.
+
+PDF:
+
+- Improve sidebar styling.
 # 4.1.7 2026-7-24
 
 Markdown Editor:
