@@ -81,7 +81,7 @@
 
 | 复现文件 | 生成脚本 | plan |
 | --- | --- | --- |
-| [word/test-word-open-hyperlink-toc.docx](word/test-word-open-hyperlink-toc.docx)(HYPERLINK 域代码目录,触发渲染崩溃) | [word_open_error.py](_generate-script/word_open_error.py) | [plan](../docs/plans/todo/plan-word-open-error.md) |
+| [word/test-word-open-hyperlink-toc.docx](word/test-word-open-hyperlink-toc.docx)(HYPERLINK 域代码目录,触发渲染崩溃) | [word_open_error.py](_generate-script/word_open_error.py) | [plan](../docs/plans/done/plan-fix-20261024-01-word-open-error.md) |
 | [word/test-word-open-doc-as-docx.docx](word/test-word-open-doc-as-docx.docx)(OLE2 头冒名 .docx) | 同上 | 同上 |
 
 注: 两者的原始实测文档(14MB / 9.9MB,不可脚本再生)改名 `*.orig.docx` 后由 .gitignore 排除,仅本地保留。

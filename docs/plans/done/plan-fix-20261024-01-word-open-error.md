@@ -122,4 +122,8 @@ Node 侧(与 webview 同一份解析/转换代码)已完成全部验证,修复�
 1. `pnpm patch-commit` 后确认 node_modules 新目录内两份产物均含修复;`npm run build` 构建通过,且 `out/webview/assets/Word-*.js` 产物中压缩重命名后的 V(产物内为 `qB`)完整保留 complexField 分派、hyperlink 兜底 `??[]` 与 `children&&` 防御,证明 ESM 补丁链路贯通;
 2. `npm run lint:fix` 通过(仅遗留 576 记录过的既有 exhaustive-deps 警告);i18n 10 个语言文件键齐全;
 3. dev 模式注意:vite 对 `@eigenpal/docx-editor-react` 有依赖预构建缓存(`node_modules/.vite/deps`),补丁落地后已删除该缓存,正在运行的 dev server 需重启(`npm run dev` + 重新 F5)才会加载修复后的库代码;
-4. 待 F5 实测四个文件:两个最小复现 + 两个 `.orig.docx` 原始文档,确认问题一正常渲染(目录条目含标题、点线与页码)、问题二展示中文提示。
+4. F5 实测四个文件(两个最小复现 + 两个 `.orig.docx` 原始文档)通过后随 4.2.3 发版(2026-10-25),.vsix 本地安装即含全部修复。
+
+## 归档
+
+2026-10-25 修复随 4.2.3 发布,plan 由 todo/ 归档至 done/,复现文件登记表的链接已同步。
