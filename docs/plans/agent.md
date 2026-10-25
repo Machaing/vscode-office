@@ -8,9 +8,12 @@
 | --- | --- | --- |
 | `plan-cweijan-issues-{编号}-{主题}.md` | 上游(cweijan) issue 的处理方案 | `plan-cweijan-issues-597-word-toc.md` |
 | `plan-my-issues-{编号}-{主题}.md` | 本仓库自身 issue 的处理方案 | `plan-my-issues-12-export-pdf.md` |
-| `plan-{主题}.md` | 其他计划(依赖升级、重构、功能设计等) | `plan-dependency-upgrade.md` |
+| `plan-fix-{日期}-{序号}-{主题}.md` | 非 issue 的处理方案(bug 修复等) | `plan-fix-20261024-01-word-open-error.md` |
 
 - `{编号}`: 对应仓库的 issue 号;`{主题}`: 小写英文短语,连字符分隔,能看懂涉及的功能模块
+- `{日期}`: plan 创建日(YYYYMMDD);`{序号}`: 当日第几个非 issue plan,两位数字从 `01` 起
+- 非 issue 的存量 plan(依赖升级、功能设计等,如 `plan-dependency-upgrade.md`、
+  `plan-feat-pro-charge.md`)沿用旧名,不追溯改名
 - 一类主题多个文档时用更细的 slug 区分,不再建子目录
 - **按处理状态分放子目录**: 新建的 plan 落 `todo/`(含 `{待分析}` 占位或未实施的设计);
   完成后按下节「完成归档」流程移入 `done/`
