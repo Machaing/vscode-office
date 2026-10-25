@@ -52,6 +52,8 @@ export default {
     viewer: {
         failedOpenFile: 'ファイルを開けませんでした',
         failedParseFile: 'ファイルの解析に失敗しました',
+        notDocxZip: 'ファイルの内容が有効な DOCX(zip)ドキュメントではありません',
+        legacyOfficeBinary: 'ファイルの内容は旧式の Office バイナリ形式(例: Word 97-2003 の .doc)で、.docx 拡張子と一致しません。Word/WPS で .docx として保存し直すか、拡張子を .doc に戻してください',
         failedLoadDocument: 'ドキュメントの読み込みに失敗しました',
         failedLoadPresentation: 'プレゼンテーションの読み込みに失敗しました',
         readOnly: '読み取り専用 — 変更はディスクに保存されません',

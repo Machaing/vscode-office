@@ -13,6 +13,8 @@ test-workspace-multi/
 # test-workspace: 排除可重新生成的大体积复现文件与现场构建产物(生成脚本均在 _generate-script/)
 test-workspace/excel/test-excel-cweijan-239-large-csv.csv
 test-workspace/markdown/test-markdown-cweijan-589-large-file-slow-load.md
+# word 打开失败(plan-word-open-error): 原始实测文档体积大(14MB/9.9MB)不入库, 等价最小复现由 word_open_error.py 生成
+test-workspace/word/test-word-open-*.orig.docx
 test-workspace/_generate-script/render*/bundle.js
 test-workspace/_generate-script/render*/bundle.css
 __pycache__/

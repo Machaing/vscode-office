@@ -77,6 +77,15 @@
 
 注: #239 的 csv 约 11MB(12 万行,脚本内 `ROWS` 可调);#589 的 md 约 5MB(脚本内 `TARGET_MB` 可调,`--append` 模拟边写边开);#529 的文档兼作 597 补丁的回归用例。
 
+## 其他复现文件(非上游 issue)
+
+| 复现文件 | 生成脚本 | plan |
+| --- | --- | --- |
+| [word/test-word-open-hyperlink-toc.docx](word/test-word-open-hyperlink-toc.docx)(HYPERLINK 域代码目录,触发渲染崩溃) | [word_open_error.py](_generate-script/word_open_error.py) | [plan](../docs/plans/todo/plan-word-open-error.md) |
+| [word/test-word-open-doc-as-docx.docx](word/test-word-open-doc-as-docx.docx)(OLE2 头冒名 .docx) | 同上 | 同上 |
+
+注: 两者的原始实测文档(14MB / 9.9MB,不可脚本再生)改名 `*.orig.docx` 后由 .gitignore 排除,仅本地保留。
+
 ## 重新生成
 
 全部文件由脚本生成,可随时重建:

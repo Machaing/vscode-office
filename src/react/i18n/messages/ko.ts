@@ -52,6 +52,8 @@ export default {
     viewer: {
         failedOpenFile: '파일을 열지 못했습니다',
         failedParseFile: '파일을 구문 분석하지 못했습니다',
+        notDocxZip: '파일 내용이 유효한 DOCX(zip) 문서가 아닙니다',
+        legacyOfficeBinary: '파일 내용이 이전 버전 Office 바이너리 형식(예: Word 97-2003 .doc)이며 .docx 확장자와 일치하지 않습니다. Word/WPS에서 .docx로 다시 저장하거나 확장자를 .doc로 되돌리세요',
         failedLoadDocument: '문서를 불러오지 못했습니다',
         failedLoadPresentation: '프레젠테이션을 불러오지 못했습니다',
         readOnly: '읽기 전용 — 변경 사항은 디스크에 저장되지 않습니다',

@@ -52,6 +52,8 @@ export default {
     viewer: {
         failedOpenFile: 'Не удалось открыть файл',
         failedParseFile: 'Не удалось обработать файл',
+        notDocxZip: 'Содержимое файла не является допустимым документом DOCX (zip)',
+        legacyOfficeBinary: 'Содержимое файла использует устаревший двоичный формат Office (например, Word 97-2003 .doc) и не соответствует расширению .docx. Пересохраните файл в .docx через Word/WPS или верните расширение .doc',
         failedLoadDocument: 'Не удалось загрузить документ',
         failedLoadPresentation: 'Не удалось загрузить презентацию',
         readOnly: 'Только чтение — изменения не сохраняются на диск',

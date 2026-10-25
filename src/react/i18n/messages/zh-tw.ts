@@ -52,6 +52,8 @@ export default {
     viewer: {
         failedOpenFile: '開啟檔案失敗',
         failedParseFile: '檔案解析失敗',
+        notDocxZip: '檔案內容不是有效的 docx(zip)文件',
+        legacyOfficeBinary: '檔案內容是舊版 Office 二進位格式(如 Word 97-2003 的 .doc),與 .docx 副檔名不符;請用 Word/WPS 另存為 .docx,或將副檔名改回 .doc',
         failedLoadDocument: '載入文件失敗',
         failedLoadPresentation: '載入簡報失敗',
         readOnly: '唯讀 — 變更不會儲存至磁碟',

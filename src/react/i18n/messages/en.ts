@@ -52,6 +52,8 @@ export default {
     viewer: {
         failedOpenFile: 'Failed to open file',
         failedParseFile: 'Failed to parse the file',
+        notDocxZip: 'The file content is not a valid DOCX (zip) document',
+        legacyOfficeBinary: 'The file content is in a legacy Office binary format (e.g. Word 97-2003 .doc), which does not match the .docx extension. Save it as .docx with Word/WPS, or rename the extension back to .doc',
         failedLoadDocument: 'Failed to load document',
         failedLoadPresentation: 'Failed to load presentation',
         readOnly: 'Read-only — changes are not saved to disk',

@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@eigenpal/docx-editor-core':
-    hash: b32d2d6da37da3ddfab3fe5d0dde185704e56efbf7264250e997de89942d75e0
+    hash: 9681f80bcdf472a8e7e1553557f9f72d6b8209f42dce61ab5f90d219e0e96365
     path: patches/@eigenpal__docx-editor-core.patch
 
 importers:
@@ -5638,7 +5638,7 @@ snapshots:
     optionalDependencies:
       react: 19.3.0
 
-  '@eigenpal/docx-editor-core@1.9.0(patch_hash=b32d2d6da37da3ddfab3fe5d0dde185704e56efbf7264250e997de89942d75e0)(prosemirror-commands@1.7.2)(prosemirror-dropcursor@1.8.3)(prosemirror-history@1.5.0)(prosemirror-keymap@1.2.3)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-tables@1.8.5)(prosemirror-transform@1.12.1)(prosemirror-view@1.42.3)':
+  '@eigenpal/docx-editor-core@1.9.0(patch_hash=9681f80bcdf472a8e7e1553557f9f72d6b8209f42dce61ab5f90d219e0e96365)(prosemirror-commands@1.7.2)(prosemirror-dropcursor@1.8.3)(prosemirror-history@1.5.0)(prosemirror-keymap@1.2.3)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-tables@1.8.5)(prosemirror-transform@1.12.1)(prosemirror-view@1.42.3)':
     dependencies:
       docxtemplater: 3.69.3
       dompurify: 3.4.14
@@ -5660,7 +5660,7 @@ snapshots:
   '@eigenpal/docx-editor-react@1.9.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(prosemirror-commands@1.7.2)(prosemirror-dropcursor@1.8.3)(prosemirror-history@1.5.0)(prosemirror-keymap@1.2.3)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-tables@1.8.5)(prosemirror-transform@1.12.1)(prosemirror-view@1.42.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@eigenpal/docx-editor-agents': 1.9.0(react@19.3.0)
-      '@eigenpal/docx-editor-core': 1.9.0(patch_hash=b32d2d6da37da3ddfab3fe5d0dde185704e56efbf7264250e997de89942d75e0)(prosemirror-commands@1.7.2)(prosemirror-dropcursor@1.8.3)(prosemirror-history@1.5.0)(prosemirror-keymap@1.2.3)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-tables@1.8.5)(prosemirror-transform@1.12.1)(prosemirror-view@1.42.3)
+      '@eigenpal/docx-editor-core': 1.9.0(patch_hash=9681f80bcdf472a8e7e1553557f9f72d6b8209f42dce61ab5f90d219e0e96365)(prosemirror-commands@1.7.2)(prosemirror-dropcursor@1.8.3)(prosemirror-history@1.5.0)(prosemirror-keymap@1.2.3)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-tables@1.8.5)(prosemirror-transform@1.12.1)(prosemirror-view@1.42.3)
       '@eigenpal/docx-editor-i18n': 1.9.0
       '@radix-ui/react-select': 2.3.7(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       clsx: 2.1.1

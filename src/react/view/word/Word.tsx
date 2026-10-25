@@ -5,6 +5,7 @@ import "@eigenpal/docx-editor-react/styles.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { handler, vscodeApi } from "../../util/vscode";
 import { loadOfficeBuffer } from "../../util/loadOfficeContent";
+import { $t } from "../../i18n/i18nConfig.ts";
 import { convertDocxTiffMedia } from "./tiffMedia";
 import "./Word.css";
 
@@ -44,6 +45,23 @@ interface WordOpenPayload {
     fileName?: string;
     documentCacheId?: string;
     nonce?: number;
+}
+
+/**
+ * docx 本质是 zip 包,进入 docx-editor 前检查文件头魔数(plan-word-open-error):
+ * OLE2 复合文档头(D0 CF 11 E0)说明内容是 Word 97-2003 等旧版二进制格式,
+ * 只是扩展名叫 .docx,直接进库会得到 JSZip 的 "Can't find end of central directory"
+ * 技术报错;其余非 PK 开头的内容同样不是 docx。返回 null 表示通过。
+ */
+function detectDocxMagicError(buffer: ArrayBuffer): string | null {
+    const bytes = new Uint8Array(buffer, 0, Math.min(8, buffer.byteLength));
+    if (bytes.length >= 2 && bytes[0] === 0x50 && bytes[1] === 0x4b) {
+        return null;
+    }
+    if (bytes.length >= 4 && bytes[0] === 0xd0 && bytes[1] === 0xcf && bytes[2] === 0x11 && bytes[3] === 0xe0) {
+        return $t("viewer.legacyOfficeBinary");
+    }
+    return $t("viewer.notDocxZip");
 }
 
 export default function Word() {
@@ -100,6 +118,11 @@ export default function Word() {
             skipCommentsAutoOpenRef.current = true;
             setCommentsSidebarOpen(false);
             const buffer = await loadOfficeBuffer(payload);
+            const magicError = detectDocxMagicError(buffer);
+            if (magicError) {
+                setError(magicError);
+                return;
+            }
             // 浏览器无法解码 TIFF,进入 docx-editor 前把 tiff 媒体转成 PNG(issue-311)
             setDocumentBuffer(await convertDocxTiffMedia(buffer));
         } catch (e) {
@@ -166,6 +189,9 @@ export default function Word() {
                         colorMode="light"
                         showFileOpen={false}
                         showHelpMenu={false}
+                        onError={(err) => {
+                            setError(err instanceof Error ? err.message : String(err));
+                        }}
                         onChange={() => {
                             if (!readOnlyRef.current) {
                                 handler.emit("change");
