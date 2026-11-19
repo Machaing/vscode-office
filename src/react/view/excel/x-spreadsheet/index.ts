@@ -84,6 +84,8 @@ export interface SpreadsheetEventHandler {
 
 export interface ColProperties {
     width?: number;
+    /** 整列样式在 styles 数组中的序号, 来自 Excel 的 `<col>` 整列定义; cell 无样式时回退到它 */
+    style?: number;
 }
 
 export interface CellData {

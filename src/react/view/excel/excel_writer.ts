@@ -89,7 +89,14 @@ async function writeSheetToExcelJs(worksheet: ExcelJS.Worksheet, workbook: Excel
 
     if (cols?.len) {
         for (let ci = 0; ci < cols.len; ci += 1) {
-            worksheet.getColumn(ci + 1).width = pxToExcelColWidth(getColWidth(cols, ci));
+            const column = worksheet.getColumn(ci + 1);
+            column.width = pxToExcelColWidth(getColWidth(cols, ci));
+            // 整列样式落为 `<col>` 定义, 而不是把空单元格逐个展开(见 plan-fix-20261025-01)
+            const colData = cols[ci];
+            const styleIndex = colData && typeof colData === 'object' && colData.style != null ? colData.style : undefined;
+            if (styleIndex != null && styles[styleIndex]) {
+                applySpreadsheetStyle(column, styles[styleIndex]);
+            }
         }
     }
 

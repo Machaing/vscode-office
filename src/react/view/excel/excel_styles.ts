@@ -154,7 +154,19 @@ function bordersToExcelJs(border?: CellStyle['border']): Partial<ExcelJS.Borders
     return Object.keys(borders).length > 0 ? borders : undefined;
 }
 
-export function excelJsCellToStyle(cell: ExcelJS.Cell): CellStyle | null {
+/**
+ * ExcelJS 中携带样式属性的对象, Cell 与 Column 均满足。
+ * Column 的同名属性读取自其 style 定义(`<col>` 整列样式), 转换逻辑两者共用。
+ */
+export interface ExcelJsStyleSource {
+    font?: Partial<ExcelJS.Font>;
+    alignment?: Partial<ExcelJS.Alignment>;
+    fill?: ExcelJS.Fill;
+    border?: Partial<ExcelJS.Borders>;
+    numFmt?: string;
+}
+
+export function excelJsCellToStyle(cell: ExcelJsStyleSource): CellStyle | null {
     const style: CellStyle = {};
     let hasStyle = false;
 
@@ -245,7 +257,12 @@ export function excelJsCellToStyle(cell: ExcelJS.Cell): CellStyle | null {
     return hasStyle ? style : null;
 }
 
-export function applySpreadsheetStyle(cell: ExcelJS.Cell, style: CellStyle) {
+/**
+ * 把表格模型样式写回 ExcelJS 对象。
+ * Cell 与 Column 均可传入: 传 Column 时整组样式落为 `<col>` 定义,
+ * 而不是把空单元格逐个展开(见 plan-fix-20261025-01)。
+ */
+export function applySpreadsheetStyle(cell: ExcelJS.Cell | ExcelJS.Column, style: CellStyle) {
     const font: Partial<ExcelJS.Font> = { ...(cell.font ?? {}) };
 
     if (style.font) {
@@ -290,16 +307,21 @@ export function applySpreadsheetStyle(cell: ExcelJS.Cell, style: CellStyle) {
 
 export class StyleRegistry {
     private styles: CellStyle[] = [];
+    /** 样式序列化一次成键 → 序号的缓存, 查重 O(1) */
+    private indexByKey = new Map<string, number>();
+    /** add 调用累计次数(含查重命中), 供加载耗时打点([excel-perf])读取 */
+    addCalls = 0;
 
     add(style: CellStyle | null): number | undefined {
+        this.addCalls += 1;
         if (!style) return undefined;
-        for (let i = 0; i < this.styles.length; i += 1) {
-            if (JSON.stringify(this.styles[i]) === JSON.stringify(style)) {
-                return i;
-            }
-        }
+        const key = JSON.stringify(style);
+        const cached = this.indexByKey.get(key);
+        if (cached !== undefined) return cached;
         this.styles.push(style);
-        return this.styles.length - 1;
+        const index = this.styles.length - 1;
+        this.indexByKey.set(key, index);
+        return index;
     }
 
     getStyles(): CellStyle[] {

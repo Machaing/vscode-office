@@ -68,12 +68,15 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
   const lockedColor = getExcelThemeColor('--excel-locked-indicator', 'rgba(61, 153, 112, 0.42)');
 
   if (cell === null) {
-    if (!isLocked) return;
+    // 空位无 cell 对象时不渲染, 但所在列带整列样式(`<col>` 定义)或锁定标记时仍要画背景
+    // (整列背景色兜底, 见 plan-fix-20261025-01)
+    const colStyleIndex = data.cols.getStyle(cindex);
+    if (!isLocked && colStyleIndex === undefined) return;
     const style = data.getCellStyleOrDefault(rindex, cindex);
     const dbox = getDrawBox(data, rindex, cindex, yoffset);
     dbox.bgcolor = resolveExcelCellBg(style.bgcolor);
     draw.rect(dbox, () => {});
-    draw.frozen(dbox, lockedColor);
+    if (isLocked) draw.frozen(dbox, lockedColor);
     return;
   }
 

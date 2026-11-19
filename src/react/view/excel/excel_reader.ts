@@ -14,17 +14,18 @@ import {
     readCellEditableFromExcel,
     readWorksheetProtection,
 } from './excel_protection';
-import type { CellData, SheetData } from './x-spreadsheet/index';
+import type { CellData, ColProperties, SheetData } from './x-spreadsheet/index';
 
 type RowMap = NonNullable<SheetData['rows']>;
 
 type ExcelJsWorksheetWithMerges = ExcelJS.Worksheet & {
     _merges?: Record<string, string | { range?: string }>;
-    model: ExcelJS.Worksheet['model'] & {
-        mergeCells?: string[];
-        merges?: string[];
-    };
 };
+
+/** worksheet.columns 为纯 getter(类型未声明), 只含 `<col>` 定义展开出的 Column, 不会动态补列 */
+type ExcelJsWorksheetWithColumns = ExcelJS.Worksheet & { columns?: ExcelJS.Column[] | null };
+
+type ExcelJsRowWithCells = ExcelJS.Row & { _cells?: (ExcelJS.Cell | undefined)[] };
 
 export interface ExcelData {
     sheets: SheetData[];
@@ -36,7 +37,26 @@ export interface ExcelData {
     totalRows?: number;
     /** 行数超过 MAX_LOAD_ROWS, 只加载了前若干行(issue-239) */
     truncated?: boolean;
+    /** 解析与转换的分段耗时统计, 供打开主链汇总为 [excel-perf] 日志, 不参与渲染 */
+    perf?: ExcelPerfStats;
 }
+
+export interface ExcelPerfStats {
+    /** ExcelJS 建模(workbook.xlsx.load)耗时 */
+    parseMs: number;
+    /** 排序状态 XML 读取(readWorkbookSortStateXml)耗时 */
+    sortStateMs: number;
+    /** 逐 sheet 转换耗时 */
+    convertMs: number;
+    sheetCount: number;
+    /** 转换遍历到的实体 cell 总数(XML 里的 `<c>` 节点) */
+    cells: number;
+    /** 样式登记调用总次数(含整列样式) */
+    styleAdds: number;
+}
+
+/** 逐 sheet 转换过程累计的统计, 汇总进 ExcelData.perf */
+type ConvertStats = Pick<ExcelPerfStats, 'cells' | 'styleAdds'>;
 
 const MIN_COL_WIDTH = 70;
 const MAX_COL_WIDTH = 300;
@@ -89,12 +109,10 @@ const normalizeMergeRange = (merge: unknown): string | null => {
 
 const readWorksheetMerges = (worksheet: ExcelJS.Worksheet): string[] => {
     const ws = worksheet as ExcelJsWorksheetWithMerges;
-    const mergeCandidates = [
-        ...(ws.model?.merges ?? []),
-        ...(ws.model?.mergeCells ?? []),
-        ...Object.values(ws._merges ?? {}),
-    ];
-    const merges = mergeCandidates
+    // 不访问 ws.model: 它的 getter 每次都全量重建 model(含对全部 Column 做深比较聚合),
+    // 列数被远端空 cell 拉到 1.6 万时一次访问就要数百毫秒(plan-fix-20261025-01);
+    // 合并信息直接读 _merges, 内容与 model.merges 等价
+    const merges = Object.values(ws._merges ?? {})
         .map(normalizeMergeRange)
         .filter((it): it is string => Boolean(it));
     return Array.from(new Set(merges));
@@ -122,13 +140,50 @@ const buildCsvCols = (rows: any[][], colCount: number) => {
     return cols;
 };
 
-const buildColsFromWorksheet = (worksheet: ExcelJS.Worksheet, colCount: number) => {
-    const cols: Record<number, { width: number }> = {};
-    for (let i = 1; i <= colCount; i += 1) {
-        const width = excelColWidthToPx(worksheet.getColumn(i).width) ?? DEFAULT_COL_WIDTH;
-        cols[i - 1] = { width: clampColWidth(width) };
+/**
+ * 从显式 `<col>` 定义构建列记录(plan-fix-20261025-01):
+ * 只为定义了宽度或样式的列生成条目, 其余列由表格组件默认列宽兜底;
+ * 超出内容范围的定义不展开(如 `<col min="18" max="16384"/>` 这类尾部整列默认定义),
+ * 避免列记录与滚动范围被拉到万级。整列样式登记进 styleRegistry, 挂到条目的 style 序号,
+ * 渲染时由 data_proxy 按「cell 无样式回退所在列样式」兜底。
+ */
+const buildColsFromWorksheet = (
+    worksheet: ExcelJS.Worksheet,
+    contentColCount: number,
+    styleRegistry: StyleRegistry,
+): { cols: Record<number, ColProperties>; explicitMax: number } => {
+    const cols: Record<number, ColProperties> = {};
+    if (contentColCount <= 0) return { cols, explicitMax: 0 };
+    const columns = (worksheet as ExcelJsWorksheetWithColumns).columns ?? [];
+    let explicitMax = 0;
+    for (let i = 1; i <= columns.length && i <= contentColCount; i += 1) {
+        const column = columns[i - 1];
+        if (!column) continue;
+        const style = excelJsCellToStyle(column);
+        if (column.width == null && !style) continue;
+        const entry: ColProperties = {
+            width: clampColWidth(excelColWidthToPx(column.width) ?? DEFAULT_COL_WIDTH),
+        };
+        const styleIndex = styleRegistry.add(style);
+        if (styleIndex != null) entry.style = styleIndex;
+        cols[i - 1] = entry;
+        explicitMax = i;
     }
-    return cols;
+    return { cols, explicitMax };
+};
+
+/**
+ * 只遍历行内真实存在的单元格(XML 里的 `<c>` 实体, 含「空值但显式带样式」的),
+ * 不按稀疏数组长度展开空位(plan-fix-20261025-01): 行尾远端样式 cell 会把
+ * includeEmpty 遍历拉到 1.6 万列, 为每个空位现场创建带整列样式的 Cell 对象。
+ */
+const forEachActualCell = (row: ExcelJS.Row, iteratee: (cell: ExcelJS.Cell, colNumber: number) => void) => {
+    const cells = (row as ExcelJsRowWithCells)._cells;
+    if (!cells) return;
+    for (let i = 0; i < cells.length; i += 1) {
+        const cell = cells[i];
+        if (cell) iteratee(cell, i + 1);
+    }
 };
 
 const formatCellText = (cell: ExcelJS.Cell) => {
@@ -237,7 +292,11 @@ const readWorkbookSortStateXml = async (buffer: ArrayBuffer) => {
     return entries;
 };
 
-const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS.Workbook): Pick<SheetData, 'rows' | 'cols' | 'styles' | 'merges' | 'freeze' | 'autofilter' | 'hyperlinks' | 'validations' | 'sheetProtection' | 'images' | 'backgroundImage'> & Pick<ExcelData, 'totalRows' | 'truncated'> => {
+const convertExcelJsWorksheet = (
+    worksheet: ExcelJS.Worksheet,
+    workbook: ExcelJS.Workbook,
+    stats?: ConvertStats,
+): Pick<SheetData, 'rows' | 'cols' | 'styles' | 'merges' | 'freeze' | 'autofilter' | 'hyperlinks' | 'validations' | 'sheetProtection' | 'images' | 'backgroundImage'> & Pick<ExcelData, 'totalRows' | 'truncated'> => {
     const rows: RowMap = {};
     const styleRegistry = new StyleRegistry();
     const hyperlinkParts: Record<string, { link: string; tooltip?: string }>[] = [];
@@ -252,8 +311,9 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
         if (rowNumber - 1 >= MAX_LOAD_ROWS) return;
         const ri = rowNumber - 1;
         const cells: Record<number, CellData> = {};
-        row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+        forEachActualCell(row, (cell, colNumber) => {
             if (cell.isMerged && cell.address !== cell.master.address) return;
+            if (stats) stats.cells += 1;
 
             const ci = colNumber - 1;
             const text = formatCellText(cell);
@@ -269,7 +329,9 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
             if (styleIndex != null) cellData.style = styleIndex;
             if (editable !== undefined) cellData.editable = editable;
             cells[ci] = cellData;
-            if (ci + 1 > maxCols) maxCols = ci + 1;
+            // 滚动范围只由有内容的 cell 决定: 行尾「空值但带样式」的远端实体 cell(列号可到 1.6 万)
+            // 仍保留进 cells 记录(样式与可编辑状态不丢), 但不参与 maxCols, 否则 cols.len 会被拉大
+            if (text && ci + 1 > maxCols) maxCols = ci + 1;
             if (ri + 1 > maxRow) maxRow = ri + 1;
             if (Object.keys(hl).length) hyperlinkParts.push(hl);
         });
@@ -294,8 +356,11 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
     maxRow = sheetSize.maxRow;
     maxCols = sheetSize.maxCols;
 
-    const colCount = Math.max(maxCols, worksheet.columnCount || 0);
-    const cols = buildColsFromWorksheet(worksheet, colCount);
+    const { cols, explicitMax } = buildColsFromWorksheet(worksheet, maxCols, styleRegistry);
+    if (stats) stats.styleAdds += styleRegistry.addCalls;
+    // colCount 不再采用来自 dimension 的 worksheet.columnCount(远端空 cell 会把它拉到 1.6 万),
+    // 改为内容实际最大列与显式 `<col>` 定义最大列(已折叠到内容范围内)的较大值
+    const colCount = Math.max(maxCols, explicitMax);
     const styles = styleRegistry.getStyles();
     const sheetExtras = readSheetExtras(worksheet);
     const hyperlinks = mergeHyperlinkMaps(...hyperlinkParts);
@@ -323,6 +388,7 @@ const convertExcelJsWorksheet = (worksheet: ExcelJS.Worksheet, workbook: ExcelJS
 const convertExcelJsWorkbook = (
     workbook: ExcelJS.Workbook,
     sortStateXmlMap?: Map<number, ReturnType<typeof readWorksheetSortStateXml>>,
+    stats?: ConvertStats,
 ): ExcelData => {
     const sheets: SheetData[] = [];
     let maxLength = 0;
@@ -331,7 +397,7 @@ const convertExcelJsWorkbook = (
     let truncated = false;
 
     workbook.worksheets.forEach((worksheet, index) => {
-        const converted = convertExcelJsWorksheet(worksheet, workbook);
+        const converted = convertExcelJsWorksheet(worksheet, workbook, stats);
         const xmlAutofilter = sortStateXmlMap?.get(index);
         if (xmlAutofilter?.sort && converted.autofilter?.ref) {
             converted.autofilter.sort = xmlAutofilter.sort;
@@ -388,10 +454,28 @@ const loadWithExcelJs = async (buffer: ArrayBuffer): Promise<ExcelData> => {
         if (await readSheetXmlSize(buffer) > MAX_EXCELJS_XML_SIZE) {
             return loadWithSheetJs(buffer);
         }
+        // [excel-perf] 打点: 解析(ExcelJS 建模)/排序状态 XML/逐 sheet 转换 分段计时
+        const parseStart = performance.now();
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.load(buffer);
+        const parseMs = performance.now() - parseStart;
+        const sortStateStart = performance.now();
         const sortStateXmlMap = await readWorkbookSortStateXml(buffer);
-        return convertExcelJsWorkbook(workbook, sortStateXmlMap);
+        const sortStateMs = performance.now() - sortStateStart;
+        const convertStart = performance.now();
+        const stats: ConvertStats = { cells: 0, styleAdds: 0 };
+        const converted = convertExcelJsWorkbook(workbook, sortStateXmlMap, stats);
+        const convertMs = performance.now() - convertStart;
+        return {
+            ...converted,
+            perf: {
+                parseMs,
+                sortStateMs,
+                convertMs,
+                sheetCount: converted.sheets.length,
+                ...stats,
+            },
+        };
     } catch (error) {
         // issue-576: 损坏/非标准 xlsx(如空 workbook.xml)会让 ExcelJS 在解析阶段直接抛
         // TypeError(依赖内部访问 undefined 的 sheets),降级改用 SheetJS 兜底解析

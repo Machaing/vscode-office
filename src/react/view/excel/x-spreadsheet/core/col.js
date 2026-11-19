@@ -98,6 +98,11 @@ class Cols {
     col.style = style;
   }
 
+  getStyle(ci) {
+    const col = this._[ci];
+    return col && col.style;
+  }
+
   sumWidth(min, max) {
     return helper.rangeSum(min, max, i => this.getWidth(i));
   }

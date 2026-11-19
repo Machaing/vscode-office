@@ -8,7 +8,7 @@ import { loadOfficeBuffer } from "../../util/loadOfficeContent.ts";
 import './Excel.less';
 import { MIN_VIEW_COLS, MIN_VIEW_ROWS } from "./excel_meta.ts";
 import { detectCsvEncoding } from "./csvEncoding.ts";
-import { loadSheets } from "./excel_reader.ts";
+import { loadSheets, type ExcelPerfStats } from "./excel_reader.ts";
 import { export_xlsx, exportSaveAs, buildFormattingSnapshot, hasFormattingChanged } from "./excel_writer.ts";
 import Spreadsheet from './x-spreadsheet/index';
 import FindReplacePanel, { type FindReplacePanelHandle } from './FindReplacePanel';
@@ -97,6 +97,47 @@ function restoreViewState(spreadSheet: Spreadsheet, saved: ExcelViewState) {
 
 function isCsvLikeExt(ext: string): boolean {
     return /^(csv|tsv)$/i.test(ext.replace(/^\./, ''));
+}
+
+interface ExcelPerfTimings {
+    /** 收到 open 消息的时间戳(performance.now) */
+    openStart: number;
+    /** loadOfficeBuffer 取回文件字节耗时 */
+    bufferMs: number;
+    /** loadSheets 总耗时(xlsx 路径下与 parse/sortState/convert 之和对应) */
+    loadMs: number;
+    /** new Spreadsheet 构造耗时 */
+    constructMs: number;
+    /** loadData 挂载耗时 */
+    mountMs: number;
+    /** 解析与转换的分段统计, 仅 ExcelJS 路径给出 */
+    perf?: ExcelPerfStats;
+}
+
+/**
+ * [excel-perf] 打点(plan-fix-20261025-01): 打开主链各段耗时汇总为一条日志,
+ * 挂载后首个 requestAnimationFrame 记首帧, 性能问题可直接复测对比。
+ */
+function logExcelPerf(
+    payload: { path?: string; ext?: string; documentCacheId?: string },
+    timings: ExcelPerfTimings,
+) {
+    requestAnimationFrame(() => {
+        const firstFrame = performance.now() - timings.openStart;
+        const name = payload.path?.replace(/^.*[\\/]/, '') || payload.documentCacheId || payload.ext || 'unknown';
+        const { perf } = timings;
+        const parsePart = perf
+            ? ` parse=${Math.round(perf.parseMs)}ms sortState=${Math.round(perf.sortStateMs)}ms`
+                + ` convert=${Math.round(perf.convertMs)}ms(${perf.sheetCount} sheets, cells=${perf.cells}, styleAdd=${perf.styleAdds})`
+            : ` load=${Math.round(timings.loadMs)}ms`;
+        console.info(
+            `[excel-perf] ${name}: buffer=${Math.round(timings.bufferMs)}ms${parsePart}`
+            + ` construct=${Math.round(timings.constructMs)}ms mount=${Math.round(timings.mountMs)}ms`
+            + ` firstFrame=${Math.round(firstFrame)}ms total=${Math.round(firstFrame)}ms`,
+        );
+        performance.mark('excel-perf:first-frame');
+        performance.measure('excel-perf:open-to-first-frame', 'excel-perf:open', 'excel-perf:first-frame');
+    });
 }
 
 function ExcelViewer() {
@@ -317,12 +358,14 @@ function ExcelViewer() {
     useEffect(() => {
         const container = document.getElementById('container');
 
-        const initSpreadsheet = async (buffer: ArrayBuffer, payload: any) => {
+        const initSpreadsheet = async (buffer: ArrayBuffer, payload: any, timings: Pick<ExcelPerfTimings, 'openStart' | 'bufferMs'>) => {
             const fileReadOnly = payload.readOnly === true;
             if (payload.ext?.match(/csv/i)) {
                 csvEncodingRef.current = detectCsvEncoding(buffer);
             }
-            const { sheets, maxLength, maxCols, csvDelimiter, truncated, totalRows } = await loadSheets(buffer, payload.ext);
+            const loadStart = performance.now();
+            const { sheets, maxLength, maxCols, csvDelimiter, truncated, totalRows, perf } = await loadSheets(buffer, payload.ext);
+            const loadMs = performance.now() - loadStart;
             if (csvDelimiter) {
                 csvDelimiterRef.current = csvDelimiter;
             }
@@ -334,6 +377,7 @@ function ExcelViewer() {
             const viewRowLen = Math.max(maxLength ?? 0, MIN_VIEW_ROWS);
             const viewColLen = Math.max(maxCols ?? 0, MIN_VIEW_COLS);
             container.innerHTML = '';
+            const constructStart = performance.now();
             const spreadSheet = new Spreadsheet(container, {
                 mode: viewReadOnly ? 'read' : 'edit',
                 showToolbar: true,
@@ -361,7 +405,11 @@ function ExcelViewer() {
             spreadSheetRef.current = spreadSheet;
             setActiveSpreadsheet(spreadSheet);
             setLoading(false);
+            const constructMs = performance.now() - constructStart;
+            const mountStart = performance.now();
             spreadSheet.loadData(sheets);
+            const mountMs = performance.now() - mountStart;
+            logExcelPerf(payload, { ...timings, loadMs, constructMs, mountMs, perf });
             if (!viewReadOnly) {
                 spreadSheet.on('save', () => void handleSave());
             }
@@ -412,6 +460,8 @@ function ExcelViewer() {
         };
 
         handler.on("open", (payload) => {
+            const openStart = performance.now();
+            performance.mark('excel-perf:open');
             extRef.current = payload.ext ?? '';
             documentCacheIdRef.current = payload.documentCacheId ?? '';
             const fileReadOnly = payload.readOnly === true;
@@ -419,7 +469,7 @@ function ExcelViewer() {
             setReadOnly(fileReadOnly);
             loadOfficeBuffer(payload).then(async (buffer) => {
                 try {
-                    await initSpreadsheet(buffer, payload);
+                    await initSpreadsheet(buffer, payload, { openStart, bufferMs: performance.now() - openStart });
                 } catch (e) {
                     const msg = (e as Error).message || String(e);
                     console.error(`Failed to load Excel file: ${msg}`, e);
@@ -445,7 +495,6 @@ function ExcelViewer() {
         return () => {
             spreadSheetRef.current = null;
             setActiveSpreadsheet(null);
-            setBottombarEl(null);
             setTruncation(null);
             themeObserver.disconnect();
             clearTimeout(themeTimer);

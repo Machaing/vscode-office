@@ -1376,14 +1376,23 @@ export default class DataProxy {
     if (cell && cell.style !== undefined) {
       return this.styles[cell.style];
     }
+    // cell 无样式时回退所在列样式(Excel `<col>` 整列定义, 见 plan-fix-20261025-01)
+    const colStyle = this.cols.getStyle(ci);
+    if (colStyle !== undefined) {
+      return this.styles[colStyle];
+    }
     return null;
   }
 
   getCellStyleOrDefault(ri, ci) {
     const { styles, rows } = this;
     const cell = rows.getCell(getDataRowIndex(this, ri), ci);
-    const cellStyle = (cell && cell.style !== undefined) ? styles[cell.style] : {};
-    return helper.merge(this.defaultStyle(), cellStyle);
+    let cellStyle = (cell && cell.style !== undefined) ? styles[cell.style] : undefined;
+    if (cellStyle === undefined) {
+      const colStyle = this.cols.getStyle(ci);
+      if (colStyle !== undefined) cellStyle = styles[colStyle];
+    }
+    return helper.merge(this.defaultStyle(), cellStyle || {});
   }
 
   getSelectedCellStyle() {

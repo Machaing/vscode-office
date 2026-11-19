@@ -14,7 +14,9 @@ function isRowData(row: unknown): row is { cells: Record<number, CellData> } {
 
 export function readWorksheetProtection(worksheet: ExcelJS.Worksheet): StoredSheetProtection | undefined {
     const ws = worksheet as ExcelJS.Worksheet & { sheetProtection?: StoredSheetProtection };
-    const sp = ws.sheetProtection ?? worksheet.model?.sheetProtection;
+    // 只读实例属性: 解析(set model)时 sheetProtection 已写入, 经 worksheet.model 再取只会
+    // 触发 model 全量重建(含对全部 Column 做深比较聚合), 列数被拉到万级时单次访问即数百毫秒
+    const sp = ws.sheetProtection;
     if (!sp || typeof sp !== 'object') return undefined;
     return { ...sp };
 }
