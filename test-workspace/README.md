@@ -83,7 +83,7 @@
 | --- | --- | --- |
 | [word/test-word-open-hyperlink-toc.docx](word/test-word-open-hyperlink-toc.docx)(HYPERLINK 域代码目录,触发渲染崩溃) | [word_open_error.py](_generate-script/word_open_error.py) | [plan](../docs/plans/done/plan-fix-20261024-01-word-open-error.md) |
 | [word/test-word-open-doc-as-docx.docx](word/test-word-open-doc-as-docx.docx)(OLE2 头冒名 .docx) | 同上 | 同上 |
-| [excel/test-open-slow.xlsx](excel/test-open-slow.xlsx)(稀疏大 sheet,行尾远端样式 cell 拖慢解析) | -(原始工作文档直接入库) | [plan](../docs/plans/todo/plan-fix-20261025-01-excel-open-slow.md) |
+| [excel/test-open-slow.xlsx](excel/test-open-slow.xlsx)(稀疏大 sheet,行尾远端样式 cell 拖慢解析) | -(原始工作文档直接入库) | [plan](../docs/plans/done/plan-fix-20261025-01-excel-open-slow.md) |
 
 注: 两者的原始实测文档(14MB / 9.9MB,不可脚本再生)改名 `*.orig.docx` 后由 .gitignore 排除,仅本地保留。
 
