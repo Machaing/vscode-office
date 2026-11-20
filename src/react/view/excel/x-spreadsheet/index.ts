@@ -96,6 +96,9 @@ export interface CellData {
     editable?: boolean;
     /** 公式单元格的缓存计算结果（来自文件中的 <v>），渲染时优先于公式求值；text 仍保留公式以便保存 */
     formulaValue?: string;
+    /** 导入时保留的 Excel 原生数字格式及对应的查看器格式键(sync-upstream 4e126ae)。 */
+    numFmt?: string;
+    numFmtFormat?: string;
 }
 
 export interface RowData {

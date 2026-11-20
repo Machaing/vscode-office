@@ -1,7 +1,7 @@
 import ExcelJS from '@cweijan/exceljs';
 import JSZip from 'jszip';
 import * as XLSX from 'xlsx';
-import { inferSchema, initParser } from 'udsv';
+import { parseCsv } from './csvParser';
 import { decodeCsvBuffer } from './csvEncoding';
 import { DEFAULT_ROW_HEIGHT_PX, excelFreezeToExpr, excelRowHeightToPx, readAutofilterRef } from './excel_meta';
 import { readWorksheetSortStateXml } from './excel_sort_state';
@@ -326,6 +326,11 @@ const convertExcelJsWorksheet = (
             const styleIndex = styleRegistry.add(cellStyle);
             const cellData: CellData = { text };
             if (formulaValue != null) cellData.formulaValue = formulaValue;
+            if (cell.numFmt) {
+                // 保留 Excel 原生数字格式,显示时优先按它渲染(sync-upstream 4e126ae)
+                cellData.numFmt = cell.numFmt;
+                cellData.numFmtFormat = cellStyle?.format;
+            }
             if (styleIndex != null) cellData.style = styleIndex;
             if (editable !== undefined) cellData.editable = editable;
             cells[ci] = cellData;
@@ -614,74 +619,49 @@ const countCsvRows = (csvStr: string, rowDelim: string): number => {
     return count + (csvStr.endsWith(rowDelim) ? 0 : 1);
 };
 
-const loadCsv = (buffer: ArrayBuffer): ExcelData => {
+const loadCsv = (buffer: ArrayBuffer, delimiter?: string): ExcelData => {
     let maxCols = 26;
     const emptySheet = { maxCols, sheets: [{ name: 'Sheet1', rows: { len: 0 } }] };
     const csvStr = decodeCsvBuffer(buffer);
     if (!csvStr) return emptySheet;
 
+    // 自研 parser 兜底注释行/变宽行/字面引号等不规整输入(sync-upstream edb7ba2);
+    // issue-239: 大文件解到上限即停(多解析 1 行用于判断是否截断), 不再把全量行物化进内存
+    let rows: string[][];
+    let csvDelimiter: string;
     try {
-        const leadingEmptyRows = csvStr.match(/^(?:\r\n|\n|\r)+/)?.[0].match(/\r\n|\n|\r/g)?.length ?? 0;
-        const csvToParse = leadingEmptyRows > 0 ? csvStr.replace(/^(?:\r\n|\n|\r)+/, '') : csvStr;
-        if (!csvToParse) {
-            return {
-                maxCols,
-                maxLength: leadingEmptyRows,
-                sheets: [{
-                    name: 'Sheet1',
-                    rows: { len: leadingEmptyRows },
-                }],
-            };
-        }
-        let parseInput = csvToParse;
-        if (!parseInput.includes('\n')) parseInput += '\n';
-        const schema = inferSchema(parseInput, { header: () => [] });
-        // issue-239: 大文件解到上限即停(多解析 1 行用于判断是否截断), 不再把全量行物化进内存
-        const rows: string[][] = [];
-        initParser(schema).stringArrs<string[]>(parseInput, (row) => {
-            rows.push(row);
-            return rows.length <= MAX_LOAD_ROWS;
-        });
-        const truncated = rows.length > MAX_LOAD_ROWS;
-        if (truncated) rows.length = MAX_LOAD_ROWS;
-        const totalRows = truncated
-            ? leadingEmptyRows + countCsvRows(csvToParse, schema.row)
-            : leadingEmptyRows + rows.length;
-        const colCount = rows.reduce((max, row) => Math.max(max, row.length), 0);
-
-        const processedRows: RowMap = {};
-        for (let i = 0; i < leadingEmptyRows; i += 1) {
-            processedRows[i] = { cells: {} };
-        }
-        for (let i = 0; i < rows.length; i += 1) {
-            const row = rows[i];
-            const cells: Record<number, CellData> = {};
-            for (let j = 0; j < row.length; j += 1) {
-                cells[j] = { text: row[j] == null ? '' : String(row[j]) };
-                if (j + 1 > maxCols) maxCols = j + 1;
-            }
-            processedRows[i + leadingEmptyRows] = { cells };
-        }
-        const csvRows = [
-            ...Array.from({ length: leadingEmptyRows }, () => [] as string[]),
-            ...rows,
-        ];
-
-        return {
-            maxCols,
-            maxLength: csvRows.length,
-            ...(truncated ? { totalRows, truncated } : {}),
-            csvDelimiter: schema.col,
-            sheets: [{
-                name: 'Sheet1',
-                rows: { len: csvRows.length, ...processedRows },
-                cols: { len: colCount, ...buildCsvCols(csvRows, colCount) },
-            }],
-        };
+        ({ rows, delimiter: csvDelimiter } = parseCsv(csvStr, delimiter, MAX_LOAD_ROWS + 1));
     } catch (error) {
         console.error(error);
         return { maxCols, sheets: [{ name: 'Sheet1', rows: { len: 1, 0: { cells: { 0: { text: error.message } } } } }] };
     }
+    const truncated = rows.length > MAX_LOAD_ROWS;
+    if (truncated) rows.length = MAX_LOAD_ROWS;
+    const totalRows = truncated ? countCsvRows(csvStr, '\n') : rows.length;
+    const colCount = rows.reduce((max, row) => Math.max(max, row.length), 0);
+
+    const processedRows: RowMap = {};
+    for (let i = 0; i < rows.length; i += 1) {
+        const row = rows[i];
+        const cells: Record<number, CellData> = {};
+        for (let j = 0; j < row.length; j += 1) {
+            cells[j] = { text: row[j] == null ? '' : String(row[j]) };
+            if (j + 1 > maxCols) maxCols = j + 1;
+        }
+        processedRows[i] = { cells };
+    }
+
+    return {
+        maxCols,
+        maxLength: rows.length,
+        ...(truncated ? { totalRows, truncated } : {}),
+        csvDelimiter,
+        sheets: [{
+            name: 'Sheet1',
+            rows: { len: rows.length, ...processedRows },
+            cols: { len: colCount, ...buildCsvCols(rows, colCount) },
+        }],
+    };
 };
 
 const isCsvExt = (ext: string) => /csv|tsv/.test(ext.toLowerCase());
@@ -690,7 +670,8 @@ const isXlsExt = (ext: string) => ext.toLowerCase().replace(/^\./, '') === 'xls'
 
 export async function loadSheets(buffer: ArrayBuffer, ext: string): Promise<ExcelData> {
     if (isCsvExt(ext)) {
-        return loadCsv(buffer);
+        // tsv 显式按制表符切列, 其余扩展名交给 parser 自动探测(sync-upstream edb7ba2)
+        return loadCsv(buffer, ext.toLowerCase().replace(/^\./, '') === 'tsv' ? '\t' : undefined);
     }
     if (isXlsExt(ext) || isOdsExt(ext)) {
         return loadWithSheetJs(buffer);

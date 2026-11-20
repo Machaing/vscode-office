@@ -1,8 +1,6 @@
 import { stringAt } from '../core/alphabet';
 import { getFontSizePxByPt } from '../core/font';
-import _cell from '../core/cell';
-import { formulam } from '../core/formula';
-import { formatm } from '../core/format';
+import { displayCellText } from '../../excel_cell_display';
 
 import {
   Draw, DrawBox, thinLineWidth, npx,
@@ -95,29 +93,8 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
   }
   draw.rect(dbox, () => {
-    // render text
-    let cellText = '';
-    if (typeof cell.formulaValue === 'string' && typeof cell.text === 'string' && cell.text.startsWith('=')) {
-      // cached formula result from file (<v>) takes precedence over re-evaluation
-      cellText = cell.formulaValue;
-    } else if (!data.settings.evalPaused) {
-      try {
-        cellText = _cell.render(cell.text || '', formulam, (y, x) => {
-          const refCell = data.rows.getCell(x, y);
-          return (refCell && refCell.text) ? refCell.text : '';
-        });
-      } catch (e) {
-        // fail-safe: one broken formula shows #VALUE! instead of failing the whole sheet (#604)
-        console.warn(`formula eval failed at ${rindex},${cindex}: ${cell.text}`, e);
-        cellText = '#VALUE!';
-      }
-    } else {
-      cellText = cell.text || '';
-    }
-    const formatter = style.format ? formatm[style.format] : undefined;
-    if (formatter) {
-      cellText = formatter.render(cellText, style);
-    }
+    // render text(求值/缓存值/格式化统一收口到 displayCellText)
+    const cellText = displayCellText(cell, style, (x, y) => data.rows.getCell(y, x), data.settings.evalPaused);
     const font = Object.assign({}, style.font);
     if (!font.name) {
       font.name = (defaultStyle.font && defaultStyle.font.name) || 'Arial';
