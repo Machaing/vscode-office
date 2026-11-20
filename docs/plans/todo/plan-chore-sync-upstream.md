@@ -119,9 +119,41 @@
 - 新增样例:带注释的 csv、嵌套公式 xlsx、含 wikilink 的 md,放入 test-workspace 并在 README 登记表补行;
 - 发版前完整走一遍 release skill 流程(lint → build → package)。
 
+## 实施记录(2026-11-20,分支 chore/sync-upstream)
+
+七批全部移植完成,每批独立提交(提交信息含 sync-upstream 与原提交号):
+
+| 批次 | 提交 | 内容 |
+| --- | --- | --- |
+| 1 | `43c984f` | excel 平滑滚动 + 缩放选框(46cbde1 59f51f5,干净套用) |
+| 2 | `5c36cfa` | markdown 滚动回顶/IR 代码块/路径解析(b271e89 e56806c bfc130b;e56806c 与 bfc130b 手工合) |
+| 3 | `784fb09` | git 去重/zip utf8/pdf 高对比/表格删除(3aad0e6 69a6932 32c2a53 9949595;32c2a53 手工合,repoDiscovery 清 unused import) |
+| 4 | `cfd3d83` | 嵌套公式 + 自研 csv 解析(4e126ae edb7ba2,重冲突手工融合,见下) |
+| 5 | `827d92c` | wikilink 两件/图片路径还原/iframe(ec4e3fd 手工合;fbe92ef 确认与本地 590 同源跳过) |
+| 6 | `a364a50` | 图片窗口化加载/滚轮记忆(c962435 9d46278,取 upstream 整文件后回放 SponsorBar 移除;4864643 本地已覆盖跳过) |
+| 7 | `0f58b9a` | 链接错误 toast/解压通知 UI(c5fffd6 18c4768,nls 10 语言手工插入两条,provider/open.ts/Zip.tsx 手工合) |
+| 补 | `dbdc0e3` | wikilink 测试跨平台适配(Chrome 路径探测 + lute 产物路径) |
+
+批 4 的关键融合决策:
+
+- 上游 4e126ae 重写 cell.js 为 AST 递归求值,`$A$1` 绝对引用、`#CYCLE!` 循环保护、错误传播原生支持,
+  本地旧补丁 a97a480($ 公式)被完全覆盖,不回放;
+- 上游删除 formulaCache 改为 numFmt + 实时求值,本地已用 formulaValue(`<v>` 缓存值)替代 formulaCache,
+  两套语义并入新文件 excel_cell_display.ts:formulaValue 优先(592)→ 求值失败 #VALUE!(604)→ SSF.numFmt;
+- percent 格式保留本地实现(支持 formatDecimals,优于上游固定 2 位);
+- edb7ba2 的「注释支持」实为 parser 健壮性改进,parseCsv 额外暴露 limit 参数保留 239 的流式截断;
+- 去除 udsv 依赖(package.json)。
+
+验证结果:
+
+- `npm run lint:fix` 0 error(仅剩既有 Excel.tsx hook 依赖 warning,非本次引入);
+- `npm run build` 通过(vite 334 模块 + esbuild 宿主);
+- `node --test test/markdown/` 4/4 通过(documentSync 3 + wikilinkBoundary 1);
+- issues.xlsx/ISSUES.md 已回填 570(参考cweijan方式完成处理,备注吸收提交号)。
+
 ## 进度
 
-- [ ] P1 九项移植与验证
-- [ ] P2 八项移植与验证(fbe92ef 与本地 590 补丁比对)
-- [ ] issues.xlsx 回填(570/590)
-- [ ] 按版本号区分策略发版 4.3.0 并归档本 plan 至 done/
+- [x] P1 九项移植与验证
+- [x] P2 八项移植与验证(fbe92ef 确认同源跳过)
+- [x] issues.xlsx 回填(570;590 无需回填,本地修复早于同步且未受影响)
+- [ ] F5 手测核心链路(excel 打开/保存、md 编辑保存、pdf、zip、图片)后发版 4.3.0 并归档本 plan 至 done/
