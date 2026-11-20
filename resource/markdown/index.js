@@ -1,6 +1,7 @@
 import { getToolbar, bindShortcut, createContextMenu, setAIAvailable, } from "./util.js";
 import { observeWorkspaceAbsoluteImages, createMarkdownValueReader, restoreWorkspaceBaseUrls, } from "./imagePath.js";
 import { mapVscodeLanguageToVditorLang } from "./lang.js";
+import { bindLinkErrors } from "./linkError.js";
 import { createStyleRestorer } from "./styleRestore.js";
 
 const SEARCH_FLASH_CLASS = 'vditor-search-flash';
@@ -230,6 +231,7 @@ handler.on("open", async (md) => {
       },
     },
     after() {
+      bindLinkErrors(handler, editor);
       const { viewerSettings } = md;
       observeWorkspaceAbsoluteImages(document.getElementById('vditor'), workspaceBaseUrl);
       if (viewerSettings?.enabled) {

@@ -6,6 +6,7 @@ import { useWindowSize } from '../../util/reactUtils';
 import FileItems from './components/FileItems';
 import JarInfoPanel from './components/JarInfoPanel';
 import PasswordModal from './components/PasswordModal';
+import ExtractToast, { ExtractToastMessage } from './components/ExtractToast';
 import Sidebar from './components/Sidebar';
 import Toolbar from './components/Toolbar';
 import './Zip.less';
@@ -37,6 +38,8 @@ function ZipViewer() {
     const [info, setInfo] = useState({ files: [] } as CompressInfo)
     const [jarInfo, setJarInfo] = useState<JarInfo | null>(null)
     const [loaded, setLoaded] = useState(false)
+    const [extractToast, setExtractToast] = useState<ExtractToastMessage | null>(null)
+    const closeExtractToast = useCallback(() => setExtractToast(null), [])
     const [dark, setDark] = useState(loadDarkMode)
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
     const [width] = useWindowSize()
@@ -133,6 +136,7 @@ function ZipViewer() {
 
     useEffect(() => {
         handler
+            .on('extractToast', (toast: ExtractToastMessage) => setExtractToast(toast))
             .on('zipChange', () => handler.emit('init'))
             .on('saveDone', () => {
                 message.success({
@@ -194,6 +198,7 @@ function ZipViewer() {
                     action?.run(trimmed || undefined)
                 }}
             />
+            <ExtractToast toast={extractToast} onClose={closeExtractToast} />
 
         </div>
     )
