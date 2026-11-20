@@ -156,4 +156,7 @@
 - [x] P1 九项移植与验证
 - [x] P2 八项移植与验证(fbe92ef 确认同源跳过)
 - [x] issues.xlsx 回填(570;590 无需回填,本地修复早于同步且未受影响)
-- [ ] F5 手测核心链路(excel 打开/保存、md 编辑保存、pdf、zip、图片)后发版 4.3.0 并归档本 plan 至 done/
+- [x] 发版 4.3.0:用户选择跳过专门手测直接发版(信任 build + node --test 基线),
+      main 合入(ff)、CHANGELOG 中英条目(含上游基线注记)、package 出
+      `release/vscode-office-enhance-4.3.0.vsix`、tag `v4.3.0` 触发 CI 发布;
+      后续 F5 手测核心链路(excel 打开/保存、md 编辑保存、pdf、zip、图片)发现问题按普通 issue 处理

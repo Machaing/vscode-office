@@ -4,6 +4,46 @@
 
 > Please report issues to [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues); this is an independently maintained fork, do not report to the upstream [cweijan/vscode-office](https://github.com/cweijan/vscode-office).
 
+# 4.3.0 2026-11-20
+
+> Upstream baseline: [cweijan/vscode-office 4.2.3](https://github.com/cweijan/vscode-office) (merge-base `908258d`), selectively absorbed. From this release on, version numbering advances independently of upstream — this extension's earlier 4.2.3 and upstream's 4.2.3 are unrelated releases that happen to share a number.
+
+Excel and CSV:
+
+- Nested formula rendering: the evaluator is rewritten as a recursive AST walk with cycle detection (`#CYCLE!`), error propagation (`#DIV/0!` etc.) and lazy IF branch evaluation; absolute references (`$A$1`) are natively supported.
+- Imported cells keep their Excel-native number formats (numFmt) and render through SheetJS SSF; cached formula results from the file still take precedence over re-evaluation.
+- Smooth scrolling; the selection border stays aligned after zooming.
+- Robust built-in CSV parser (comment lines, variable-width rows, literal quotes, mixed line endings); `.tsv` opens with an explicit tab delimiter; the `udsv` dependency is removed. Large CSV files keep the streaming truncation behavior.
+
+Markdown Editor:
+
+- Fix unexpected scrolling to the top while editing (the [#570](https://github.com/cweijan/vscode-office/issues/570) scenario).
+- IR mode: external code block updates now rebuild CodeMirror instances correctly.
+- Paths starting with `/` or a drive letter resolve as filesystem paths instead of being prefixed with the workspace directory.
+- Wikilink editing and copying no longer trigger link behavior unexpectedly; pasting content that ends with a wikilink keeps the caret at a visible position.
+- Visual mode image editing restores original image paths.
+- Embedded iframes are interactive without opening the HTML source editor.
+- Add a quick delete button for tables.
+- Failed jumps to internal files now show an in-editor toast instead of failing silently (10 new NLS messages).
+
+PDF:
+
+- Enabling dark mode also enables theme adaptation, so high-contrast toggles switch light/dark themes automatically.
+
+Images:
+
+- Windowed loading: only about thirty thumbnails around the active image are materialized, so large folders open instantly; trackpad inertia counts as one gesture.
+- The wheel mode selection (zoom / browse) is remembered across sessions.
+
+Archives:
+
+- ZIP view defaults to UTF-8 encoding.
+- Extraction progress/success/failure notifications moved from VS Code notifications into the viewer UI.
+
+Git History:
+
+- Deduplicate Windows repository paths (drive-letter case and slash differences).
+
 # 4.2.3 2026-10-25
 
 Word:

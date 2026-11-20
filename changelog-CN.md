@@ -4,6 +4,46 @@
 
 > 反馈问题请提交 issue 至 [Machaing/vscode-office](https://github.com/Machaing/vscode-office/issues);本扩展为独立维护的 fork,请勿反馈到上游 [cweijan/vscode-office](https://github.com/cweijan/vscode-office)。
 
+# 4.3.0 2026-11-20
+
+> 上游基线:[cweijan/vscode-office 4.2.3](https://github.com/cweijan/vscode-office)(merge-base `908258d`,选择性吸收)。自本版起版本号独立于上游演进——本扩展此前的 4.2.3 与上游 4.2.3 为同号无关的两个版本。
+
+Excel 与 CSV:
+
+- 嵌套公式渲染:求值器重写为 AST 递归求值,带循环引用检测(`#CYCLE!`)、错误传播(`#DIV/0!` 等)与 IF 惰性求值;绝对引用(`$A$1`)原生支持。
+- 导入的单元格保留 Excel 原生数字格式(numFmt)并经 SheetJS SSF 渲染;文件内缓存的公式结果仍优先于重新求值。
+- 平滑滚动;缩放后选框不再错位。
+- 自研健壮 CSV 解析器(注释行、变宽行、字面引号、混合换行符);`.tsv` 按制表符显式切列;移除 `udsv` 依赖。大 CSV 保留流式截断行为。
+
+Markdown 编辑器:
+
+- 修复编辑中意外滚动回顶部(对应上游 [#570](https://github.com/cweijan/vscode-office/issues/570) 场景)。
+- IR 模式下外部代码块更新正确重建 CodeMirror 实例。
+- `/` 与盘符开头的路径按文件系统路径解析,不再拼到工作区目录下。
+- wikilink 编辑与复制不再误触链接行为;粘贴以 wikilink 结尾的内容时光标落在可见位置。
+- 可视模式图片编辑后还原原始路径。
+- 内嵌 iframe 无需打开 HTML 源码编辑器即可交互。
+- 表格新增快速删除按钮。
+- 内部文件跳转失败改为编辑器内 toast 提示,不再静默失败(NLS 新增 10 语言文案)。
+
+PDF:
+
+- 开启暗色模式时联动主题适配,切换高对比色自动换亮/暗主题。
+
+图片:
+
+- 窗口化加载:只物化当前图附近约三十张缩略图,大目录秒开;触控板惯性滚动计为一次手势。
+- 滚轮模式选择(缩放/浏览)跨会话记忆。
+
+压缩包:
+
+- ZIP 查看默认编码改为 UTF-8。
+- 解压进度/成功/失败通知从 VS Code 通知移入查看器 UI。
+
+Git History:
+
+- Windows 仓库路径去重(盘符大小写与斜杠差异)。
+
 # 4.2.3 2026-10-25
 
 Word:
