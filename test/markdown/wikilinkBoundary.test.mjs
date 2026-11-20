@@ -8,12 +8,21 @@ const bundle = (entry, name) => buildSync({entryPoints: [entry], bundle: true, w
     format: 'iife', globalName: name, define: {VDITOR_VERSION: '"test"'}}).outputFiles[0].text;
 
 test('wikilink boundaries preserve outside typing and paragraph breaks', async () => {
-    const browser = await puppeteer.launch({executablePath: process.env.CHROME_PATH
-        || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true});
+    // 跨平台探测本机 Chrome: macOS / Linux / Windows 常见安装位置,可用 CHROME_PATH 覆盖
+    const candidates = [
+        '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+        'C:/Program Files/Google/Chrome/Application/chrome.exe',
+        'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+    ];
+    const { existsSync } = await import('node:fs');
+    const executablePath = process.env.CHROME_PATH || candidates.find(p => existsSync(p));
+    const browser = await puppeteer.launch({executablePath, headless: true});
     try {
         const page = await browser.newPage();
         await page.setContent('<div id="editor" class="vditor-reset" contenteditable="true"></div>');
-        await page.addScriptTag({content: readFileSync('test/output/lute/lute.min.js', 'utf8')});
+        await page.addScriptTag({content: readFileSync('vditor/src/js/lute/lute.min.js', 'utf8')});
         await page.addScriptTag({content: bundle('vditor/src/ts/util/wikilinkBoundary.ts', 'Boundary')});
         await page.addScriptTag({content: bundle('vditor/src/ts/ir/expandMarker.ts', 'Markers')});
         await page.evaluate(() => {
